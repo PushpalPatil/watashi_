@@ -1,11 +1,13 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Header from "./components/header";
+// src/app/layout.tsx or app/page.tsx
+import './globals.css';
 
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      
+
       <Header />
 
       <section className="container mx-auto px-6 py-32 text-center flex flex-col items-center">
@@ -28,7 +30,7 @@ export default function LandingPage() {
 
 
       <section className="container mx-auto px-6 py-32 text-center flex flex-col items-center">
-        <div className="flex-grow flex flex-col justify-center items-center">      
+        <div className="flex-grow flex flex-col justify-center items-center">
           <Link href="/letsyap">
             <Button className="rounded-full border border-solid border-transparent bg-foreground text-background hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 w-full sm:w-auto md:w-[158px]">
               let's yap
@@ -38,16 +40,22 @@ export default function LandingPage() {
       </section>
 
 
-      <div className="flex flex-col items-center">
-        <footer className="absolute bottom-1 text-center border-t border-border py-5 items-center justify-center">
-          <div className="text-lg font-normal mb-2">
+
+      <footer className="border-t border-border py-6 mt-29">
+
+        <div className = "container mx-auto px-6 text-center">
+
+          <div className="text-lg font-normal mb-1">
             connecting you with cosmic wisdom
-            <div className="text-sm text-muted-foreground">
-              &copy; 2025 Watashi. All rights reserved.
-            </div>
           </div>
-        </footer>
-      </div>
+
+          <div className="text-sm text-muted-foreground">
+            &copy; 2025 Watashi. All rights reserved.
+          </div>
+
+        </div>
+
+      </footer>
 
 
     </div>
