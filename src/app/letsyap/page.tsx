@@ -19,6 +19,7 @@ import { autocomplete, getPlaceDetails } from "@/lib/google";
 import type { PlaceAutocompleteResult } from "@googlemaps/google-maps-services-js";
 import { CalendarComponent } from "../components/calendar";
 import { Calendar } from "@/components/ui/calendar";
+import React from "react";
 
 export interface MapLocation {
     place_id: string
@@ -42,7 +43,7 @@ export default function LetsYap() {
 
     const MAP_KEY = process.env.GOOGLE_MAPS_API_KEY;
     const [showSuggestions, setShowSuggestions] = useState(false);
-
+    
     const [form, setForm] = useState<FormData>({
         name: "",
         birthTime: "",
@@ -53,7 +54,8 @@ export default function LetsYap() {
 
     const [predictions, setPredictions] = useState<PlaceAutocompleteResult[]>([]);
     const [input, setInput] = useState("");
-
+    const [open, setOpen] = React.useState(false)
+    
     useEffect(() => {
         const fetchSuggestions = async () => {
             const predictions = await autocomplete(input);
@@ -64,6 +66,7 @@ export default function LetsYap() {
 
     console.log(form.name)
     console.log(form.birthTime)
+    console.log(form.birthDate)
     const name = form.name
     const birthTime = form.birthTime
 
@@ -82,7 +85,6 @@ export default function LetsYap() {
             
             {/* form section */}
             <section className="min-h-screen px-4 container flex flex-col items-center mx-auto font-normal">
-
                 <form className="w-full max-w-sm items-center space-y-6">
 
                     {/* name */}
@@ -90,18 +92,16 @@ export default function LetsYap() {
                         <Input
                             type="text"
                             id="name"
-                            placeholder="enter your name"
+                            placeholder="Enter your name"
                             value={form.name}
                             onChange={(e) => setForm({ ...form, name: e.target.value })}
                             className="w-full rounded-md border border-border bg-transparent px-3 py-2"
                             required
                         />
                     </div>
-
                     
                     {/* birth time */}
                     <div className="space-y-2">
-
                         <input
                             type="time"
                             id="time"
@@ -113,27 +113,14 @@ export default function LetsYap() {
                             onChange={(e) => setForm({ ...form, birthTime: e.target.value })}
                         />
                     </div>
-
                     
                     {/* birth date */}
                     <div className="space-y-2">
-                        <CalendarComponent
-                            date={form.birthDate}
-                            onChange={(date) => setForm({ ...form, birthDate: date })}
-                            className="w-full rounded-md border border-border bg-transparent px-3 py-2"
-                        />
-                        {/* <Calendar
-                            mode="single"
-                            selected={form.birthDate}
-                            onSelect={(date) => setForm({ ...form, birthDate: date })}
-                            className="w-full rounded-md border border-border bg-transparent px-3 py-2"
-                        /> */}
+                        <CalendarComponent/>
                     </div>
-
                     
                     {/* birth location */}
                     <div className="space-y-2">
-
                         <Command className="w-full rounded-md border border-border bg-transparent px-3 py-2text-sm focus:outline-none focus:ring-foreground">
                             <CommandInput
                                 placeholder="Type a command or search..."
@@ -141,21 +128,20 @@ export default function LetsYap() {
                                 onValueChange={setInput}
                             />
                             <CommandList>
-                                <CommandGroup>
+                                <CommandGroup >
                                     
                                     {predictions.map((prediction) => (
                                         <CommandItem
+                                        
                                             key={prediction.place_id}
                                             value={prediction.description}
-                                            
                                             onSelect={async () => {
-
                                                 setInput(prediction.description);
                                                 setForm(prev => ({ ...prev, birthLocation: prediction.description, birthLocationId: prediction.place_id }));
-
                                                 const placeDetails = await getPlaceDetails(prediction.place_id);
                                                 console.log("place details", placeDetails);
                                                 setShowSuggestions(false);
+                                                setOpen(false);
                                             }}
                                         >
                                             {prediction.description}

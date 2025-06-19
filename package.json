@@ -28,6 +28,7 @@
     "@radix-ui/react-use-escape-keydown": "^1.1.1",
     "@types/google.maps": "^3.58.1",
     "ai": "^4.3.16",
+    "astrologyapi": "^1.0.1",
     "better-auth": "^1.2.9",
     "chart2txt": "^0.5.0",
     "class-variance-authority": "^0.7.1",
