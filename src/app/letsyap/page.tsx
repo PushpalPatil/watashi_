@@ -18,8 +18,9 @@ import { Input } from "@/components/ui/input";
 import { autocomplete, getPlaceDetails } from "@/lib/google";
 import type { PlaceAutocompleteResult } from "@googlemaps/google-maps-services-js";
 import { CalendarComponent } from "../components/calendar";
+import { Calendar } from "@/components/ui/calendar";
 
-interface MapLocation {
+export interface MapLocation {
     place_id: string
     description: string
     structured_formatting: {
@@ -29,7 +30,7 @@ interface MapLocation {
 }
 // src/app/layout.tsx or app/page.tsx
 
-type FormData = {
+export type FormData = {
     name: string,
     birthTime: string,
     birthDN: "AM" | "PM",
@@ -40,13 +41,7 @@ type FormData = {
 export default function LetsYap() {
 
     const MAP_KEY = process.env.GOOGLE_MAPS_API_KEY;
-
-    // const [mapLocation, setMapLocation] = useState<MapLocation[]>([]);
-    // const [mapLocation, setMapLocation] = useState<PlaceAutocompleteResult[] | null>(null);
     const [showSuggestions, setShowSuggestions] = useState(false);
-    // const [loadingLocations, setLoadingLocations] = useState(false);
-    // const [loading, setLoading] = useState(false);
-    // const [error, setError] = useState("");
 
     const [form, setForm] = useState<FormData>({
         name: "",
@@ -69,7 +64,8 @@ export default function LetsYap() {
 
     console.log(form.name)
     console.log(form.birthTime)
-
+    const name = form.name
+    const birthTime = form.birthTime
 
     return (
         <div>
@@ -124,7 +120,14 @@ export default function LetsYap() {
                         <CalendarComponent
                             date={form.birthDate}
                             onChange={(date) => setForm({ ...form, birthDate: date })}
+                            className="w-full rounded-md border border-border bg-transparent px-3 py-2"
                         />
+                        {/* <Calendar
+                            mode="single"
+                            selected={form.birthDate}
+                            onSelect={(date) => setForm({ ...form, birthDate: date })}
+                            className="w-full rounded-md border border-border bg-transparent px-3 py-2"
+                        /> */}
                     </div>
 
                     
