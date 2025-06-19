@@ -22,6 +22,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
+import React from "react"
 
 
 const FormSchema = z.object({
@@ -30,10 +31,14 @@ const FormSchema = z.object({
     }),
 })
 
-export function CalendarComponent(props: { date: Date | undefined, onChange: (date: Date | undefined) => void}) {
+export function CalendarComponent() {
+
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
     })
+    const [open, setOpen] = React.useState(false)
+    const [date, setDate] = React.useState<Date | undefined>(undefined)
+    
     function onSubmit(values: z.infer<typeof FormSchema>) {
         toast.success("Date of birth set.", {
             description: (
@@ -44,10 +49,8 @@ export function CalendarComponent(props: { date: Date | undefined, onChange: (da
         })
     }
 
-    const date = props.date
-    console.log(date)
 
-
+    
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -56,7 +59,7 @@ export function CalendarComponent(props: { date: Date | undefined, onChange: (da
                     name="dob"
                     render={({ field }: { field: any }) => (
                         <FormItem className="flex flex-col">
-                            <Popover>
+                            <Popover open={open} onOpenChange={setOpen}>
                                 <PopoverTrigger asChild>
                                     <FormControl>
                                         <Button
@@ -79,8 +82,10 @@ export function CalendarComponent(props: { date: Date | undefined, onChange: (da
                                     <Calendar
                                         mode="single"
                                         selected={date}
-                                        onSelect={ (selected) => {
-                                            props.onChange(selected)
+                                        onSelect={(selected) => {
+                                            setDate(selected as Date)
+                                            console.log(selected)
+                                            setOpen(false)
                                             form.setValue("dob", selected as Date)
                                         }}
                                         disabled={(date) =>
