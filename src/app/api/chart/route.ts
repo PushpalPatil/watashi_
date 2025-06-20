@@ -1,7 +1,5 @@
-
 import { NextRequest, NextResponse } from "next/server";
 import path from 'path';
-
 
 export const runtime = 'nodejs'
 
@@ -22,17 +20,27 @@ type PlanetPoint = {
     sign: string,
     retrograde: boolean
 }
-// tell the swiss-ephemeris where the files are
-
 
 //entry point
 export async function POST(req: NextRequest) {
+    // do i have to change this back later to req.JSON???
+    const {
+        year,
+        month,
+        day,
+        hour = 0,
+        minute = 0,
+        second = 0
+    } = (await req.json()) as Record<string, number>;
 
-    const raw = await req.text();
-    console.log('RAW BODY:', raw);
+    // const raw = await req.text();
+    // console.log('RAW BODY:', raw);
+
     const swe = (await import('swisseph')).default as typeof import('swisseph');
 
+    // tell the swiss-ephemeris where the files are
     swe.swe_set_ephe_path(path.join(process.cwd(), 'lib/ephemeris'));
+
     const PLANET_IDS = [
         swe.SE_SUN, swe.SE_MOON, swe.SE_MERCURY,
         swe.SE_VENUS, swe.SE_MARS,
@@ -44,14 +52,6 @@ export async function POST(req: NextRequest) {
         'Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo',
         'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces',
     ] as const;
-    // parse the body
-    const { year, month, day,
-        hour = 0,
-        minute = 0,
-        second = 0,
-        latitude = 0,
-        longitude = 0,
-    } = JSON.parse(raw) as Record<string, number>;
 
     // calculate julian day - given the details given are from a modern day gregorian calendar
     const julianDay = swe.swe_julday(
@@ -75,7 +75,7 @@ export async function POST(req: NextRequest) {
 
         // `get_planet_name` can return either a string *or* { name: string } depending on lib version
         const swePName = swe.swe_get_planet_name(pID)
-        const planetName: string = typeof swePName === "string" ? swePName : swePName.name;
+        const planetName =  typeof swePName === "string" ? swePName : swePName.name;
         const deg = longitude;
         return {
             planet: planetName,
