@@ -84,11 +84,11 @@ export default function LetsYap() {
 
             
             {/* form section */}
-            <section className="min-h-screen px-4 container flex flex-col items-center mx-auto font-normal">
+            <section className="min-h-screen px-4 max-w-sm container flex space-y-6 flex-col items-center mx-auto font-normal">
                 <form className="w-full max-w-sm items-center space-y-6">
 
                     {/* name */}
-                    <div className="space-y-2">
+                    <div className="">
                         <Input
                             type="text"
                             id="name"
@@ -101,7 +101,7 @@ export default function LetsYap() {
                     </div>
                     
                     {/* birth time */}
-                    <div className="space-y-2">
+                    <div className="">
                         <input
                             type="time"
                             id="time"
@@ -114,16 +114,13 @@ export default function LetsYap() {
                         />
                     </div>
                     
-                    {/* birth date */}
-                    <div className="space-y-2">
-                        <CalendarComponent/>
-                    </div>
+                    
                     
                     {/* birth location */}
-                    <div className="space-y-2">
+                    <div className="">
                         <Command className="w-full rounded-md border border-border bg-transparent px-3 py-2text-sm focus:outline-none focus:ring-foreground">
                             <CommandInput
-                                placeholder="Type a command or search..."
+                                placeholder="Type location..."
                                 value={input}
                                 onValueChange={setInput}
                             />
@@ -132,7 +129,7 @@ export default function LetsYap() {
                                     
                                     {predictions.map((prediction) => (
                                         <CommandItem
-                                        
+                                            
                                             key={prediction.place_id}
                                             value={prediction.description}
                                             onSelect={async () => {
@@ -155,13 +152,19 @@ export default function LetsYap() {
                     </div>
 
                     {/* submit button */}
-                    <Link href="/dashboard" className="flex flex-col justify-center items-center">
-                        <Button className="rounded-full items-center justify-center border border-solid border-transparent bg-foreground text-background hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-md md:text-base sm:h-13 sm:w-auto md:w-[125px]">
-                            submit
-                        </Button>
-                    </Link>
+                    
 
                 </form>
+                {/* birth date */}
+                <div className="w-full max-w-sm items-center">
+                    <CalendarComponent/>
+                </div>
+
+                <Link href="/dashboard" className="flex flex-col justify-center items-center">
+                    <Button className="rounded-full items-center justify-center border border-solid border-transparent bg-foreground text-background hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-md md:text-base sm:h-13 sm:w-auto md:w-[125px]">
+                        submit
+                    </Button>
+                </Link>
             </section>
         </div>
     )

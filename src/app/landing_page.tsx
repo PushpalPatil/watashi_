@@ -39,8 +39,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-
-
       <footer className="border-t border-border py-6 mt-29">
 
         <div className = "container mx-auto px-6 text-center">
