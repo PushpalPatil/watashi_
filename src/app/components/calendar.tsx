@@ -85,8 +85,8 @@ export function CalendarComponent() {
                                         onSelect={(selected) => {
                                             setDate(selected as Date)
                                             console.log(selected)
-                                            setOpen(false)
                                             form.setValue("dob", selected as Date)
+                                            setOpen(false)
                                         }}
                                         disabled={(date) =>
                                             date > new Date() || date < new Date("1900-01-01")
@@ -96,8 +96,8 @@ export function CalendarComponent() {
                                     />
                                 </PopoverContent>
                             </Popover>
-                            <FormDescription>
-                                Your date of birth is required to generate your chart.
+                            <FormDescription className="text-center w-full ">
+                                your date of birth is required to generate your chart
                             </FormDescription>
                         </FormItem>
                     )}
