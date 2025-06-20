@@ -14,8 +14,6 @@ interface User {
 
 export default function Dashboard() {
 
-
-
     return (
         <div>
             <Header />
@@ -30,7 +28,7 @@ export default function Dashboard() {
             <div className="container mx-auto pb-10 grid grid-cols-5 place-items-center gap-10">
 
                 <Card className="size-60 border-1 shadow-xl box-content p-0">
-                    <Link href='/sun' className="h-full w-full block">
+                    <Link href="/sun" className="h-full w-full block">
                         <Button className=" w-full h-full bg-transparent text-3xl text-muted-foreground font-normal hover:bg-gray-100 dark:text-accent-foreground dark:hover:bg-gray-800">
                             sun
                         </Button>
