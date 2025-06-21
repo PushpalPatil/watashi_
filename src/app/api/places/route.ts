@@ -23,10 +23,11 @@ export async function GET(req: NextRequest) {
     const res = await fetch(url);
     const data = await res.json();
     return NextResponse.json(data);
-  } catch (err) {
+  } catch (error) {
+    console.error(error);
     return NextResponse.json(
-      { error: "Places API request failed" },
-      { status: 500 }
-    );
+      { error: (error as Error).message || 'Places API request failed' },
+      { status: 500 },
+    )
   }
 } 

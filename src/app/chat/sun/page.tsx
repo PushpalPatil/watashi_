@@ -28,12 +28,16 @@ export default function Sun() {
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     const scrollToBottom = () => {
+
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     };
 
     useEffect(() => {
         scrollToBottom();
     }, [messages]);
+
+    console.log('Planet data: ' , {planet, sign: data?.sign, persona: data?.persona });
+    console.log('Messages:', messages);
 
     return (
         <div className="flex flex-col h-screen bg-background">
@@ -53,7 +57,7 @@ export default function Sun() {
                                 rise & shine {sunSign.toLowerCase()}
                             </h1>
                             <p className="text-lg text-muted-foreground max-w-md">
-                                as your Sun sign, I'm here to help you explore your core identity, leadership style, and creative expression 
+                                as your Sun sign, I&apos;m here to help you explore your core identity, leadership style, and creative expression
                             </p>
                         </div>
 

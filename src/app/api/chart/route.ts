@@ -10,9 +10,6 @@ interface PlanetPosition {
     speed: number
 }
 
-interface CalculationResult {
-    planets: PlanetPosition[];
-}
 
 // object
 type PlanetPoint = {

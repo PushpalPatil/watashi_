@@ -45,7 +45,7 @@ export type FormData = {
 export default function LetsYap() {
 
     const router = useRouter();
-    const MAP_KEY = process.env.GOOGLE_MAPS_API_KEY;
+    // const MAP_KEY = process.env.GOOGLE_MAPS_API_KEY;
     const [showSuggestions, setShowSuggestions] = useState(false);
     const setPlanets = useStore.getState().setPlanets;
 
