@@ -114,15 +114,3 @@ export default function Dashboard() {
 
     )
 }
-
-
-// const formData = 
-// const birthDateStr = formData.get('birthDate') as string|null;
-
-// const user: User = {
-//     name: formData.get('name') as string,
-//     birthTime: formData.get('birthTime') as string,
-//     birthDate: birthDateStr ? new Date(birthDateStr) : undefined,
-//     birthLocation: formData.get('birthLocation') as string,
-//     birthDN: formData.get('birthDN') as "AM" | "PM",
-// }

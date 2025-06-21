@@ -1,28 +1,19 @@
 "use client"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { format } from "date-fns"
-import { CalendarIcon } from "lucide-react"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
-import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
-import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form"
 import {
     Popover,
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
+import { cn } from "@/lib/utils"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { format } from "date-fns"
+import { CalendarIcon } from "lucide-react"
 import React from "react"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import { z } from "zod"
 
 
 const FormSchema = z.object({
@@ -31,14 +22,20 @@ const FormSchema = z.object({
     }),
 })
 
-export function CalendarComponent() {
+interface DatePickedProps {
+    value?: Date;
+    onChange?: (d: Date) => void;
+}
+
+
+export function CalendarComponent({ value, onChange }: DatePickedProps) {
 
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
     })
     const [open, setOpen] = React.useState(false)
     const [date, setDate] = React.useState<Date | undefined>(undefined)
-    
+
     function onSubmit(values: z.infer<typeof FormSchema>) {
         toast.success("Date of birth set.", {
             description: (
@@ -50,62 +47,35 @@ export function CalendarComponent() {
     }
 
 
-    
-    return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-                <FormField
-                    control={form.control}
-                    name="dob"
-                    render={({ field }: { field: any }) => (
-                        <FormItem className="flex flex-col">
-                            <Popover open={open} onOpenChange={setOpen}>
-                                <PopoverTrigger asChild>
-                                    <FormControl>
-                                        <Button
-                                            variant="outline"
-                                            className={cn(
-                                                "w-full rounded-md border border-border bg-transparent px-3 py-2 text-left font-normal",
-                                                !field.value && "text-muted-foreground"
-                                            )}
-                                        >
-                                            {field.value ? (
-                                                format(field.value, "PPP")
-                                            ) : (
-                                                <span>Pick a date</span>
-                                            )}
-                                            <CalendarIcon className="w-full h-4 opacity-50" />
-                                        </Button>
-                                    </FormControl>
-                                </PopoverTrigger>
-                                <PopoverContent className="w-full rounded-md border border-border px-3 py-2">
-                                    <Calendar
-                                        mode="single"
-                                        selected={date}
-                                        onSelect={(selected) => {
-                                            setDate(selected as Date)
-                                            console.log(selected)
-                                            form.setValue("dob", selected as Date)
-                                            setOpen(false)
-                                        }}
-                                        disabled={(date) =>
-                                            date > new Date() || date < new Date("1900-01-01")
-                                        }
-                                        captionLayout="dropdown"
-                                        
-                                    />
-                                </PopoverContent>
-                            </Popover>
-                            <FormDescription className="text-center w-full ">
-                                your date of birth is required to generate your chart
-                            </FormDescription>
-                        </FormItem>
-                    )}
 
+    return (
+        <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>
+                <Button
+                    variant="outline"
+                    className={cn(
+                        "w-full rounded-md border border-border bg-transparent px-3 py-2 text-left font-normal",
+                        !value && "text-muted-foreground"
+                    )}
+                >
+                    {value ? format(value, "PPP") : <span>Pick a date</span>}
+                    <CalendarIcon className="ml-auto h-4 opacity-50" />
+                </Button>
+            </PopoverTrigger>
+
+            <PopoverContent className="w-full rounded-md border border-border px-3 py-2">
+                <Calendar
+                    mode="single"
+                    selected={value}
+                    captionLayout="dropdown"
+                    onSelect={(d) => {
+                        if (d) onChange?.(d);
+                        setOpen(false);
+                    }}
+                    disabled={(d) => d > new Date() || d < new Date("1900-01-01")}
                 />
-            </form>
-        </Form>
-        
-        
+            </PopoverContent>
+        </Popover>
+
     )
 }
