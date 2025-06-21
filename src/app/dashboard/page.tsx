@@ -35,7 +35,7 @@ export default function Dashboard() {
                 {PLANETS.map(p => (
                     <Card
                         key={p}
-                        onClick={() => router.push(`/chat/${p}`)}
+                        onClick={() => router.push(`src/app/chat/${p}/page.tsx`)}
                         className="size-65 border-1 shadow-xl box-content p-0 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-accent-foreground flex flex-col justify-center items-center m-auto"
                     >
                         <CardContent className="mt-24 h-full w-full block mx-auto flex-col text-center justify-center">
