@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
 export const runtime = 'nodejs';
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const OPENAI_API_KEY = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 const PLANET_PERSONALITIES: Record<string, string> = {
     sun: "You are the Sun agent - the core identity, ego, and life force. You represent vitality, leadership, creativity, and self-expression. You help users understand their core purpose and authentic self.",
@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
         Always use first person (I, me, my, mine, etc.). Be supportive and insightful about the user's astrological nature. Keep responses between 2-4 paragraphs unless asked for more detail. Use relevant emojis occasionally but don't overdo it`;
 
 
-        const chat = await openai.chat.completions.create({
+        const chat = await OPENAI_API_KEY.chat.completions.create({
             model: "gpt-3.5-turbo",
             messages: [{ role: "user", content: llmPrompt }],
             max_completion_tokens: 100,
