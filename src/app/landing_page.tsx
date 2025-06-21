@@ -33,7 +33,7 @@ export default function LandingPage() {
         <div className="flex-grow flex flex-col justify-center items-center">
           <Link href="/letsyap">
             <Button className="rounded-full border border-solid border-transparent bg-foreground text-background hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 w-full sm:w-auto md:w-[158px]">
-              let's yap
+              let&apos;s yap
             </Button>
           </Link>
         </div>

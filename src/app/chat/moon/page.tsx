@@ -13,7 +13,7 @@ export default function Moon() {
     const { planet } = useParams<{ planet: string }>();
     const data = useStore(s => s.planets[planet as keyof typeof s.planets]);
     const planets = useStore((s) => s.planets)
-    const sunSign = planets.sun?.sign ?? '-';
+    const moonSign = planets.moon?.sign ?? '-';
 
     const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
         api: '/api/chat',
@@ -50,10 +50,10 @@ export default function Moon() {
                                 <Sparkles className="w-8 h-8 text-white" />
                             </div>
                             <h1 className="text-4xl font-normal bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent">
-                                rise & shine {sunSign.toLowerCase()}
+                                rise & shine {moonSign.toLowerCase()}
                             </h1>
                             <p className="text-lg text-muted-foreground max-w-md">
-                                as your Sun sign, I'm here to help you explore your core identity, leadership style, and creative expression
+                                as your Moon sign, I'm here to help you explore how you process your emotions, emotioinal and creative expression
                             </p>
                         </div>
 
@@ -95,7 +95,7 @@ export default function Moon() {
                                                     <Sparkles className="w-3 h-3 text-white" />
                                                 </div>
                                                 <span className="text-xs text-muted-foreground font-medium font-normal">
-                                                    Sun Agent
+                                                        Moon Agent
                                                 </span>
                                             </div>
                                         )}
@@ -129,7 +129,7 @@ export default function Moon() {
                                                 <Sparkles className="w-3 h-3 text-white" />
                                             </div>
                                             <span className="text-xs text-muted-foreground font-medium">
-                                                Sun Agent
+                                                Moon Agent
                                             </span>
                                         </div>
                                         <div className="bg-muted/50 rounded-2xl px-4 py-3">
@@ -155,7 +155,7 @@ export default function Moon() {
                             <Textarea
                                 value={input}
                                 onChange={handleInputChange}
-                                placeholder={`Ask your Sun agent anything about your ${sunSign} energy...`}
+                                placeholder={`Ask your Moon agent anything about your ${moonSign} energy...`}
                                 className="min-h-[60px] max-h-[200px] pr-12 resize-none border-2 focus:border-blue-300 dark:focus:border-blue-600 rounded-xl"
                                 onKeyDown={(e) => {
                                     if (e.key === 'Enter' && !e.shiftKey) {

@@ -7,11 +7,11 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
-import { zodResolver } from "@hookform/resolvers/zod"
+// import { zodResolver } from "@hookform/resolvers/zod"
 import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
 import React from "react"
-import { useForm } from "react-hook-form"
+// import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 
@@ -30,11 +30,11 @@ interface DatePickedProps {
 
 export function CalendarComponent({ value, onChange }: DatePickedProps) {
 
-    const form = useForm<z.infer<typeof FormSchema>>({
-        resolver: zodResolver(FormSchema),
-    })
+    // const form = useForm<z.infer<typeof FormSchema>>({
+    //     resolver: zodResolver(FormSchema),
+    // })
     const [open, setOpen] = React.useState(false)
-    const [date, setDate] = React.useState<Date | undefined>(undefined)
+    // const [date, setDate] = React.useState<Date | undefined>(undefined)
 
     function onSubmit(values: z.infer<typeof FormSchema>) {
         toast.success("Date of birth set.", {
