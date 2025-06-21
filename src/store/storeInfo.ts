@@ -19,6 +19,7 @@ export type PlanetWithPersona = {
 type State = {
     planets: Record<string, PlanetWithPersona>;
     setPlanets: (data: Record<string, PlanetWithPersona>) => void;
+    
 }
 
 export const useStore = create<State>((set) => ({

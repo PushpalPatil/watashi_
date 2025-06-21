@@ -4,13 +4,6 @@ import swe from 'swisseph';
 
 export const runtime = 'nodejs'
 
-interface PlanetPosition {
-    name: string,
-    longitude: number,
-    speed: number
-}
-
-
 // object
 type PlanetPoint = {
     planet: string,
@@ -30,9 +23,6 @@ export async function POST(req: NextRequest) {
         minute = 0,
         second = 0
     } = (await req.json()) as Record<string, number>;
-
-    // const raw = await req.text();
-    // console.log('RAW BODY:', raw);
 
 
     // tell the swiss-ephemeris where the files are
@@ -73,7 +63,7 @@ export async function POST(req: NextRequest) {
 
         // `get_planet_name` can return either a string *or* { name: string } depending on lib version
         const swePName = swe.swe_get_planet_name(pID)
-        const planetName =  typeof swePName === "string" ? swePName : swePName.name;
+        const planetName = typeof swePName === "string" ? swePName : swePName.name;
         const deg = longitude;
         return {
             planet: planetName,
@@ -84,6 +74,6 @@ export async function POST(req: NextRequest) {
     })
 
     console.log({ planets: p })
-    return NextResponse.json({planets: p })
+    return NextResponse.json({ planets: p })
 
 }

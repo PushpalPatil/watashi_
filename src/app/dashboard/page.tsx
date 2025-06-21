@@ -7,13 +7,6 @@ import { useStore } from "@/store/storeInfo"
 import { useRouter } from 'next/navigation';
 import { CardContent } from '@/components/ui/card';
 
-interface User {
-    name: string
-    birthTime: string
-    birthDate: Date | undefined
-    birthLocation: string
-    birthDN: "AM" | "PM"
-}
 
 const PLANETS = [
     'sun', 'moon', 'mercury', 'venus', 'mars',
@@ -31,8 +24,7 @@ export default function Dashboard() {
     return (
         <div>
             <Header />
-
-            <section className="container mx-auto py-25 text-center flex flex-col items-center">
+            <section className="container mx-auto py-15 text-center flex flex-col items-center">
                 <h1 className="text-3xl font-normal ">
                     welcome dear <span>{sunSign.toLowerCase()}</span>
                 </h1>
@@ -47,10 +39,10 @@ export default function Dashboard() {
                         className="size-65 border-1 shadow-xl box-content p-0 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-accent-foreground flex flex-col justify-center items-center m-auto"
                     >
                         <CardContent className="mt-24 h-full w-full block mx-auto flex-col text-center justify-center">
-                        <span className=" bg-transparent text-2xl text-muted-foreground font-normal dark:text-accent-foreground ">
-                            {p}
-                        </span>
-                    </CardContent>
+                            <span className=" bg-transparent text-2xl text-muted-foreground font-normal dark:text-accent-foreground ">
+                                {p}
+                            </span>
+                        </CardContent>
                     </Card>
                 ))}
             </div>

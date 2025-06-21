@@ -16,7 +16,7 @@ export default function Moon() {
     const moonSign = planets.moon?.sign ?? '-';
 
     const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
-        api: '/api/chat',
+        api: '/api/moonchat',
         body: {
             planet: planet,
             sign: data?.sign,
@@ -50,10 +50,10 @@ export default function Moon() {
                                 <Sparkles className="w-8 h-8 text-white" />
                             </div>
                             <h1 className="text-4xl font-normal bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent">
-                                rise & shine {moonSign.toLowerCase()}
+                                twinkle twinkle little {moonSign.toLowerCase()}
                             </h1>
                             <p className="text-lg text-muted-foreground max-w-md">
-                                as your Moon sign, I'm here to help you explore how you process your emotions, emotioinal and creative expression
+                                as your Moon sign, I&apos;m here to help you explore how you process your emotions, emotioinal and creative expression
                             </p>
                         </div>
 
@@ -64,10 +64,10 @@ export default function Moon() {
                                 "How can I express myself better emotionally?",
                                 "How do I stay aware of my emotional state?",
                                 "Help me build inner peace"
-                            ].map((prompt, index) => (
+                            ].map((prompt) => (
                                 <button
-                                    key={index}
-                                    onClick={() => handleInputChange({ target: { value: prompt } } as any)}
+                                    key={prompt}
+                                    onClick={() => handleInputChange({ target: { value: prompt } } as unknown as React.ChangeEvent<HTMLTextAreaElement>)}
                                     className="font-normal text-left p-4 rounded-xl border border-border hover:border-blue-300 hover:bg-blue-50/50 dark:hover:bg-blue-950/20 transition-colors group"
                                 >
                                     <span className="text-sm text-muted-foreground group-hover:text-blue-600 dark:group-hover:text-blue-400 font-normal">

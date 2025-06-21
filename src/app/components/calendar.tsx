@@ -12,15 +12,15 @@ import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
 import React from "react"
 // import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { z } from "zod"
 
 
-const FormSchema = z.object({
-    dob: z.date({
-        required_error: "A date of birth is required.",
-    }),
-})
+
+
+// const FormSchema = z.object({
+//     dob: z.date({
+//         required_error: "A date of birth is required.",
+//     }),
+// })
 
 interface DatePickedProps {
     value?: Date;
@@ -30,21 +30,19 @@ interface DatePickedProps {
 
 export function CalendarComponent({ value, onChange }: DatePickedProps) {
 
-    // const form = useForm<z.infer<typeof FormSchema>>({
-    //     resolver: zodResolver(FormSchema),
-    // })
+   
     const [open, setOpen] = React.useState(false)
     // const [date, setDate] = React.useState<Date | undefined>(undefined)
 
-    function onSubmit(values: z.infer<typeof FormSchema>) {
-        toast.success("Date of birth set.", {
-            description: (
-                <pre className="mt-2 w-[320px] rounded-md bg-neutral-950 p-4">
-                    <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-                </pre>
-            ),
-        })
-    }
+    // function onSubmit(values: z.infer<typeof FormSchema>) {
+    //     toast.success("Date of birth set.", {
+    //         description: (
+    //             <pre className="mt-2 w-[320px] rounded-md bg-neutral-950 p-4">
+    //                 <code className="text-white">{JSON.stringify(values, null, 2)}</code>
+    //             </pre>
+    //         ),
+    //     })
+    // }
 
 
 
@@ -69,6 +67,7 @@ export function CalendarComponent({ value, onChange }: DatePickedProps) {
                     selected={value}
                     captionLayout="dropdown"
                     onSelect={(d) => {
+                        
                         if (d) onChange?.(d);
                         setOpen(false);
                     }}

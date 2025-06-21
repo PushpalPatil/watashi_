@@ -46,7 +46,7 @@ export default function LetsYap() {
 
     const router = useRouter();
     // const MAP_KEY = process.env.GOOGLE_MAPS_API_KEY;
-    const [showSuggestions, setShowSuggestions] = useState(false);
+    const [_showSuggestions, setShowSuggestions] = useState(false);
     const setPlanets = useStore.getState().setPlanets;
 
     const [form, setForm] = useState<FormData>({
@@ -61,7 +61,7 @@ export default function LetsYap() {
 
     const [predictions, setPredictions] = useState<PlaceAutocompleteResult[]>([]);
     const [input, setInput] = useState("");
-    const [open, setOpen] = React.useState(false)
+    const [_open, setOpen] = useState(false)
 
     useEffect(() => {
         const fetchSuggestions = async () => {
@@ -95,7 +95,7 @@ export default function LetsYap() {
         // converts the HTTP response body to a JS object, and
         // extracts the planets array field from that object for easy use in the next steps.
         const { planets } = await chart.json();
-        console.log('🔭 birth chart', planets);
+        console.log(' birth chart', planets);
 
         // Promise.all: Runs all those fetches in parallel and waits until every promise resolves. The result is an array of enriched planet objects.
         // planetsWithPersona holds the final array. 
@@ -114,7 +114,6 @@ export default function LetsYap() {
                 const { persona } = await res.json();
                 return {
                     ...p, persona
-
                 };
                 // ^ Merges the original planet object and the new persona text into a single object.
                 
@@ -228,7 +227,7 @@ export default function LetsYap() {
                     </div>
 
                     {/* submit button */}
-                    <Button type="submit" className="rounded-full items-center justify-center border border-solid border-transparent bg-foreground text-background hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-md md:text-base sm:h-13 sm:w-auto md:w-[125px]">
+                    <Button type="submit" className="rounded-full mt-5 items-center justify-center border border-solid border-transparent bg-foreground text-background hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-md md:text-base sm:h-13 sm:w-auto md:w-[125px]">
                         submit
                     </Button>
                 </form>
