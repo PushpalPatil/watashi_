@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import path from 'path';
+import swe from 'swisseph';
 
 export const runtime = 'nodejs'
 
@@ -36,7 +37,6 @@ export async function POST(req: NextRequest) {
     // const raw = await req.text();
     // console.log('RAW BODY:', raw);
 
-    const swe = (await import('swisseph')).default as typeof import('swisseph');
 
     // tell the swiss-ephemeris where the files are
     swe.swe_set_ephe_path(path.join(process.cwd(), 'lib/ephemeris'));
@@ -47,6 +47,7 @@ export async function POST(req: NextRequest) {
         swe.SE_JUPITER, swe.SE_SATURN, swe.SE_URANUS,
         swe.SE_NEPTUNE, swe.SE_PLUTO
     ] as const;
+
     //array
     const SIGNS = [
         'Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo',
@@ -80,7 +81,7 @@ export async function POST(req: NextRequest) {
         return {
             planet: planetName,
             deg,
-            sign: SIGNS[Math.floor(longitude / 30)],
+            sign: SIGNS[Math.floor(deg / 30) % 12],
             retrograde: retro
         }
     })
