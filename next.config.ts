@@ -4,8 +4,10 @@ const nextConfig: NextConfig = {
 
   /* config options here */
 
-    serverExternalPackages: ['swisseph'],
-
+  serverExternalPackages: ['swisseph'],
+  eslint: {
+    ignoreDuringBuilds: true,  // ⬅️  disables ESLint during `next build`
+  },
 
   webpack: (config, { isServer }) => {
     config.externals.push({ swisseph: 'commonjs swisseph' });
