@@ -95,6 +95,7 @@ export default function LetsYap() {
         // converts the HTTP response body to a JS object, and
         // extracts the planets array field from that object for easy use in the next steps.
         const { planets } = await chart.json();
+        console.log('🔭 birth chart', planets);
 
         // Promise.all: Runs all those fetches in parallel and waits until every promise resolves. The result is an array of enriched planet objects.
         // planetsWithPersona holds the final array. 
@@ -109,13 +110,17 @@ export default function LetsYap() {
                     method: 'POST',
                     body: JSON.stringify(p),
                 });
+                console.log("persona: ", p);
                 const { persona } = await res.json();
                 return {
                     ...p, persona
+
                 };
                 // ^ Merges the original planet object and the new persona text into a single object.
+                
             })
         );
+        
 
         // save it all to zustand.
         setPlanets(
@@ -123,6 +128,8 @@ export default function LetsYap() {
                 planetsWithPersona.map(p => [p.planet.toLowerCase(), p])
             )
         );
+
+        
         console.log(birthData)
         // use router to push to dashboard
         router.push('/dashboard');
@@ -147,7 +154,7 @@ export default function LetsYap() {
 
             {/* form section */}
             <section className="min-h-screen px-4 max-w-sm container flex space-y-6 flex-col items-center mx-auto font-normal">
-                <form className="w-full max-w-sm items-center space-y-6" onSubmit={handleSubmit}>
+                <form className="w-full max-w-sm items-center justify-center flex flex-col space-y-6" onSubmit={handleSubmit}>
 
                     {/* name */}
                     <Input
