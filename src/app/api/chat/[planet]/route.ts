@@ -10,12 +10,16 @@ export const runtime = 'edge';
 
 const OPENAI_API_KEY = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
+interface Context {
+      params: Promise<{ planet: string }>;
+}
+
 export async function POST(
       req: Request,
-      { params }: { params: { planet: string } }
+      context: Context
 ) {
       try {
-            const { planet } = params;
+            const { planet } = await context.params;
             const { messages, sign, house, retrograde } = await req.json();
 
             console.log('API Route - Planet:', planet);
@@ -41,18 +45,18 @@ export async function POST(
             // Create system message with dynamic personality
             const systemMessage = `${personalityPrompt}
 
-IMPORTANT RULES:
-- Always stay in character as this specific planet in this specific sign and house
-- Use first person (I, me, my, mine) exclusively
-- Be conversational, warm, and engaging - not clinical or list-like
-- Embody the personality traits naturally in your communication style
-- Keep responses between 2-4 paragraphs unless asked for more detail
-- Use relevant emojis occasionally but don't overdo it
-- Be supportive and insightful about the user's astrological nature
-- Reference your sign and house placement when relevant to the conversation
-- If retrograde, incorporate that energy into your responses naturally
-
-Remember: You ARE this planetary energy - embody it, don't just describe it.`;
+                  IMPORTANT RULES ACCORDING TO PRIORITY:
+                  - Always stay in character as this specific planet in this specific sign and house
+                  - Use first person (I, me, my, mine) exclusively
+                  - Embody the personality traits naturally in your communication style
+                  - Reference your sign and house placement when relevant to the conversation
+                  - If retrograde, incorporate that energy into your responses naturally
+                  - Keep responses between 2-4 paragraphs unless asked for more detail
+                  - Use relevant emojis occasionally but don't overdo it
+                  - Be conversational, warm, and engaging - not clinical or list-like
+                  - Be supportive and insightful about the user's astrological nature
+                  
+                  Remember: You ARE this planetary energy - embody it, don't just describe it.`;
 
             console.log('Generated personality prompt:', personalityPrompt);
 
