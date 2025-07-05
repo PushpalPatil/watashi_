@@ -3,11 +3,11 @@
 import Header from "@/app/components/header";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { buildGreeting, getHouseDisplay, getPlanetConfig } from "@/lib/planet-config";
 import { useStore } from "@/store/storeInfo";
 import { useChat } from "@ai-sdk/react";
 import { useParams } from "next/navigation";
 import { useEffect, useRef } from "react";
-import { getPlanetConfig, buildGreeting, getHouseDisplay } from "@/lib/planet-config";
 
 export default function DynamicPlanetChat() {
       const { planet } = useParams<{ planet: string }>();
@@ -58,7 +58,7 @@ export default function DynamicPlanetChat() {
             retrograde: data?.retrograde,
             persona: data?.persona
       });
-      console.log('💬 Messages:', messages);
+      console.log('Messages:', messages);
 
       // Fallback if planet config not found - AFTER all hooks
       if (!planetConfig) {
@@ -82,6 +82,29 @@ export default function DynamicPlanetChat() {
             <div className="flex flex-col h-screen bg-background" style={planetTheme}>
                   <Header />
 
+                  {/* Add custom animations */}
+                  {/* eslint-disable-next-line react/no-unknown-property */}
+                  <style jsx>{`
+                @keyframes bounce-rotate {
+                    0%, 100% { 
+                        transform: translateY(0px) rotate(0deg); 
+                    }
+                    25% { 
+                        transform: translateY(-4px) rotate(3deg); 
+                    }
+                    50% { 
+                        transform: translateY(-8px) rotate(0deg); 
+                    }
+                    75% { 
+                        transform: translateY(-4px) rotate(-3deg); 
+                    }
+                }
+                
+                .animate-bounce-rotate {
+                    animation: bounce-rotate 3s ease-in-out infinite;
+                }
+            `}</style>
+
                   {/* Chat Container */}
                   <div className="flex-1 flex flex-col max-w-4xl mx-auto w-full font-normal">
 
@@ -89,7 +112,7 @@ export default function DynamicPlanetChat() {
                         {messages.length === 0 && (
                               <div className="flex-1 flex flex-col items-center justify-center px-4">
                                     <div className="text-center space-y-4 mb-8">
-                                          <div className={`w-16 h-16 bg-gradient-to-br ${planetConfig.colors.gradient} rounded-full flex items-center justify-center mx-auto mb-4`}>
+                                          <div className={`w-16 h-16 bg-gradient-to-br ${planetConfig.colors.gradient} rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce-rotate`}>
                                                 <span className="text-2xl">{planetConfig.icon}</span>
                                           </div>
                                           <h1 className={`text-4xl font-normal bg-gradient-to-r ${planetConfig.colors.gradient} bg-clip-text text-transparent`}>
@@ -103,33 +126,16 @@ export default function DynamicPlanetChat() {
                                                       {houseDisplay}
                                                 </p>
                                           )}
+                                          {houseDisplay && (
+                                                <p className={`text-sm text-${planetConfig.colors.primary} opacity-80`}>
+                                                      {houseDisplay}
+                                                </p>
+                                          )}
                                     </div>
 
                                     {/* Suggested prompts - dynamic based on planet */}
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full max-w-2xl mb-8 font-normal">
-                                          {planet === 'sun' && [
-                                                "Tell me about my life purpose",
-                                                "How can I express my creativity?",
-                                                "What are my leadership strengths?",
-                                                "Help me build confidence"
-                                          ].map((prompt) => (
-                                                <button
-                                                      key={prompt}
-                                                      onClick={() => handleInputChange({ target: { value: prompt } } as unknown as React.ChangeEvent<HTMLTextAreaElement>)}
-                                                      className={`font-normal text-left p-4 rounded-xl border border-border hover:border-${planetConfig.colors.primary} hover:bg-${planetConfig.colors.primary}/10 transition-colors group`}
-                                                >
-                                                      <span className={`text-sm text-muted-foreground group-hover:text-${planetConfig.colors.primary} font-normal`}>
-                                                            {prompt}
-                                                      </span>
-                                                </button>
-                                          ))}
-
-                                          {planet === 'mercury' && [
-                                                "How can I communicate better?",
-                                                "Help me organize my thoughts",
-                                                "What's my learning style?",
-                                                data?.retrograde ? "How does being retrograde affect me?" : "How can I process information faster?"
-                                          ].map((prompt) => (
+                                          {planetConfig.suggestedPrompts(data?.sign || 'unknown', data?.retrograde || false).map((prompt) => (
                                                 <button
                                                       key={prompt}
                                                       onClick={() => handleInputChange({ target: { value: prompt } } as unknown as React.ChangeEvent<HTMLTextAreaElement>)}
