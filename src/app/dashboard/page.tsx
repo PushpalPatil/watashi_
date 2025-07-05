@@ -14,8 +14,6 @@ const PLANETS = [
 ] as const;
 
 
-
-
 export default function Dashboard() {
 
     const router = useRouter();
@@ -33,6 +31,7 @@ export default function Dashboard() {
     return (
         <div>
             <Header />
+
             <section className="container mx-auto py-15 text-center flex flex-col items-center">
                 <h1 className="text-3xl font-normal ">
                     welcome dear <span>{sunSign.toLowerCase()}</span>
@@ -95,8 +94,10 @@ export default function Dashboard() {
                         {JSON.stringify(planets, null, 2)}
                     </pre>
                 </div>
-            )}
+                )}
+
         </div>
+
     )
 }
 

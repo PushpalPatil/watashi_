@@ -1,17 +1,17 @@
 // /api/chat/[planet]/route.ts
 
-import { NextRequest, NextResponse } from 'next/server';
-import OpenAI from 'openai';
+import { getPlanetConfig } from '@/lib/planet-config';
 import { openai } from '@ai-sdk/openai';
 import { streamText } from 'ai';
-import { getPlanetConfig } from '@/lib/planet-config';
+import { NextResponse } from 'next/server';
+import OpenAI from 'openai';
 
 export const runtime = 'edge';
 
 const OPENAI_API_KEY = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export async function POST(
-      req: NextRequest,
+      req: Request,
       { params }: { params: { planet: string } }
 ) {
       try {
