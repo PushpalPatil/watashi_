@@ -1,29 +1,22 @@
 "use client";
 
-import { Textarea } from "@/components/ui/textarea";
 import Header from "@/app/components/header";
-import { useChat } from "@ai-sdk/react"
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { useStore } from "@/store/storeInfo";
+import { useChat } from "@ai-sdk/react";
 import { Sparkles } from "lucide-react";
 import { useParams } from "next/navigation";
-import { useStore } from "@/store/storeInfo";
 import { useEffect, useRef } from "react";
 
-export default function Sun() {
-    
+export default function Moon() {
     const { planet } = useParams<{ planet: string }>();
-    //Retrieves the data for a single planet, using the planet variable as the key.
-    const data = useStore(s => s.planets[planet]);
+    const data = useStore(s => s.planets[planet as keyof typeof s.planets]);
     const planets = useStore((s) => s.planets)
-    const sunSign = planets.sun?.sign ?? '-';
-
-    console.log(' Planet param from URL:', planet); // X
-    console.log(' Data from store:', data); // X
-    console.log(' All planets in store:', planets);
-    console.log(' Store keys:', Object.keys(planets));
+    const moonSign = planets.moon?.sign ?? '-';
 
     const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
-        api: '/api/sunchat',
+        api: '/api/moonchat',
         body: {
             planet: planet,
             sign: data?.sign,
@@ -32,23 +25,15 @@ export default function Sun() {
         }
     });
 
-
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     const scrollToBottom = () => {
-
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     };
 
     useEffect(() => {
         scrollToBottom();
     }, [messages]);
-
-    console.log('Planet data: ' , {planet, sign: data?.sign, persona: data?.persona });
-    console.log('Messages:', messages);
-
-
-
 
     return (
         <div className="flex flex-col h-screen bg-background">
@@ -61,31 +46,31 @@ export default function Sun() {
                 {messages.length === 0 && (
                     <div className="flex-1 flex flex-col items-center justify-center px-4">
                         <div className="text-center space-y-4 mb-8">
-                            <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full flex items-center justify-center mx-auto mb-4">
                                 <Sparkles className="w-8 h-8 text-white" />
                             </div>
-                            <h1 className="text-4xl font-normal bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent">
-                                rise & shine {sunSign.toLowerCase()}
+                            <h1 className="text-4xl font-normal bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent">
+                                twinkle twinkle little {moonSign.toLowerCase()}
                             </h1>
                             <p className="text-lg text-muted-foreground max-w-md">
-                                as your Sun sign, I&apos;m here to help you explore your core identity, leadership style, and creative expression
+                                as your Moon sign, I&apos;m here to help you explore how you process your emotions, emotioinal and creative expression
                             </p>
                         </div>
 
                         {/* Suggested prompts */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full max-w-2xl mb-8 font-normal">
                             {[
-                                "Tell me about my life purpose",
-                                "How can I express my creativity?",
-                                "What are my leadership strengths?",
-                                "Help me build confidence"
+                                "Tell me about my emotional tendencies",
+                                "How can I express myself better emotionally?",
+                                "How do I stay aware of my emotional state?",
+                                "Help me build inner peace"
                             ].map((prompt) => (
                                 <button
                                     key={prompt}
                                     onClick={() => handleInputChange({ target: { value: prompt } } as unknown as React.ChangeEvent<HTMLTextAreaElement>)}
-                                    className="font-normal text-left p-4 rounded-xl border border-border hover:border-orange-300 hover:bg-orange-50/50 dark:hover:bg-orange-950/20 transition-colors group"
+                                    className="font-normal text-left p-4 rounded-xl border border-border hover:border-blue-300 hover:bg-blue-50/50 dark:hover:bg-blue-950/20 transition-colors group"
                                 >
-                                    <span className="text-sm text-muted-foreground group-hover:text-orange-600 dark:group-hover:text-orange-400 font-normal">
+                                    <span className="text-sm text-muted-foreground group-hover:text-blue-600 dark:group-hover:text-blue-400 font-normal">
                                         {prompt}
                                     </span>
                                 </button>
@@ -106,17 +91,17 @@ export default function Sun() {
                                     <div className={`max-w-[80%] ${message.role === 'user' ? 'order-2' : 'order-1'}`}>
                                         {message.role === 'assistant' && (
                                             <div className="flex items-center gap-2 mb-2">
-                                                <div className="w-6 h-6 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center">
+                                                <div className="w-6 h-6 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full flex items-center justify-center">
                                                     <Sparkles className="w-3 h-3 text-white" />
                                                 </div>
-                                                <span className="text-xs text-muted-foreground ">
-                                                    Sun Agent
+                                                <span className="text-xs text-muted-foreground font-medium font-normal">
+                                                        Moon Agent
                                                 </span>
                                             </div>
                                         )}
 
                                         <div className={`
-                                            rounded-2xl px-4 py-3
+                                            rounded-2xl px-4 py-3 
                                             ${message.role === 'user'
                                                 ? 'bg-primary text-primary-foreground ml-auto'
                                                 : 'bg-muted/50 text-foreground'
@@ -140,11 +125,11 @@ export default function Sun() {
                                 <div className="flex justify-start">
                                     <div className="max-w-[80%]">
                                         <div className="flex items-center gap-2 mb-2">
-                                            <div className="w-6 h-6 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center">
+                                            <div className="w-6 h-6 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full flex items-center justify-center">
                                                 <Sparkles className="w-3 h-3 text-white" />
                                             </div>
                                             <span className="text-xs text-muted-foreground font-medium">
-                                                Sun Agent
+                                                Moon Agent
                                             </span>
                                         </div>
                                         <div className="bg-muted/50 rounded-2xl px-4 py-3">
@@ -170,8 +155,8 @@ export default function Sun() {
                             <Textarea
                                 value={input}
                                 onChange={handleInputChange}
-                                placeholder={`Ask your Sun agent anything about your ${sunSign} energy...`}
-                                className="min-h-[60px] max-h-[200px] pr-12 resize-none border-2 focus:border-orange-300 dark:focus:border-orange-600 rounded-xl"
+                                placeholder={`Ask your Moon agent anything about your ${moonSign} energy...`}
+                                className="min-h-[60px] max-h-[200px] pr-12 resize-none border-2 focus:border-blue-300 dark:focus:border-blue-600 rounded-xl"
                                 onKeyDown={(e) => {
                                     if (e.key === 'Enter' && !e.shiftKey) {
                                         e.preventDefault();
@@ -183,7 +168,7 @@ export default function Sun() {
                                 type="submit"
                                 size="sm"
                                 disabled={!input.trim() || isLoading}
-                                className="absolute right-2 bottom-2 h-8 w-8 bg-gradient-to-r from-orange-400 to-red-500 hover:from-orange-500 hover:to-red-600"
+                                className="absolute right-2 bottom-2 h-8 w-8 bg-gradient-to-r from-blue-400 to-indigo-500 hover:from-blue-500 hover:to-indigo-600"
                             >
                                 ^
                             </Button>

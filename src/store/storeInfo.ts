@@ -13,6 +13,7 @@ export type PlanetWithPersona = {
     deg: number,
     sign: string,
     retrograde: boolean,
+    house: number,
     persona?: string,
 }
 

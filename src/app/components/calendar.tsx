@@ -7,44 +7,18 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
-// import { zodResolver } from "@hookform/resolvers/zod"
 import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
 import React from "react"
-// import { useForm } from "react-hook-form"
-
-
-
-
-// const FormSchema = z.object({
-//     dob: z.date({
-//         required_error: "A date of birth is required.",
-//     }),
-// })
 
 interface DatePickedProps {
     value?: Date;
     onChange?: (d: Date) => void;
 }
 
-
 export function CalendarComponent({ value, onChange }: DatePickedProps) {
-
    
     const [open, setOpen] = React.useState(false)
-    // const [date, setDate] = React.useState<Date | undefined>(undefined)
-
-    // function onSubmit(values: z.infer<typeof FormSchema>) {
-    //     toast.success("Date of birth set.", {
-    //         description: (
-    //             <pre className="mt-2 w-[320px] rounded-md bg-neutral-950 p-4">
-    //                 <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-    //             </pre>
-    //         ),
-    //     })
-    // }
-
-
 
     return (
         <Popover open={open} onOpenChange={setOpen}>

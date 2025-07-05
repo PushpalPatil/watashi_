@@ -18,11 +18,10 @@ import { Input } from "@/components/ui/input";
 import { autocomplete, getPlaceDetails } from "@/lib/google";
 import type { PlaceAutocompleteResult } from "@googlemaps/google-maps-services-js";
 import { useRouter } from "next/navigation";
-import React from "react";
 import { CalendarComponent } from "../components/calendar";
 
 // Import the birth chart calculator
-import { calculateBirthChart, BirthData, BirthChartResult } from "@/app/components/birthchartcalculator";
+import { BirthChartResult, BirthData, calculateBirthChart } from "@/app/components/birthchartcalculator";
 import { toast } from "sonner"; // Make sure you have sonner installed
 
 export interface MapLocation {
@@ -63,7 +62,7 @@ export default function LetsYap() {
 
       const [predictions, setPredictions] = useState<PlaceAutocompleteResult[]>([]);
       const [input, setInput] = useState("");
-      const [_open, setOpen] = useState(false)
+      const [open, setOpen] = useState(false)
 
       // Add state for birth chart data
       const [chartData, setChartData] = useState<BirthChartResult | null>(null);
@@ -128,7 +127,7 @@ export default function LetsYap() {
                   });
 
                   const { planets } = await chart.json();
-                  console.log('🔗 OLD BIRTH CHART (for comparison):', planets);
+                  console.log('OLD BIRTH CHART (for comparison):', planets);
 
                   // Your existing persona generation
                   const planetsWithPersona = await Promise.all(
