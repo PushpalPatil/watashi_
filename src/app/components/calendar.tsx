@@ -12,12 +12,12 @@ import { CalendarIcon } from "lucide-react"
 import React from "react"
 
 interface DatePickedProps {
-    value?: Date;
-    onChange?: (d: Date) => void;
+    readonly value?: Date;
+    readonly onChange?: (d: Date) => void;
 }
 
 export function CalendarComponent({ value, onChange }: DatePickedProps) {
-   
+
     const [open, setOpen] = React.useState(false)
 
     return (
@@ -41,7 +41,7 @@ export function CalendarComponent({ value, onChange }: DatePickedProps) {
                     selected={value}
                     captionLayout="dropdown"
                     onSelect={(d) => {
-                        
+
                         if (d) onChange?.(d);
                         setOpen(false);
                     }}

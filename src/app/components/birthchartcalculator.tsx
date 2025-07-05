@@ -76,7 +76,9 @@ async function geocodeCity(city: string): Promise<{ lat: number; lng: number }> 
                   lng: parseFloat(data[0].lon)
             };
       } catch (error) {
-            throw new Error('Failed to find location. Please check the city name and try again.'); 
+            // Attach original error message for easier debugging instead of swallowing it
+            const msg = (error as Error)?.message ?? String(error);
+            throw new Error(`Failed to find location. ${msg}`);
       }
 }
 
@@ -105,10 +107,12 @@ async function getTimezoneOffset(lat: number, lng: number, date: string, time: s
 
                   // For now, use coordinate-based estimation with DST consideration
                   return estimatedOffset;
-            } catch {
+            } catch (apiErr) {
+                  console.error('Timezone API lookup failed, falling back to estimate:', apiErr);
                   return estimatedOffset;
             }
       } catch (error) {
+            console.error('Timezone offset calculation failed, using simple longitude estimate:', error);
             // If all else fails, estimate based on longitude
             return Math.round(lng / 15);
       }
@@ -161,7 +165,8 @@ function getTimezoneFromCoordinates(lat: number, lng: number): number {
             }
 
             return closestTimezone.offset;
-      } catch {
+      } catch (error) {
+            console.error('Timezone from coordinates failed, using simple longitude estimate:', error);
             // Fallback to simple longitude-based calculation
             return Math.round(lng / 15);
       }
@@ -300,7 +305,7 @@ export default function BirthChartCalculator({
       onCalculationComplete,
       onError,
       autoCalculate = false
-}: BirthChartCalculatorProps) {
+}: Readonly<BirthChartCalculatorProps>) {
       const [isCalculating, setIsCalculating] = useState(false);
       const [result, setResult] = useState<BirthChartResult | null>(null);
       const [error, setError] = useState<string | null>(null);
