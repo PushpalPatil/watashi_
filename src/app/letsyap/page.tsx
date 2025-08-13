@@ -76,6 +76,11 @@ export default function LetsYap() {
             fetchSuggestions();
       }, [input]);
 
+      /*
+       When form is submitted, handleSubmit parses all form details into their own BirthData format
+       prevent auto refresh when submitting
+
+      */
       async function handleSubmit(e: React.FormEvent) {
             e.preventDefault();
             setIsCalculatingChart(true);
@@ -94,10 +99,13 @@ export default function LetsYap() {
 
                   console.log('Birth data for calculation:', birthData);
 
-                  // Calculate birth chart with new method
+                  // Calculate birth chart with new method - not swisseph anymore
                   const newChartResult = await calculateBirthChart(birthData);
-                  console.log('NEW BIRTH CHART RESULT:', newChartResult);
+                  
+                  /* console.log('NEW BIRTH CHART RESULT:', newChartResult);
                   console.log('Chart data breakdown:');
+                  */
+                  
                   Object.entries(newChartResult).forEach(([planet, data]) => {
                         console.log(`  ${planet}: ${data.sign} in House ${data.house}`);
                   });
@@ -127,7 +135,7 @@ export default function LetsYap() {
                   });
 
                   const { planets } = await chart.json();
-                  console.log('OLD BIRTH CHART (for comparison):', planets);
+                  console.log('BIRTH CHART:', planets);
 
                   // Your existing persona generation
                   const planetsWithPersona = await Promise.all(
@@ -284,8 +292,8 @@ export default function LetsYap() {
                               </Button>
                         </form>
 
-                        {/* Optional: Display chart data preview */}
-                        {chartData && (
+                        {/* chart data preview */}
+                        {/* {chartData && (
                               <div className="w-full max-w-sm mt-6 p-4 border rounded-md bg-transparent">
                                     <h3 className="text-sm font-medium mb-2">Chart Preview (check console for full data):</h3>
                                     <div className="text-xs space-y-1">
@@ -294,7 +302,7 @@ export default function LetsYap() {
                                           <div>Mercury: {chartData.mercury.sign} (House {chartData.mercury.house})</div>
                                     </div>
                               </div>
-                        )}
+                        )} */}
                   </section>
             </div>
       )

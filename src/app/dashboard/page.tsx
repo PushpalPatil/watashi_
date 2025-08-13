@@ -49,6 +49,7 @@ export default function Dashboard() {
 
                     console.log(`${p}:`, { sign, retrograde, fullData: planetData });
                     const pcolor = PLANET_CONFIG[p].colors.primary;
+                    console.log('pcolor', pcolor);
                     return (
                         <Card
                             key={p}
@@ -86,7 +87,7 @@ export default function Dashboard() {
                 }
             </div>
 
-            {/* Debug info for development - remove in production */}
+            {/* remove in production */}
             {process.env.NODE_ENV === 'development' && (
                 <div className="container mx-auto mt-8 p-4 bg-muted/20 rounded-lg text-xs">
                     <h3 className="font-semibold mb-2">Debug: Planet Data</h3>

@@ -172,7 +172,7 @@ function getTimezoneFromCoordinates(lat: number, lng: number): number {
       }
 }
 
-// Main calculation function
+// THE MAIN GANGSTA FUNCTION. CALCULATES ACCORDING TO WHOLE HOUSE
 export async function calculateBirthChart(birthData: BirthData): Promise<BirthChartResult> {
       // Validate inputs
       if (!birthData.time || birthData.time.trim() === '') {
