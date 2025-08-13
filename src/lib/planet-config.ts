@@ -14,6 +14,10 @@ export interface PlanetConfig {
 }
 
 // define each house's traits
+/* An array is a numbered sequence of items, all of the same type. 
+   A record is another kind of standard data structure. 
+ Like an array, a record consists of a sequence of items, but in a record, 
+ the items are referred to by name instead of by number, and the items can be of different types.*/
 const HOUSE_THEMES: Record<number, string> = {
       1: "self-identity and personal presentation",
       2: "values, resources, and material security",
@@ -45,7 +49,7 @@ const SIGN_TRAITS: Record<string, { keywords: string[]; energy: string; element:
       "Pisces": { keywords: ["dreamy", "compassionate", "intuitive"], energy: "mutable water", element: "water", emojiLevel: "high" }
 };
 
-// define emoji use instructions for each sign
+// define emoji use instructions for each sign, if they are fire or water signs, they will use more emojis because they are more expressive/emotional
 const getEmojiInstructions = (sign: string): string => {
       const signData = SIGN_TRAITS[sign];
       if (!signData) return "Use minimal emojis (1-2 only when needed).";
@@ -69,7 +73,7 @@ export const PLANET_CONFIG: Record<string, PlanetConfig> = {
             colors: {
                   primary: "orange-200",
                   secondary: "red-500",
-                  gradient: "from-orange-300 to-red-600"
+                  gradient: "from-yellow-200 to-red-700"
             },
             icon: "☀️",
             coreTraits: ["identity", "ego", "vitality", "leadership", "creativity", "self-expression"],

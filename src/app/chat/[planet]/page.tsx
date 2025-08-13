@@ -82,6 +82,73 @@ export default function DynamicPlanetChat() {
             <div className="flex flex-col h-screen bg-background" style={planetTheme}>
                   <Header />
 
+
+                  {/* star animations */}
+                  <style jsx>{`
+                @keyframes bounce-rotate {
+                    0%, 100% { 
+                        transform: translateY(0px) rotate(0deg); 
+                    }
+                    25% { 
+                        transform: translateY(-4px) rotate(3deg); 
+                    }
+                    50% { 
+                        transform: translateY(-8px) rotate(0deg); 
+                    }
+                    75% { 
+                        transform: translateY(-4px) rotate(-3deg); 
+                    }
+                }
+                
+                @keyframes sun-rays-rotate {
+                    from { transform: rotate(0deg); }
+                    to { transform: rotate(360deg); }
+                }
+                
+                @keyframes sun-float {
+                    0%, 100% { 
+                        transform: translateY(0px) scale(1);
+                        opacity: 0.6;
+                    }
+                    50% { 
+                        transform: translateY(-20px) scale(1.1);
+                        opacity: 0.8;
+                    }
+                }
+                
+                @keyframes sun-sparkle {
+                    0%, 100% { 
+                        opacity: 0;
+                        transform: scale(0) rotate(0deg);
+                    }
+                    50% { 
+                        opacity: 1;
+                        transform: scale(1) rotate(180deg);
+                    }
+                }
+                
+                .animate-bounce-rotate {
+                    animation: bounce-rotate 3s ease-in-out infinite;
+                }
+                
+                .sun-rays-bg {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    width: 400px;
+                    height: 400px;
+                    margin-left: -200px;
+                    margin-top: -200px;
+                    background: radial-gradient(circle, 
+                        rgba(255, 165, 0, 0.1) 0%, 
+                        rgba(255, 140, 0, 0.05) 30%, 
+                        transparent 60%
+                    );
+                    animation: sun-rays-rotate 30s linear infinite;
+                    border-radius: 50%;
+                }
+            
+            `}</style>
                   {/* Add custom animations */}
                   {/* eslint-disable-next-line react/no-unknown-property */}
                   <style jsx>{`
@@ -110,27 +177,53 @@ export default function DynamicPlanetChat() {
 
                         {/* Welcome Header - only show when no messages */}
                         {messages.length === 0 && (
-                              <div className="flex-1 flex flex-col items-center justify-center px-4">
-                                    <div className="text-center space-y-4 mb-8">
-                                          <div className={`w-16 h-16 bg-gradient-to-br ${planetConfig.colors.gradient} rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce-rotate`}>
-                                                <span className="text-2xl">{planetConfig.icon}</span>
+                              <div className="flex-1 flex flex-col items-center justify-center px-4 space-y-6 mt-20">
+
+                                    {/* Planet Icon/GIF - positioned as background */}
+                                    <div className="absolute inset-0 flex mt-35 justify-center pointer-events-none ">
+                                          {planet === 'sun' && (
+                                                <img
+                                                      src="/FLORA-GIF-SUN.gif"
+                                                      alt="Sun"
+                                                      className="w-50 h-50 rounded-full opacity-60"
+                                                />
+                                          )}
+                                          {planet === 'moon' && (
+                                                <img
+                                                      src="/FLORA-GIF-MOON.gif"
+                                                      alt="Moon"
+                                                      className="w-50 h-50 rounded-full opacity-60"
+                                                />
+                                          )}
+                                          {planet === 'mercury' && (
+                                                <img
+                                                      src="/FLORA-GIF-MERCURY.gif"
+                                                      alt="Mercury"
+                                                      className="w-50 h-50 rounded-full opacity-60"
+                                                />
+                                          )}
+                                          {!['sun', 'moon', 'mercury'].includes(planet) && (
+                                                <div className={`w-18 h-18 bg-gradient-to-br ${planetConfig.colors.gradient} rounded-full flex items-center justify-center opacity-60`}>
+                                                      <span className="text-2xl">{planetConfig.icon}</span>
+                                                </div>
+                                          )}
+                                    </div>
+
+                                    <div className="text-center relative">
+                                          {/* Text content - original layout */}
+                                          <div className="relative z-10">
+                                                <h1 className={`text-3xl font-normal bg-gradient-to-r ${planetConfig.colors.gradient} bg-clip-text text-transparent`}>
+                                                      {greeting}
+                                                </h1>
+                                                <p className="text-lg text-muted-foreground max-w-md">
+                                                      {subtitle}
+                                                </p>
+                                                {houseDisplay && (
+                                                      <p className={`text-sm text-${planetConfig.colors.primary} opacity-80`}>
+                                                            {houseDisplay}
+                                                      </p>
+                                                )}
                                           </div>
-                                          <h1 className={`text-4xl font-normal bg-gradient-to-r ${planetConfig.colors.gradient} bg-clip-text text-transparent`}>
-                                                {greeting}
-                                          </h1>
-                                          <p className="text-lg text-muted-foreground max-w-md">
-                                                {subtitle}
-                                          </p>
-                                          {houseDisplay && (
-                                                <p className={`text-sm text-${planetConfig.colors.primary} opacity-80`}>
-                                                      {houseDisplay}
-                                                </p>
-                                          )}
-                                          {houseDisplay && (
-                                                <p className={`text-sm text-${planetConfig.colors.primary} opacity-80`}>
-                                                      {houseDisplay}
-                                                </p>
-                                          )}
                                     </div>
 
                                     {/* Suggested prompts - dynamic based on planet */}
@@ -162,9 +255,32 @@ export default function DynamicPlanetChat() {
                                                       <div className={`max-w-[80%] ${message.role === 'user' ? 'order-2' : 'order-1'}`}>
                                                             {message.role === 'assistant' && (
                                                                   <div className="flex items-center gap-2 mb-2">
-                                                                        <div className={`w-6 h-6 bg-gradient-to-br ${planetConfig.colors.gradient} rounded-full flex items-center justify-center`}>
-                                                                              <span className="text-xs">{planetConfig.icon}</span>
-                                                                        </div>
+                                                                        {planet === 'sun' && (
+                                                                              <img
+                                                                                    src="/FLORA-GIF-SUN.gif"
+                                                                                    alt="Sun"
+                                                                                    className="w-6 h-6 rounded-full"
+                                                                              />
+                                                                        )}
+                                                                        {planet === 'moon' && (
+                                                                              <img
+                                                                                    src="/FLORA-GIF-MOON.gif"
+                                                                                    alt="Moon"
+                                                                                    className="w-6 h-6 rounded-full"
+                                                                              />
+                                                                        )}
+                                                                        {planet === 'mercury' && (
+                                                                              <img
+                                                                                    src="/FLORA-GIF-MERCURY.gif"
+                                                                                    alt="Mercury"
+                                                                                    className="w-6 h-6 rounded-full"
+                                                                              />
+                                                                        )}
+                                                                        {!['sun', 'moon', 'mercury'].includes(planet) && (
+                                                                              <div className={`w-6 h-6 bg-gradient-to-br ${planetConfig.colors.gradient} rounded-full flex items-center justify-center`}>
+                                                                                    <span className="text-xs">{planetConfig.icon}</span>
+                                                                              </div>
+                                                                        )}
                                                                         <span className="text-xs text-muted-foreground capitalize">
                                                                               {planet} Agent
                                                                         </span>
@@ -196,9 +312,32 @@ export default function DynamicPlanetChat() {
                                                 <div className="flex justify-start">
                                                       <div className="max-w-[80%]">
                                                             <div className="flex items-center gap-2 mb-2">
-                                                                  <div className={`w-6 h-6 bg-gradient-to-br ${planetConfig.colors.gradient} rounded-full flex items-center justify-center`}>
-                                                                        <span className="text-xs">{planetConfig.icon}</span>
-                                                                  </div>
+                                                                  {planet === 'sun' && (
+                                                                        <img
+                                                                              src="/FLORA-GIF-SUN.gif"
+                                                                              alt="Sun"
+                                                                              className="w-6 h-6 rounded-full"
+                                                                        />
+                                                                  )}
+                                                                  {planet === 'moon' && (
+                                                                        <img
+                                                                              src="/FLORA-GIF-MOON.gif"
+                                                                              alt="Moon"
+                                                                              className="w-6 h-6 rounded-full"
+                                                                        />
+                                                                  )}
+                                                                  {planet === 'mercury' && (
+                                                                        <img
+                                                                              src="/FLORA-GIF-MERCURY.gif"
+                                                                              alt="Mercury"
+                                                                              className="w-6 h-6 rounded-full"
+                                                                        />
+                                                                  )}
+                                                                  {!['sun', 'moon', 'mercury'].includes(planet) && (
+                                                                        <div className={`w-6 h-6 bg-gradient-to-br ${planetConfig.colors.gradient} rounded-full flex items-center justify-center`}>
+                                                                              <span className="text-xs">{planetConfig.icon}</span>
+                                                                        </div>
+                                                                  )}
                                                                   <span className="text-xs text-muted-foreground font-medium capitalize">
                                                                         {planet} Agent
                                                                   </span>
