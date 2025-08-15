@@ -8,6 +8,7 @@ import { useStore } from "@/store/storeInfo";
 import { useChat } from "@ai-sdk/react";
 import { useParams } from "next/navigation";
 import { useEffect, useRef } from "react";
+import { useChatStorage, type StoredMessage } from "@/hooks/useChatStorage";
 
 export default function DynamicPlanetChat() {
       const { planet } = useParams<{ planet: string }>();
@@ -24,7 +25,10 @@ export default function DynamicPlanetChat() {
       const subtitle = planetConfig ? planetConfig.subtitle(data?.sign || 'unknown', data?.house || 0, data?.retrograde || false) : "planetary agent";
       const houseDisplay = getHouseDisplay(data?.house || 0);
 
-      const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
+      // Initialize chat storage
+      const { getStoredMessages, saveMessages, clearMessages, isClient } = useChatStorage(planet);
+
+      const { messages, input, handleInputChange, handleSubmit, isLoading, setMessages } = useChat({
             api: `/api/chat/${planet}`,
             body: {
                   planet: planet,
@@ -36,14 +40,47 @@ export default function DynamicPlanetChat() {
       });
 
       const messagesEndRef = useRef<HTMLDivElement>(null);
+      const loadedFromStorage = useRef(false);
 
       const scrollToBottom = () => {
             messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
       };
 
+      // Load stored messages when component mounts (only once)
+      useEffect(() => {
+            if (isClient && !loadedFromStorage.current) {
+                  const storedMessages = getStoredMessages();
+                  if (storedMessages.length > 0) {
+                        // Convert stored messages back to useChat format
+                        const chatMessages = storedMessages.map(msg => ({
+                              id: msg.id,
+                              role: msg.role,
+                              content: msg.content,
+                              createdAt: msg.createdAt
+                        }));
+                        setMessages(chatMessages);
+                  }
+                  loadedFromStorage.current = true;
+            }
+      }, [isClient, getStoredMessages, setMessages]);
+
+      // Auto-scroll to bottom when messages change
       useEffect(() => {
             scrollToBottom();
       }, [messages]);
+
+      // Save messages to storage whenever they change (but not on initial load)
+      useEffect(() => {
+            if (loadedFromStorage.current && messages.length > 0 && isClient) {
+                  const storedMessages: StoredMessage[] = messages.map(msg => ({
+                        id: msg.id,
+                        role: msg.role as 'user' | 'assistant',
+                        content: msg.content,
+                        createdAt: new Date()
+                  }));
+                  saveMessages(storedMessages);
+            }
+      }, [messages, isClient, saveMessages]);
 
       console.log('Planet param from URL:', planet);
       console.log('Data from store:', data);
@@ -66,7 +103,7 @@ export default function DynamicPlanetChat() {
                   <div className="flex items-center justify-center h-screen">
                         <div className="text-center">
                               <h1 className="text-2xl mb-4">Planet not found</h1>
-                              <p>The planet "{planet}" is not yet supported.</p>
+                              <p>The planet &quot;{planet}&quot; is not yet supported.</p>
                         </div>
                   </div>
             );
@@ -361,6 +398,23 @@ export default function DynamicPlanetChat() {
                         {/* Input Area */}
                         <div className="border-t border-border bg-background/80 backdrop-blur-sm">
                               <div className="max-w-4xl mx-auto p-4">
+                                    {/* Clear chat button - only show when messages exist */}
+                                    {messages.length > 0 && (
+                                          <div className="flex justify-end mb-2">
+                                                <Button
+                                                      variant="ghost"
+                                                      size="sm"
+                                                      onClick={() => {
+                                                            setMessages([]);
+                                                            clearMessages();
+                                                      }}
+                                                      className="text-xs text-muted-foreground hover:text-foreground"
+                                                >
+                                                      Clear Chat
+                                                </Button>
+                                          </div>
+                                    )}
+                                    
                                     <form onSubmit={handleSubmit} className="relative">
                                           <Textarea
                                                 value={input}
