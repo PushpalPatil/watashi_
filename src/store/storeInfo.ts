@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
 
 /*
 HOW ZUSTAND HELPS
@@ -20,10 +21,24 @@ export type PlanetWithPersona = {
 type State = {
     planets: Record<string, PlanetWithPersona>;
     setPlanets: (data: Record<string, PlanetWithPersona>) => void;
-    
+    _hasHydrated: boolean;
+    setHasHydrated: (state: boolean) => void;
 }
 
-export const useStore = create<State>((set) => ({
-    planets: {},
-    setPlanets: (data) => set({planets:data}),
-}));
+export const useStore = create<State>()(
+    persist(
+        (set) => ({
+            planets: {},
+            setPlanets: (data) => set({planets: data}),
+            _hasHydrated: false,
+            setHasHydrated: (state) => set({_hasHydrated: state}),
+        }),
+        {
+            name: 'birth-chart-storage',
+            storage: createJSONStorage(() => sessionStorage),
+            onRehydrateStorage: () => (state) => {
+                state?.setHasHydrated(true);
+            },
+        }
+    )
+);

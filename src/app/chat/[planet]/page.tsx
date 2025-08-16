@@ -16,14 +16,25 @@ export default function DynamicPlanetChat() {
       // Get planet data from store
       const data = useStore(s => s.planets[planet]);
       const planets = useStore((s) => s.planets);
+      const hasHydrated = useStore((s) => s._hasHydrated);
 
       // Get planet configuration
       const planetConfig = getPlanetConfig(planet);
 
-      // Build dynamic greeting and subtitle (with fallbacks)
-      const greeting = planetConfig ? buildGreeting(planet, data?.sign || 'unknown', data?.retrograde || false) : `hello ${data?.sign || 'unknown'}`;
-      const subtitle = planetConfig ? planetConfig.subtitle(data?.sign || 'unknown', data?.house || 0, data?.retrograde || false) : "planetary agent";
-      const houseDisplay = getHouseDisplay(data?.house || 0);
+      // Build dynamic greeting and subtitle (wait for hydration to prevent flash)
+      const greeting = !hasHydrated 
+            ? (planetConfig ? planetConfig.greeting : 'loading...') 
+            : planetConfig 
+                  ? buildGreeting(planet, data?.sign || 'unknown', data?.retrograde || false) 
+                  : `hello ${data?.sign || 'unknown'}`;
+      
+      const subtitle = !hasHydrated 
+            ? "planetary agent" 
+            : planetConfig 
+                  ? planetConfig.subtitle(data?.sign || 'unknown', data?.house || 0, data?.retrograde || false) 
+                  : "planetary agent";
+      
+      const houseDisplay = hasHydrated ? getHouseDisplay(data?.house || 0) : null;
 
       // Initialize chat storage
       const { getStoredMessages, saveMessages, clearMessages, isClient } = useChatStorage(planet);
