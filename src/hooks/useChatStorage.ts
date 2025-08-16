@@ -51,10 +51,27 @@ export function useChatStorage(planet: string) {
     }
   }, [isClient, storageKey]);
 
+  const clearAllChats = useCallback(() => {
+    if (!isClient || typeof window === 'undefined') return;
+    
+    try {
+      // Clear all chat storage keys (for all planets)
+      const keys = Object.keys(sessionStorage);
+      keys.forEach(key => {
+        if (key.startsWith('chat_')) {
+          sessionStorage.removeItem(key);
+        }
+      });
+    } catch (error) {
+      console.error('Error clearing all chat history:', error);
+    }
+  }, [isClient]);
+
   return {
     getStoredMessages,
     saveMessages,
     clearMessages,
+    clearAllChats,
     isClient
   };
 }

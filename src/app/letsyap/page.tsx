@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useStore } from "@/store/storeInfo";
 import { useEffect, useState } from "react";
 import Header from "../components/header";
+import { useChatStorage } from "@/hooks/useChatStorage";
 
 import {
       Command,
@@ -49,6 +50,9 @@ export default function LetsYap() {
       // controls visibility of the suggestions dropdown
       const [showSuggestions, setShowSuggestions] = useState(false);
       const setPlanets = useStore.getState().setPlanets;
+      
+      // Get chat storage to clear all chats when new birth chart is calculated
+      const { clearAllChats } = useChatStorage('temp'); // planet name doesn't matter for clearAllChats
 
       const [form, setForm] = useState<FormData>({
             name: "",
@@ -159,8 +163,12 @@ export default function LetsYap() {
                         )
                   );
 
+                  // Clear all existing chat history for new birth chart
+                  clearAllChats();
+
                   console.log('Birth chart calculation completed successfully!');
                   console.log('Final data saved to store');
+                  console.log('All chat history cleared for new birth chart');
 
                   // Navigate to dashboard
                   router.push('/dashboard');
