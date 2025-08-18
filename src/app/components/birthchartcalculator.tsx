@@ -42,13 +42,13 @@ function degreeToSign(degree: number): string {
       return SIGNS[signIndex];
 }
 
-function calculateWholeSignHouse(sunDegree: number, planetDegree: number): number {
-      const sunSign = Math.floor(sunDegree / 30);
+function calculateWholeSignHouse(ascendantDegree: number, planetDegree: number): number {
+      const ascendantSign = Math.floor(ascendantDegree / 30);
       const planetSign = Math.floor(planetDegree / 30);
 
       // In whole sign houses, the sign containing the ascendant becomes the 1st house
       // and each subsequent sign becomes the next house
-      let house = ((planetSign - sunSign) % 12) + 1;
+      let house = ((planetSign - ascendantSign) % 12) + 1;
       if (house <= 0) house += 12;
 
       return house;
@@ -218,60 +218,78 @@ export async function calculateBirthChart(birthData: BirthData): Promise<BirthCh
             const data = await response.json();
 
             // Extract planetary positions from the API response
-            // Note: The exact structure depends on simple-astro-api's response format
-            // You may need to adjust these property names based on the actual API response
-            const planets = data.planets ?? data;
+            // Handle both old format (object) and new format (array) for backward compatibility
+            let planets: any;
+            
+            if (data.planets && Array.isArray(data.planets)) {
+                  // New API format: { planets: [{ name: "Sun", longitude: 123, speed: 1.2 }, ...], ascendant: 20.66 }
+                  const convertedPlanets: any = {};
+                  
+                  data.planets.forEach((planet: any) => {
+                        const name = planet.name.toLowerCase();
+                        convertedPlanets[name] = planet.longitude;
+                        convertedPlanets[`${name}_retrograde`] = planet.speed < 0;
+                  });
+                  
+                  planets = convertedPlanets;
+            } else {
+                  // Old format: direct object access
+                  planets = data.planets ?? data;
+            }
+
+            // Get ascendant for whole sign house calculations
+            const ascendant = data.ascendant ?? 0;
 
             // Calculate signs and houses for each planet
             const result: BirthChartResult = {
                   sun: {
                         sign: degreeToSign(planets.sun ?? planets.Sun ?? 0),
-                        house: calculateWholeSignHouse(planets.sun ?? planets.Sun ?? 0, planets.sun ?? planets.Sun ?? 0),
+                        house: calculateWholeSignHouse(ascendant, planets.sun ?? planets.Sun ?? 0),
                         retrograde: planets.sun_retrograde ?? planets.Sun_retrograde ?? false
                   },
                   moon: {
                         sign: degreeToSign(planets.moon ?? planets.Moon ?? 0),
-                        house: calculateWholeSignHouse(planets.sun ?? planets.Sun ?? 0, planets.moon ?? planets.Moon ?? 0),
+                        house: calculateWholeSignHouse(ascendant, planets.moon ?? planets.Moon ?? 0),
                         retrograde: planets.moon_retrograde ?? planets.Moon_retrograde ?? false
                   },
                   mercury: {
                         sign: degreeToSign(planets.mercury ?? planets.Mercury ?? 0),
-                        house: calculateWholeSignHouse(planets.sun ?? planets.Sun ?? 0, planets.mercury ?? planets.Mercury ?? 0),
+                        house: calculateWholeSignHouse(ascendant, planets.mercury ?? planets.Mercury ?? 0),
                         retrograde: planets.mercury_retrograde ?? planets.Mercury_retrograde ?? false
                   },
                   venus: {
                         sign: degreeToSign(planets.venus ?? planets.Venus ?? 0),
-                        house: calculateWholeSignHouse(planets.sun ?? planets.Sun ?? 0, planets.venus ?? planets.Venus ?? 0),
+                        house: calculateWholeSignHouse(ascendant, planets.venus ?? planets.Venus ?? 0),
                         retrograde: planets.venus_retrograde ?? planets.Venus_retrograde ?? false
                   },
                   mars: {
                         sign: degreeToSign(planets.mars ?? planets.Mars ?? 0),
-                        house: calculateWholeSignHouse(planets.sun ?? planets.Sun ?? 0, planets.mars ?? planets.Mars ?? 0),
+                        house: calculateWholeSignHouse(ascendant, planets.mars ?? planets.Mars ?? 0),
                         retrograde: planets.mars_retrograde ?? planets.Mars_retrograde ?? false
                   },
                   jupiter: {
                         sign: degreeToSign(planets.jupiter ?? planets.Jupiter ?? 0),
-                        house: calculateWholeSignHouse(planets.sun ?? planets.Sun ?? 0, planets.jupiter ?? planets.Jupiter ?? 0),
+                        house: calculateWholeSignHouse(ascendant, planets.jupiter ?? planets.Jupiter ?? 0),
                         retrograde: planets.jupiter_retrograde ?? planets.Jupiter_retrograde ?? false
                   },
                   saturn: {
                         sign: degreeToSign(planets.saturn ?? planets.Saturn ?? 0),
-                        house: calculateWholeSignHouse(planets.sun ?? planets.Sun ?? 0, planets.saturn ?? planets.Saturn ?? 0),
+                        house: calculateWholeSignHouse(ascendant, planets.saturn ?? planets.Saturn ?? 0),
                         retrograde: planets.saturn_retrograde ?? planets.Saturn_retrograde ?? false
                   },
                   uranus: {
                         sign: degreeToSign(planets.uranus ?? planets.Uranus ?? 0),
-                        house: calculateWholeSignHouse(planets.sun ?? planets.Sun ?? 0, planets.uranus ?? planets.Uranus ?? 0),
+                        house: calculateWholeSignHouse(ascendant, planets.uranus ?? planets.Uranus ?? 0),
                         retrograde: planets.uranus_retrograde ?? planets.Uranus_retrograde ?? false
                   },
                   neptune: {
                         sign: degreeToSign(planets.neptune ?? planets.Neptune ?? 0),
-                        house: calculateWholeSignHouse(planets.sun ?? planets.Sun ?? 0, planets.neptune ?? planets.Neptune ?? 0),
+                        house: calculateWholeSignHouse(ascendant, planets.neptune ?? planets.Neptune ?? 0),
                         retrograde: planets.neptune_retrograde ?? planets.Neptune_retrograde ?? false
                   },
                   pluto: {
                         sign: degreeToSign(planets.pluto ?? planets.Pluto ?? 0),
-                        house: calculateWholeSignHouse(planets.sun ?? planets.Sun ?? 0, planets.pluto ?? planets.Pluto ?? 0),
+                        house: calculateWholeSignHouse(ascendant, planets.pluto ?? planets.Pluto ?? 0),
                         retrograde: planets.pluto_retrograde ?? planets.Pluto_retrograde ?? false
                   }
             };

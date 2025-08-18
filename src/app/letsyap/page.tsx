@@ -116,34 +116,17 @@ export default function LetsYap() {
 
                   setChartData(newChartResult);
 
-                  // Also run your existing chart calculation for comparison/backup
-                  const [hourStr, minStr] = form.birthTime.split(':');
-                  const birthDataOld = {
-                        year: form.birthDate?.getFullYear(),
-                        month: (form.birthDate?.getMonth() ?? 0) + 1,
-                        date: form.birthDate?.getDate(),
-                        hour: parseInt(hourStr || '0', 10),
-                        minute: parseInt(minStr || '0', 10),
-                        second: 0,
-                        lat: form.lat,
-                        lon: form.lon,
-                  };
+                  // Convert Calculator #1 results to format needed for persona generation
+                  const planetsForPersona = Object.entries(newChartResult).map(([planetName, planetData]) => ({
+                        planet: planetName.charAt(0).toUpperCase() + planetName.slice(1), // Capitalize planet name
+                        sign: planetData.sign,
+                        house: planetData.house,
+                        retrograde: planetData.retrograde
+                  }));
 
-                  console.log('Also calculating with old method for comparison...');
-
-                  // Your existing chart calculation
-                  const chart = await fetch('/api/chart', {
-                        method: 'POST',
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(birthDataOld),
-                  });
-
-                  const { planets } = await chart.json();
-                  console.log('BIRTH CHART:', planets);
-
-                  // Your existing persona generation
+                  // Generate personas using Calculator #1 data
                   const planetsWithPersona = await Promise.all(
-                        planets.map(async (p: any) => {
+                        planetsForPersona.map(async (p: any) => {
                               const res = await fetch('/api/persona', {
                                     method: 'POST',
                                     body: JSON.stringify(p),
