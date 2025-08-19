@@ -124,25 +124,10 @@ export default function LetsYap() {
                         retrograde: planetData.retrograde
                   }));
 
-                  // Generate personas using Calculator #1 data
-                  const planetsWithPersona = await Promise.all(
-                        planetsForPersona.map(async (p: any) => {
-                              const res = await fetch('/api/persona', {
-                                    method: 'POST',
-                                    body: JSON.stringify(p),
-                              });
-                              console.log("persona: ", p);
-                              const { persona } = await res.json();
-                              return {
-                                    ...p, persona
-                              };
-                        })
-                  );
-
-                  // Save to zustand
+                  // Save to zustand (personas will be generated on-demand by chat APIs)
                   setPlanets(
                         Object.fromEntries(
-                              planetsWithPersona.map(p => [p.planet.toLowerCase(), p])
+                              planetsForPersona.map(p => [p.planet.toLowerCase(), p])
                         )
                   );
 
@@ -154,7 +139,7 @@ export default function LetsYap() {
                   console.log('All chat history cleared for new birth chart');
 
                   // Navigate to dashboard
-                  router.push('/dashboard');
+                  router.push('/groupchat');
 
             } catch (error: any) {
                   console.error('Birth chart calculation failed:', error);
