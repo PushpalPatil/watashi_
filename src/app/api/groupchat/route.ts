@@ -9,7 +9,6 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 interface PlanetData {
   planet: string;
-  deg: number;
   sign: string;
   retrograde: boolean;
   house: number;

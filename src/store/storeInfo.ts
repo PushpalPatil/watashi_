@@ -11,7 +11,6 @@ no reducers, actions, providers, or context nesting - thank GOD
 
 export type PlanetWithPersona = {
     planet: string,
-    deg: number,
     sign: string,
     retrograde: boolean,
     house: number,
