@@ -3,12 +3,12 @@
 import Header from "@/app/components/header";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { useChatStorage, type StoredMessage } from "@/hooks/useChatStorage";
 import { buildGreeting, getHouseDisplay, getPlanetConfig } from "@/lib/planet-config";
 import { useStore } from "@/store/storeInfo";
 import { useChat } from "@ai-sdk/react";
 import { useParams } from "next/navigation";
 import { useEffect, useRef } from "react";
-import { useChatStorage, type StoredMessage } from "@/hooks/useChatStorage";
 
 export default function DynamicPlanetChat() {
       const { planet } = useParams<{ planet: string }>();
@@ -22,18 +22,18 @@ export default function DynamicPlanetChat() {
       const planetConfig = getPlanetConfig(planet);
 
       // Build dynamic greeting and subtitle (wait for hydration to prevent flash)
-      const greeting = !hasHydrated 
-            ? (planetConfig ? planetConfig.greeting : 'loading...') 
-            : planetConfig 
-                  ? buildGreeting(planet, data?.sign || 'unknown', data?.retrograde || false) 
+      const greeting = !hasHydrated
+            ? (planetConfig ? planetConfig.greeting : 'loading...')
+            : planetConfig
+                  ? buildGreeting(planet, data?.sign || 'unknown', data?.retrograde || false)
                   : `hello ${data?.sign || 'unknown'}`;
-      
-      const subtitle = !hasHydrated 
-            ? "planetary agent" 
-            : planetConfig 
-                  ? planetConfig.subtitle(data?.sign || 'unknown', data?.house || 0, data?.retrograde || false) 
+
+      const subtitle = !hasHydrated
+            ? "planetary agent"
+            : planetConfig
+                  ? planetConfig.subtitle(data?.sign || 'unknown', data?.house || 0, data?.retrograde || false)
                   : "planetary agent";
-      
+
       const houseDisplay = hasHydrated ? getHouseDisplay(data?.house || 0) : null;
 
       // Initialize chat storage
@@ -425,7 +425,7 @@ export default function DynamicPlanetChat() {
                                                 </Button>
                                           </div>
                                     )}
-                                    
+
                                     <form onSubmit={handleSubmit} className="relative">
                                           <Textarea
                                                 value={input}

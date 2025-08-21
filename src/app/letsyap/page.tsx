@@ -162,7 +162,7 @@ export default function LetsYap() {
       console.log(form.birthDate)
 
       return (
-            <div>
+            <div className="bg-black">
                   <Header />
 
                   {/* welcome blurb  */}
