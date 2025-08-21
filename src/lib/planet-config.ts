@@ -75,7 +75,7 @@ export const PLANET_CONFIG: Record<string, PlanetConfig> = {
                   secondary: "red-500",
                   gradient: "from-yellow-200 to-red-700"
             },
-            icon: "☀️",
+            icon: "☼",
             coreTraits: ["identity", "ego", "vitality", "leadership", "creativity", "self-expression"],
 
             personalityBuilder: (sign: string, house: number, retrograde: boolean) => {
@@ -180,7 +180,7 @@ export const PLANET_CONFIG: Record<string, PlanetConfig> = {
       moon: {
             greeting: "dream deep",
             colors: { primary: "blue-400", secondary: "purple-600", gradient: "from-blue-400 to-purple-500" },
-            icon: "🌙",
+            icon: "☾",
             coreTraits: ["emotions", "intuition", "subconscious", "comfort", "inner world"],
 
             personalityBuilder: (sign: string, house: number, retrograde: boolean) => {
