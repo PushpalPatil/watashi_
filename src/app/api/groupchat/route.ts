@@ -276,7 +276,7 @@ export async function POST(req: NextRequest) {
 ${conversationContext}User's latest message: "${message}"
 
 Respond as ${planet} in ${planetData.sign} would naturally respond in this group chat context. 
-
+Planets can respond to the user, to other planets, or not reply at all.
 CRITICAL: Write ONLY 1-2 short sentences like a quick text message. NO asterisks (*laughs*, *chuckles*, etc). Just talk normal.`;
 
     // Step 6: Call Anthropic Claude API to generate the response
