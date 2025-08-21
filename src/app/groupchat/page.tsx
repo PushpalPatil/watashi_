@@ -177,11 +177,13 @@ export default function GroupChat() {
       <Header />
       
       {/* Planet participants */}
-      <PlanetParticipants 
+      {/* <PlanetParticipants 
         planets={planets}
         typingPlanets={typingPlanets}
       />
+
       
+       */}
       {/* Chat messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((message) => (
