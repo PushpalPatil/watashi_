@@ -104,7 +104,7 @@ const SIGN_TRAITS: Record<string, {
   "Scorpio": { 
     keywords: ["intense", "transformative", "magnetic", "mysterious", "dark", "moody"], 
     energy: "fixed water", 
-    communication: "deep, intense, perceptive, sometimes moody or quiet, won't speak unless they have something to say",
+    communication: "deep, intense, perceptive, sometimes moody, observant",
     emojiLevel: "minimal"
   },
   "Sagittarius": { 

@@ -53,14 +53,11 @@ export default function GroupChat() {
     setIsLoading(true);
 
     try {
-      // Determine which planets should respond based on the message content
-      const respondingPlanets = determineRespondingPlanets(content);
+      // Show typing indicator while waiting for orchestrated response
+      setTypingPlanets(['thinking']); // Generic typing indicator
       
-      // Add typing indicators for responding planets
-      setTypingPlanets(respondingPlanets);
-      
-      // Get responses from planets
-      const responses = await getPlanetResponses(content, respondingPlanets);
+      // Get orchestrated responses from all planets
+      const responses = await getOrchestratedPlanetResponses(content);
       
       // Remove typing indicators
       setTypingPlanets([]);
@@ -69,7 +66,7 @@ export default function GroupChat() {
       for (let i = 0; i < responses.length; i++) {
         setTimeout(() => {
           addMessage(responses[i]);
-        }, i * 1500); // 1.5 second delay between each response
+        }, i * 1200); // 1.2 second delay between each response
       }
       
     } catch (error) {
@@ -89,90 +86,47 @@ export default function GroupChat() {
     }
   };
 
+  // This function is no longer needed since the AI orchestration handles planet selection
+  // Keeping it commented for reference in case we need to fall back to manual selection
+  /*
   const determineRespondingPlanets = (message: string): string[] => {
-    const lowerMessage = message.toLowerCase();
-    const respondingPlanets: string[] = [];
-    
-    // Keywords that might trigger specific planets
-    const planetKeywords = {
-      sun: ['identity', 'purpose', 'ego', 'leadership', 'creativity', 'self', 'confidence'],
-      moon: ['emotion', 'feeling', 'intuition', 'comfort', 'family', 'home', 'mood'],
-      mercury: ['think', 'communicate', 'learn', 'study', 'talk', 'understand', 'mind'],
-      venus: ['love', 'relationship', 'beauty', 'value', 'harmony', 'pleasure', 'art'],
-      mars: ['action', 'energy', 'motivation', 'anger', 'drive', 'fight', 'assert'],
-      jupiter: ['growth', 'expand', 'wisdom', 'philosophy', 'opportunity', 'luck', 'meaning'],
-      saturn: ['discipline', 'structure', 'responsibility', 'lesson', 'limit', 'work', 'time'],
-      uranus: ['change', 'innovation', 'rebel', 'unique', 'freedom', 'breakthrough', 'different'],
-      neptune: ['dream', 'spiritual', 'imagination', 'compassion', 'illusion', 'intuitive'],
-      pluto: ['transform', 'power', 'deep', 'intense', 'rebirth', 'hidden', 'psychology']
-    };
-
-    // Check for specific planet mentions
-    Object.keys(planets).forEach(planet => {
-      if (lowerMessage.includes(planet)) {
-        respondingPlanets.push(planet);
-      }
-    });
-
-    // Check for keyword matches
-    Object.entries(planetKeywords).forEach(([planet, keywords]) => {
-      if (planets[planet] && keywords.some(keyword => lowerMessage.includes(keyword))) {
-        if (!respondingPlanets.includes(planet)) {
-          respondingPlanets.push(planet);
-        }
-      }
-    });
-
-    // If no specific planets triggered, let 2-3 random planets respond
-    if (respondingPlanets.length === 0) {
-      const availablePlanets = Object.keys(planets);
-      const numResponders = Math.min(3, Math.max(2, Math.floor(Math.random() * 4) + 1));
-      
-      for (let i = 0; i < numResponders; i++) {
-        const randomPlanet = availablePlanets[Math.floor(Math.random() * availablePlanets.length)];
-        if (!respondingPlanets.includes(randomPlanet)) {
-          respondingPlanets.push(randomPlanet);
-        }
-      }
-    }
-
-    return respondingPlanets;
+    // Planet selection logic moved to AI orchestration in groupchat2 API
+    return [];
   };
+  */
 
-  const getPlanetResponses = async (message: string, respondingPlanets: string[]): Promise<ChatMessage[]> => {
-    const responses: ChatMessage[] = [];
-    
-    for (const planetName of respondingPlanets) {
-      try {
-        const response = await fetch('/api/groupchat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            planet: planetName,
-            message,
-            planetData: planets[planetName],
-            conversationHistory: messages.slice(-10) // Send last 10 messages for context
-          })
-        });
+  const getOrchestratedPlanetResponses = async (message: string): Promise<ChatMessage[]> => {
+    try {
+      const response = await fetch('/api/groupchat2', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message,
+          allPlanetsData: planets, // Send all planet data for orchestration
+          conversationHistory: messages.slice(-10) // Send last 10 messages for context
+        })
+      });
 
-        if (!response.ok) {
-          throw new Error(`Failed to get response from ${planetName}`);
-        }
-
-        const data = await response.json();
-        
-        responses.push({
-          id: `${planetName}-${Date.now()}-${Math.random()}`,
-          sender: planetName,
-          content: data.response,
-          timestamp: Date.now()
-        });
-      } catch (error) {
-        console.error(`Error getting response from ${planetName}:`, error);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to get orchestrated responses');
       }
+
+      const data = await response.json();
+      
+      // Convert orchestrated responses to ChatMessage format
+      const chatMessages: ChatMessage[] = data.responses.map((planetResponse: { planet: string; message: string }, index: number) => ({
+        id: `${planetResponse.planet}-${Date.now()}-${index}`,
+        sender: planetResponse.planet,
+        content: planetResponse.message,
+        timestamp: Date.now() + index // Slightly offset timestamps for ordering
+      }));
+      
+      return chatMessages;
+    } catch (error) {
+      console.error('Error getting orchestrated planet responses:', error);
+      throw error; // Re-throw to be handled by the calling function
     }
-    
-    return responses;
   };
 
   const getPlanetInfo = (planetName: string) => {
