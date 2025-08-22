@@ -342,7 +342,7 @@ export default function DynamicPlanetChat() {
                                                                         : 'bg-muted/50 text-foreground'
                                                                   }
                                         `}>
-                                                                  <p className="text-sm leading-relaxed whitespace-pre-wrap">
+                                                                  <p className="text-sm leading-relaxed whitespace-pre-wrap ">
                                                                         {message.content}
                                                                   </p>
                                                             </div>

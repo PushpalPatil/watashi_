@@ -51,10 +51,10 @@ export default function PlanetParticipants({
               className="flex flex-col items-center space-y-1 p-2 rounded-lg bg-white/5 border border-white/10"
               title={`${config.icon} ${planetName.charAt(0).toUpperCase() + planetName.slice(1)} in ${planetData.sign}`}
             >
-              <div className="text-lg">{config.icon}</div>
+              <div className="text-lg text-white">{config.icon}</div>
               <div className="text-xs text-center">
                 <div className="text-white font-medium capitalize">{planetName}</div>
-                <div className="text-gray-400">{planetData.sign}</div>
+                <div className="text-gray-200 ">{planetData.sign}</div>
               </div>
               <div className="flex items-center justify-center">
                 {getStatusIndicator(planetName)}
