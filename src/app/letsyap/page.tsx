@@ -1,19 +1,11 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useChatStorage } from "@/hooks/useChatStorage";
 import { useStore } from "@/store/storeInfo";
 import { useEffect, useState } from "react";
 import Header from "../components/header";
-import { useChatStorage } from "@/hooks/useChatStorage";
 
-import {
-      Command,
-      CommandGroup,
-      CommandInput,
-      CommandItem,
-      CommandList,
-      CommandSeparator
-} from "@/components/ui/command";
 
 import { Input } from "@/components/ui/input";
 import { autocomplete, getPlaceDetails } from "@/lib/google";
@@ -50,7 +42,7 @@ export default function LetsYap() {
       // controls visibility of the suggestions dropdown
       const [showSuggestions, setShowSuggestions] = useState(false);
       const setPlanets = useStore.getState().setPlanets;
-      
+
       // Get chat storage to clear all chats when new birth chart is calculated
       const { clearAllChats } = useChatStorage('temp'); // planet name doesn't matter for clearAllChats
 
@@ -105,11 +97,11 @@ export default function LetsYap() {
 
                   // Calculate birth chart with new method - not swisseph anymore
                   const newChartResult = await calculateBirthChart(birthData);
-                  
+
                   /* console.log('NEW BIRTH CHART RESULT:', newChartResult);
                   console.log('Chart data breakdown:');
                   */
-                  
+
                   Object.entries(newChartResult).forEach(([planet, data]) => {
                         console.log(`  ${planet}: ${data.sign} in House ${data.house}`);
                   });
@@ -201,47 +193,48 @@ export default function LetsYap() {
                               />
 
                               {/* birth location */}
-                              <Command className="w-full rounded-md border border-border bg-transparent px-3 py-2text-sm focus:outline-none focus:ring-foreground">
-                                    <CommandInput
-                                          placeholder="Type location..."
-                                          value={input}
-                                          onValueChange={(value) => {
-                                                setInput(value);
-                                                setShowSuggestions(value.length > 0);
-                                          }}
-                                    />
-                                    {showSuggestions && (
-                                          <CommandList>
-                                                <CommandGroup >
-                                                      {predictions.map((prediction) => (
-                                                            <CommandItem
-                                                                  key={prediction.place_id}
-                                                                  value={prediction.description}
-                                                                  onSelect={async () => {
-                                                                        setInput(prediction.description);
-                                                                        const details = await getPlaceDetails(prediction.place_id);
-                                                                        setForm(prev => ({
-                                                                              ...prev,
-                                                                              birthLocation: prediction.description,
-                                                                              lat: details.result.geometry?.location.lat ?? prev.lat,
-                                                                              lon: details.result.geometry?.location.lng ?? prev.lon
-                                                                        }));
-                                                                        const placeDetails = await getPlaceDetails(prediction.place_id);
-                                                                        console.log("place details", placeDetails);
-                                                                        // hide suggestions after a selection is made
-                                                                        setShowSuggestions(false);
-                                                                        setPredictions([]);
-                                                                        setOpen(false);
-                                                                  }}
-                                                            >
-                                                                  {prediction.description}
-                                                            </CommandItem>
-                                                      ))}
-                                                </CommandGroup>
-                                                <CommandSeparator className="hidden" />
-                                          </CommandList>
-                                    )}
-                              </Command>
+                              <Input
+                                    type="text"
+                                    placeholder="Type location..."
+                                    value={form.birthLocation}
+                                    onChange={(e) => {
+                                          setForm(prev => ({ ...prev, birthLocation: e.target.value }));
+                                          setInput(e.target.value);
+                                          setShowSuggestions(e.target.value.length > 0);
+                                    }}
+                                    className="w-full rounded-md border border-border bg-transparent px-3 py-2"
+                                    required
+                              />
+
+                              {/* Location suggestions dropdown */}
+                              {showSuggestions && (
+                                    <div className="w-full max-w-sm border border-border bg-background rounded-md">
+                                          {predictions.map((prediction) => (
+                                                <div
+                                                      key={prediction.place_id}
+                                                      className="px-3 py-2 hover:bg-muted cursor-pointer border-b border-border last:border-b-0"
+                                                      onClick={async () => {
+                                                            setInput(prediction.description);
+                                                            const details = await getPlaceDetails(prediction.place_id);
+                                                            setForm(prev => ({
+                                                                  ...prev,
+                                                                  birthLocation: prediction.description,
+                                                                  lat: details.result.geometry?.location.lat ?? prev.lat,
+                                                                  lon: details.result.geometry?.location.lng ?? prev.lon
+                                                            }));
+                                                            const placeDetails = await getPlaceDetails(prediction.place_id);
+                                                            console.log("place details", placeDetails);
+                                                            // hide suggestions after a selection is made
+                                                            setShowSuggestions(false);
+                                                            setPredictions([]);
+                                                            setOpen(false);
+                                                      }}
+                                                >
+                                                      {prediction.description}
+                                                </div>
+                                          ))}
+                                    </div>
+                              )}
 
                               {/* birth date */}
                               <div className="w-full max-w-sm items-center">

@@ -4,7 +4,10 @@ import ChatControls from '@/app/components/chat-controls';
 import ChatInput from '@/app/components/chat-input';
 import ChatMessageComponent, { ChatMessage } from '@/app/components/chat-message';
 import Header from '@/app/components/header';
+import { BirthChartPopup } from '@/app/components/birth-chart-popup';
+import { BirthChartDrawer } from '@/app/components/birth-chart-drawer';
 import { useGroupChatStorage } from '@/hooks/useGroupChatStorage';
+import { useSwipeGesture } from '@/hooks/useSwipeGesture';
 import { PLANET_CONFIG } from '@/lib/planet-config';
 import { useStore } from '@/store/storeInfo';
 import { useEffect, useRef, useState } from 'react';
@@ -14,6 +17,9 @@ export default function GroupChat() {
       const { messages, isLoaded, addMessage, addMessages, setMessages, clearMessages } = useGroupChatStorage();
       const [typingPlanets, setTypingPlanets] = useState<string[]>([]);
       const [isLoading, setIsLoading] = useState(false);
+      const [showPopup, setShowPopup] = useState(false);
+      const [showDrawer, setShowDrawer] = useState(false);
+      const [hasShownPopup, setHasShownPopup] = useState(false);
       const messagesEndRef = useRef<HTMLDivElement>(null);
 
       const scrollToBottom = () => {
@@ -30,12 +36,30 @@ export default function GroupChat() {
                   const welcomeMessage: ChatMessage = {
                         id: `welcome-${Date.now()}`,
                         sender: 'system',
-                        content: "Welcome to your Planetary Council! Your planets are ready to chat with you. Ask them anything or just say hello!",
+                        content: "Welcome to your Planetary Council! Chat with your planets or just say hello!",
                         timestamp: Date.now()
                   };
                   addMessage(welcomeMessage);
             }
       }, [_hasHydrated, isLoaded, planets, messages.length, addMessage]);
+
+      // Show birth chart popup only on first visit after calculating chart
+      useEffect(() => {
+            if (_hasHydrated && isLoaded && Object.keys(planets).length > 0 && !hasShownPopup) {
+                  const hasSeenPopup = localStorage.getItem('hasSeenBirthChartPopup');
+                  if (!hasSeenPopup) {
+                        setShowPopup(true);
+                        setHasShownPopup(true);
+                        localStorage.setItem('hasSeenBirthChartPopup', 'true');
+                  }
+            }
+      }, [_hasHydrated, isLoaded, planets, hasShownPopup]);
+
+      // Swipe gesture hook
+      useSwipeGesture({
+            onSwipeFromRight: () => setShowDrawer(true),
+            enabled: !showDrawer && !showPopup
+      });
 
       const handleSendMessage = async (content: string) => {
             if (!content.trim() || isLoading) return;
@@ -172,8 +196,19 @@ export default function GroupChat() {
       }
 
       return (
-            <div className="min-h-screen bg-black flex flex-col">
+            <div className="min-h-screen bg-black flex flex-col relative">
                   <Header />
+
+                  {/* Birth Chart Popup */}
+                  {showPopup && (
+                        <BirthChartPopup onClose={() => setShowPopup(false)} />
+                  )}
+
+                  {/* Birth Chart Drawer */}
+                  <BirthChartDrawer 
+                        isOpen={showDrawer} 
+                        onClose={() => setShowDrawer(false)} 
+                  />
 
                   {/* Planet participants */}
                   {/* <PlanetParticipants 
@@ -218,7 +253,7 @@ export default function GroupChat() {
                   />
 
                   {/* Chat controls */}
-                  <ChatControls
+                  {/* <ChatControls
                         onClearChat={() => {
                               clearMessages();
                               // Re-add welcome message
@@ -232,7 +267,7 @@ export default function GroupChat() {
                         }}
                         onSuggestedPrompt={handleSendMessage}
                         disabled={isLoading}
-                  />
+                  /> */}
             </div>
       );
 }

@@ -27,7 +27,7 @@ interface Star {
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-black text-foreground">
       <Header />
       <section className="container mx-auto px-6 py-32 text-center flex flex-col items-center">
         <h1 className="text-4xl font-normal ">
