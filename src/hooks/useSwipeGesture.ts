@@ -17,12 +17,12 @@ export function useSwipeGesture({ onSwipeFromRight, enabled = true }: UseSwipeGe
     if (!enabled) return;
 
     // Temporary keyboard shortcut for testing (press 'D' key)
-    const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.key === 'd' || e.key === 'D') {
-        console.log('Test key pressed - opening drawer');
-        onSwipeFromRight();
-      }
-    };
+    // const handleKeyPress = (e: KeyboardEvent) => {
+    //   if (e.key === 'd' || e.key === 'D') {
+    //     console.log('Test key pressed - opening drawer');
+    //     onSwipeFromRight();
+    //   }
+    // };
 
     // Touch events for mobile
     const handleTouchStart = (e: TouchEvent) => {
@@ -121,7 +121,7 @@ export function useSwipeGesture({ onSwipeFromRight, enabled = true }: UseSwipeGe
     };
 
     // Add event listeners
-    document.addEventListener('keypress', handleKeyPress);
+    //document.addEventListener('keypress', handleKeyPress);
     document.addEventListener('touchstart', handleTouchStart, { passive: true });
     document.addEventListener('touchend', handleTouchEnd, { passive: true });
     document.addEventListener('mousedown', handleMouseDown);
@@ -129,7 +129,7 @@ export function useSwipeGesture({ onSwipeFromRight, enabled = true }: UseSwipeGe
     document.addEventListener('wheel', handleWheel, { passive: false });
 
     return () => {
-      document.removeEventListener('keypress', handleKeyPress);
+      //document.removeEventListener('keypress', handleKeyPress);
       document.removeEventListener('touchstart', handleTouchStart);
       document.removeEventListener('touchend', handleTouchEnd);
       document.removeEventListener('mousedown', handleMouseDown);
