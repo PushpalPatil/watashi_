@@ -1,6 +1,5 @@
 'use client';
 
-import { BirthChartDrawer } from '@/app/components/birth-chart-drawer';
 import { BirthChartPopup } from '@/app/components/birth-chart-popup';
 import ChatInput from '@/app/components/chat-input';
 import ChatMessageComponent, { ChatMessage } from '@/app/components/chat-message';
@@ -208,7 +207,8 @@ export default function GroupChat() {
                   )}
 
                   {/* Birth Chart Drawer */}
-                  <BirthChartDrawer
+                  <BirthChartPopup
+                        mode="drawer"
                         isOpen={showDrawer}
                         onClose={() => setShowDrawer(false)}
                   />

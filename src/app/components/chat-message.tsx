@@ -63,7 +63,7 @@ export default function ChatMessageComponent({ message, planetInfo }: ChatMessag
           <div className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg">
             <p className="text-sm text-gray-300 italic">{message.content}</p>
           </div>
-          <div className="text-xs text-gray-500 mt-1">
+          <div className="text-xs text-gray-300 mt-1">
             {new Date(message.timestamp).toLocaleTimeString([], { 
               hour: '2-digit', 
               minute: '2-digit' 
@@ -83,10 +83,10 @@ export default function ChatMessageComponent({ message, planetInfo }: ChatMessag
             {!isUser && planetInfo?.icon && (
               <span className="text-lg">{planetInfo.icon}</span>
             )}
-            <span className="text-xs text-gray-400 font-medium">
+            <span className="text-xs text-gray-300 font-medium">
               {getPlanetDisplayName(message.sender)}
               {!isUser && planetInfo?.sign && (
-                <span className="text-gray-500"> • {planetInfo.sign}</span>
+                <span className="text-gray-400"> • {planetInfo.sign}</span>
               )}
             </span>
           </div>
@@ -110,13 +110,13 @@ export default function ChatMessageComponent({ message, planetInfo }: ChatMessag
               <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
             </div>
           ) : (
-            <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
+            <p className="text-sm leading-relaxed whitespace-pre-wrap ">{message.content}</p>
           )}
         </div>
         
         {/* Timestamp */}
         {!isTyping && (
-          <div className={`text-xs text-gray-500 mt-1 ${isUser ? 'text-right' : 'text-left'}`}>
+          <div className={`text-xs text-gray-400 mt-1 ${isUser ? 'text-right' : 'text-left'}`}>
             {new Date(message.timestamp).toLocaleTimeString([], { 
               hour: '2-digit', 
               minute: '2-digit' 
