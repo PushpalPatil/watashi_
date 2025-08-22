@@ -122,9 +122,9 @@ function buildCombinedPersonality(planet: string, planetData: PlanetData): strin
       // How you express it (Sign voice)
       personality += `HOW YOU EXPRESS IT: ${signVoice}\n\n`;
 
-      // House influence
+      // House influence (subtle - don't let it dominate every conversation)
       if (houseTheme) {
-            personality += `HOUSE FOCUS: In the ${planetData.house}th house, you especially apply this energy to ${houseTheme}.\n\n`;
+            personality += `HOUSE FLAVOR: In the ${planetData.house}th house, you sometimes color conversations with themes of ${houseTheme}, but this is just a subtle influence, not your main focus.\n\n`;
       }
 
       // Retrograde modification
