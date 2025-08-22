@@ -1,11 +1,11 @@
 'use client';
 
-import ChatControls from '@/app/components/chat-controls';
+import { BirthChartDrawer } from '@/app/components/birth-chart-drawer';
+import { BirthChartPopup } from '@/app/components/birth-chart-popup';
 import ChatInput from '@/app/components/chat-input';
 import ChatMessageComponent, { ChatMessage } from '@/app/components/chat-message';
 import Header from '@/app/components/header';
-import { BirthChartPopup } from '@/app/components/birth-chart-popup';
-import { BirthChartDrawer } from '@/app/components/birth-chart-drawer';
+import { StarryBackground } from '@/app/components/starry-background';
 import { useGroupChatStorage } from '@/hooks/useGroupChatStorage';
 import { useSwipeGesture } from '@/hooks/useSwipeGesture';
 import { PLANET_CONFIG } from '@/lib/planet-config';
@@ -36,7 +36,7 @@ export default function GroupChat() {
                   const welcomeMessage: ChatMessage = {
                         id: `welcome-${Date.now()}`,
                         sender: 'system',
-                        content: "Welcome to your Planetary Council! Chat with your planets or just say hello!",
+                        content: "Get yappin!",
                         timestamp: Date.now()
                   };
                   addMessage(welcomeMessage);
@@ -197,6 +197,9 @@ export default function GroupChat() {
 
       return (
             <div className="min-h-screen bg-black flex flex-col relative">
+                  {/* Starry background */}
+                  <StarryBackground />
+
                   <Header />
 
                   {/* Birth Chart Popup */}
@@ -205,9 +208,9 @@ export default function GroupChat() {
                   )}
 
                   {/* Birth Chart Drawer */}
-                  <BirthChartDrawer 
-                        isOpen={showDrawer} 
-                        onClose={() => setShowDrawer(false)} 
+                  <BirthChartDrawer
+                        isOpen={showDrawer}
+                        onClose={() => setShowDrawer(false)}
                   />
 
                   {/* Planet participants */}
@@ -219,7 +222,9 @@ export default function GroupChat() {
       
        */}
                   {/* Chat messages */}
-                  <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                  <div className="flex-1 overflow-y-auto pt-14 px-4 space-y-4 relative">
+                        {/* Fade overlay for header area */}
+                        <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-black via-black/80 to-transparent pointer-events-none z-10" />
                         {messages.map((message) => (
                               <ChatMessageComponent
                                     key={message.id}
