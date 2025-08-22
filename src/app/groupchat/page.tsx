@@ -119,7 +119,7 @@ export default function GroupChat() {
 
       const getOrchestratedPlanetResponses = async (message: string): Promise<ChatMessage[]> => {
             try {
-                  const response = await fetch('/api/groupchat2', {
+                  const response = await fetch('/api/groupchat4', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
