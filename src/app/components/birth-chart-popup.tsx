@@ -51,7 +51,8 @@ export function BirthChartPopup({ onClose, className = "", mode = 'popup', isOpe
     if (mode !== 'drawer' || !isDragging) return;
     const deltaX = currentX - startX;
 
-    if (deltaX > 100) {
+    // Swipe right OR left to close (more than 100px in either direction)
+    if (Math.abs(deltaX) > 100) {
       handleClose();
     }
 
@@ -76,7 +77,8 @@ export function BirthChartPopup({ onClose, className = "", mode = 'popup', isOpe
     if (mode !== 'drawer' || !isDragging) return;
     const deltaX = currentX - startX;
 
-    if (deltaX > 100) {
+    // Swipe right OR left to close (more than 100px in either direction)
+    if (Math.abs(deltaX) > 100) {
       handleClose();
     }
 
@@ -339,14 +341,16 @@ export function BirthChartPopup({ onClose, className = "", mode = 'popup', isOpe
         onMouseDown={handleMouseDown}
       >
         {/* Header with X button */}
-        <div className="px-4 py-3 border-b border-white/25  justify-between items-center">
-          <h3 className="text-white text-sm font-normal">Your Birth Chart</h3>
+        <div className="px-4 py-2 border-b border-white/25 flex flex-row justify-between items-center">
+
+          <h3 className="text-white text-sm justify-center text-center font-normal">Your Birth Chart</h3>
           <button
             onClick={handleClose}
             className="text-white/50 hover:text-white transition-colors text-lg leading-none"
           >
             ✕
           </button>
+
         </div>
 
         {/* Birth chart table */}

@@ -16,6 +16,7 @@ export default function GroupChat() {
       const { messages, isLoaded, addMessage, addMessages, setMessages, clearMessages } = useGroupChatStorage();
       const [typingPlanets, setTypingPlanets] = useState<string[]>([]);
       const [isLoading, setIsLoading] = useState(false);
+      const [showSwipeIndicator, setShowSwipeIndicator] = useState(true);
       const [showPopup, setShowPopup] = useState(false);
       const [showDrawer, setShowDrawer] = useState(false);
       const [hasShownPopup, setHasShownPopup] = useState(false);
@@ -24,6 +25,15 @@ export default function GroupChat() {
       const scrollToBottom = () => {
             messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
       };
+
+      useEffect(() => {
+            // Hide swipe indicator after 30 seconds
+            const timer = setTimeout(() => {
+                  setShowSwipeIndicator(false);
+            }, 30000);
+
+            return () => clearTimeout(timer);
+      }, []);
 
       useEffect(() => {
             scrollToBottom();
@@ -212,6 +222,21 @@ export default function GroupChat() {
                         isOpen={showDrawer}
                         onClose={() => setShowDrawer(false)}
                   />
+
+                  {/* Swipe indicator arrow */}
+                  {showSwipeIndicator && (
+                        <div className="fixed right-4 top-1/2 transform -translate-y-1/2 z-30 pointer-events-none">
+                              <div className="flex flex-col items-center space-y-2">
+                                    <div className="animate-pulse">
+                                          <img
+                                                src="/top-arrow-svg.svg"
+                                                alt="Swipe left"
+                                                className="w-4 h-4 filter brightness-10 invert opacity-70 transform -rotate-90"
+                                          />
+                                    </div>
+                              </div>
+                        </div>
+                  )}
 
                   {/* Planet participants */}
                   {/* <PlanetParticipants 
