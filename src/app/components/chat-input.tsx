@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface ChatInputProps {
   onSendMessage: (message: string) => void;
@@ -8,10 +8,10 @@ interface ChatInputProps {
   placeholder?: string;
 }
 
-export default function ChatInput({ 
-  onSendMessage, 
+export default function ChatInput({
+  onSendMessage,
   disabled = false,
-  placeholder = "Ask your planets anything or just say hello..." 
+  placeholder = "Ask your planets anything or just say hello..."
 }: ChatInputProps) {
   const [input, setInput] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -23,6 +23,12 @@ export default function ChatInput({
       setInput('');
       if (textareaRef.current) {
         textareaRef.current.style.height = 'auto';
+        // Refocus the textarea after sending message with a slight delay
+        setTimeout(() => {
+          if (textareaRef.current) {
+            textareaRef.current.focus();
+          }
+        }, 0);
       }
     }
   };
@@ -36,7 +42,7 @@ export default function ChatInput({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput(e.target.value);
-    
+
     // Auto-resize textarea
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
@@ -49,6 +55,13 @@ export default function ChatInput({
       textareaRef.current.focus();
     }
   }, []);
+
+  // Refocus when transitioning from disabled to enabled
+  useEffect(() => {
+    if (!disabled && textareaRef.current) {
+      textareaRef.current.focus();
+    }
+  }, [disabled]);
 
   return (
     <form onSubmit={handleSubmit} className="border-t border-white/20 p-4">
@@ -89,17 +102,17 @@ export default function ChatInput({
             min-w-[60px]
           "
         >
-          <svg 
-            className="w-4 h-4" 
-            fill="none" 
-            stroke="currentColor" 
+          <svg
+            className="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
             viewBox="0 0 24 24"
           >
-            <path 
-              strokeLinecap="round" 
-              strokeLinejoin="round" 
-              strokeWidth={2} 
-              d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" 
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
             />
           </svg>
         </button>

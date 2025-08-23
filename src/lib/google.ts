@@ -2,8 +2,9 @@
 
 import { Client } from "@googlemaps/google-maps-services-js";
 
+// THIS FILE IS USED FOR LOCATION SEARCH
 
-
+// Autocomplete - uses Google Places API to provide location suggestions as users type their location
 const clientInfo = new Client({});
 export const autocomplete = async (input: string) => {
     if (!input) return [];
@@ -30,6 +31,7 @@ export const autocomplete = async (input: string) => {
     }
 };
 
+// Fetches detailed information about a selected place using its place ID
 export const getPlaceDetails = async (placeId: string) => {
     const apiKey = process.env._MAPS_API_KEY ?? process.env.GOOGLE_MAPS_API_KEY;
 

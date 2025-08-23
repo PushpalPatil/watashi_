@@ -284,33 +284,41 @@ export function BirthChartPopup({ onClose, className = "", mode = 'popup', isOpe
   // Popup mode
   if (mode === 'popup') {
     return (
-      <div
-        className={`fixed top-[90px] left-1/2 bottom-[150px] z-40 transition-all duration-500 ease-in-out transform -translate-x-1/2 ${className}`}
-      >
-        <div className="bg-black border border-white/25 rounded-lg h-[600px] w-fit max-w-md min-w-[320px] overflow-hidden shadow-lg flex flex-col">
-          {/* Header with X button */}
-          <div className="px-4 py-3 border-b border-white/25 flex justify-between items-center flex-shrink-0">
-            <h3 className="text-white text-sm font-normal">Your Birth Chart</h3>
-            <button
-              onClick={handleClose}
-              className="text-white/50 hover:text-white transition-colors text-lg leading-none"
-            >
-              ✕
-            </button>
-          </div>
+      <>
+        {/* Backdrop for popup mode */}
+        <div
+          className="fixed inset-0 bg-black/50 z-40"
+          onClick={handleClose}
+        />
 
-          {/* Birth chart table */}
-          <div className="p-4 flex-1 h-full overflow-y-auto min-h-0">
-            <BirthChartTable
-              planets={planets}
-              planetOrder={planetOrder}
-              expandedPlanet={expandedPlanet}
-              togglePlanetDescription={togglePlanetDescription}
-              getPlanetDescription={getPlanetDescription}
-            />
+        <div
+          className={`fixed top-[90px] left-1/2 bottom-[150px] z-50 transition-all duration-500 ease-in-out transform -translate-x-1/2 ${className}`}
+        >
+          <div className="bg-black border border-white/25 rounded-lg h-[600px] w-fit max-w-md min-w-[320px] overflow-hidden shadow-lg flex flex-col">
+            {/* Header with X button */}
+            <div className="px-4 py-3 border-b border-white/25 flex justify-between items-center flex-shrink-0">
+              <h3 className="text-white text-sm font-normal">Your Birth Chart</h3>
+              <button
+                onClick={handleClose}
+                className="text-white/50 hover:text-white transition-colors text-lg leading-none"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Birth chart table */}
+            <div className="p-4 flex-1 h-full overflow-y-auto min-h-0">
+              <BirthChartTable
+                planets={planets}
+                planetOrder={planetOrder}
+                expandedPlanet={expandedPlanet}
+                togglePlanetDescription={togglePlanetDescription}
+                getPlanetDescription={getPlanetDescription}
+              />
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 
