@@ -209,8 +209,16 @@ export default function LetsYap() {
                               {/* Location suggestions dropdown */}
                               {showSuggestions && (
                                     <div className="w-full max-w-sm border border-border bg-background rounded-md">
+                                          {/*
+                                          map through predictions and display them
+                                          key is the place_id, which is a unique identifier for the place -- for list rendering
+                                          prediction.description = the readable location name for users is set in input box
+                                          set form fetches coordinates from the prediction var (location & all it's descriptive tings)
+                                          
+                                          */}
                                           {predictions.map((prediction) => (
                                                 <div
+                                                      
                                                       key={prediction.place_id}
                                                       className="px-3 py-2 hover:bg-muted cursor-pointer border-b border-border last:border-b-0"
                                                       onClick={async () => {
@@ -222,8 +230,7 @@ export default function LetsYap() {
                                                                   lat: details.result.geometry?.location.lat ?? prev.lat,
                                                                   lon: details.result.geometry?.location.lng ?? prev.lon
                                                             }));
-                                                            const placeDetails = await getPlaceDetails(prediction.place_id);
-                                                            console.log("place details", placeDetails);
+                                                            console.log("place details", details);
                                                             // hide suggestions after a selection is made
                                                             setShowSuggestions(false);
                                                             setPredictions([]);

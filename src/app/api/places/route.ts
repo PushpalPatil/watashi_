@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
+
+
+// FILE IS CURRENTLY NOT BEING USED 
+
 export async function GET(req: NextRequest) {
   const query = req.nextUrl.searchParams.get("q");
 
