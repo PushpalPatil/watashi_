@@ -129,13 +129,16 @@ export default function GroupChat() {
 
       const getOrchestratedPlanetResponses = async (message: string): Promise<ChatMessage[]> => {
             try {
-                  const response = await fetch('/api/groupchat4', {
+                  console.log('DEBUG: Planet data being sent:', Object.keys(planets));
+                  console.log('DEBUG: Full planet data:', planets);
+                  
+                  const response = await fetch('/api/groupchat5', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
                               message,
                               allPlanetsData: planets, // Send all planet data for orchestration
-                              conversationHistory: messages.slice(-10) // Send last 10 messages for context
+                              conversationHistory: messages.slice(-20) // Send last 20 messages for context
                         })
                   });
 
@@ -145,6 +148,7 @@ export default function GroupChat() {
                   }
 
                   const data = await response.json();
+                  console.log('DEBUG: API response:', data);
 
                   // Convert orchestrated responses to ChatMessage format
                   const chatMessages: ChatMessage[] = data.responses.map((planetResponse: { planet: string; message: string }, index: number) => ({
