@@ -3,15 +3,19 @@
 import { PLANET_CONFIG } from '@/lib/planet-config';
 import { useStore } from '@/store/storeInfo';
 import React, { useEffect, useRef, useState } from 'react';
+import { OnboardingQuestions } from './onboarding-questions';
 
 interface BirthChartPopupProps {
   onClose?: () => void;
   className?: string;
   mode?: 'popup' | 'drawer';
   isOpen?: boolean;
+  onQuestionSelect?: (question: string) => void;
+  onNext?: () => void;
+  showNext?: boolean;
 }
 
-export function BirthChartPopup({ onClose, className = "", mode = 'popup', isOpen = true }: BirthChartPopupProps) {
+export function BirthChartPopup({ onClose, className = "", mode = 'popup', isOpen = true, onQuestionSelect, onNext, showNext = false }: BirthChartPopupProps) {
   const { planets } = useStore();
   const [isVisible, setIsVisible] = useState(mode === 'popup' ? true : false);
   const [expandedPlanet, setExpandedPlanet] = useState<string | null>(null);
@@ -287,17 +291,20 @@ export function BirthChartPopup({ onClose, className = "", mode = 'popup', isOpe
       <>
         {/* Backdrop for popup mode */}
         <div
-          className="fixed inset-0 bg-black/50 z-40"
+          className="fixed inset-0 bg-black/50 z-40 cursor-pointer"
           onClick={handleClose}
         />
 
         <div
-          className={`fixed top-[90px] left-1/2 bottom-[150px] z-50 transition-all duration-500 ease-in-out transform -translate-x-1/2 ${className}`}
+          className={`fixed top-[90px] left-1/2 bottom-[150px] z-50 transition-all duration-500 ease-in-out transform -translate-x-1/2 px-4 sm:px-0 ${className}`}
         >
-          <div className="bg-black border border-white/25 rounded-lg h-[600px] w-fit max-w-md min-w-[320px] overflow-hidden shadow-lg flex flex-col">
+          <div 
+            className="bg-black border border-white/25 rounded-lg w-full sm:w-fit sm:max-w-md sm:min-w-[360px] max-w-md overflow-hidden shadow-lg flex flex-col max-h-full"
+            onClick={(e) => e.stopPropagation()}
+          >
             {/* Header with X button */}
-            <div className="px-4 py-3 border-b border-white/25 flex justify-between items-center flex-shrink-0">
-              <h3 className="text-white text-sm font-normal">Your Birth Chart</h3>
+            <div className="px-3 sm:px-4 py-3 border-b border-white/25 flex justify-between items-center flex-shrink-0">
+              <h3 className="text-white text-sm sm:text-sm font-normal">Your Birth Chart</h3>
               <button
                 onClick={handleClose}
                 className="text-white/50 hover:text-white transition-colors text-lg leading-none"
@@ -307,15 +314,29 @@ export function BirthChartPopup({ onClose, className = "", mode = 'popup', isOpe
             </div>
 
             {/* Birth chart table */}
-            <div className="p-4 flex-1 h-full overflow-y-auto min-h-0">
-              <BirthChartTable
-                planets={planets}
-                planetOrder={planetOrder}
-                expandedPlanet={expandedPlanet}
-                togglePlanetDescription={togglePlanetDescription}
-                getPlanetDescription={getPlanetDescription}
-              />
+            <div className="flex-1 overflow-y-auto min-h-0">
+              <div className="p-2 sm:p-4">
+                <BirthChartTable
+                  planets={planets}
+                  planetOrder={planetOrder}
+                  expandedPlanet={expandedPlanet}
+                  togglePlanetDescription={togglePlanetDescription}
+                  getPlanetDescription={getPlanetDescription}
+                />
+              </div>
             </div>
+
+            {/* Footer with Next button */}
+            {showNext && (
+              <div className="px-3 sm:px-4 py-3 border-t border-white/25 flex-shrink-0">
+                <button
+                  onClick={onNext}
+                  className="w-full bg-white/10 hover:bg-white/20 active:bg-white/25 border border-white/20 hover:border-white/30 active:border-white/40 px-4 py-3 rounded-lg text-white transition-all duration-200 text-sm font-medium touch-manipulation"
+                >
+                  Next
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </>
@@ -334,7 +355,7 @@ export function BirthChartPopup({ onClose, className = "", mode = 'popup', isOpe
       {/* Drawer */}
       <div
         ref={drawerRef}
-        className={`fixed top-[90px] right-0 bottom-[150px] w-80 bg-black border-l border-white/35 z-50 h-max transition-transform duration-300 ease-in-out ${isVisible ? 'transform translate-x-0' : 'transform translate-x-full'
+        className={`fixed top-[90px] right-0 bottom-[150px] w-80 bg-black border-l border-white/35 z-50 flex flex-col transition-transform duration-300 ease-in-out ${isVisible ? 'transform translate-x-0' : 'transform translate-x-full'
           } ${className}`}
         style={{
           transform: `translateX(${dragOffset}px)`,
@@ -362,15 +383,27 @@ export function BirthChartPopup({ onClose, className = "", mode = 'popup', isOpe
         </div>
 
         {/* Birth chart table */}
-        <div className="p-4 overflow-y-auto h-full">
-          <BirthChartTable
-            planets={planets}
-            planetOrder={planetOrder}
-            expandedPlanet={expandedPlanet}
-            togglePlanetDescription={togglePlanetDescription}
-            getPlanetDescription={getPlanetDescription}
-          />
+        <div className="flex-1 overflow-y-auto">
+          <div className="p-4">
+            <BirthChartTable
+              planets={planets}
+              planetOrder={planetOrder}
+              expandedPlanet={expandedPlanet}
+              togglePlanetDescription={togglePlanetDescription}
+              getPlanetDescription={getPlanetDescription}
+            />
+          </div>
         </div>
+
+        {/* Onboarding Questions in Drawer */}
+        {onQuestionSelect && (
+          <div className="border-t border-white/25 flex-shrink-0">
+            <OnboardingQuestions
+              mode="sidebar"
+              onQuestionSelect={onQuestionSelect}
+            />
+          </div>
+        )}
       </div>
     </>
   );
@@ -391,13 +424,13 @@ function BirthChartTable({
   getPlanetDescription: (planetName: string, sign: string) => string;
 }) {
   return (
-    <table className="w-full text-white text-sm table-fixed">
+    <table className="sm:w-full text-white text-sm table-fixed ">
       <thead>
         <tr className="border-b border-white/25">
-          <th className="text-left pl-6 py-2 font-normal">Planet</th>
-          <th className="text-center py-2 font-normal">Sign</th>
-          <th className=" py-2 font-normal text-center">House</th>
-          <th className="w-8"></th>
+          <th className="text-left pl-2 sm:pl-6 py-2 font-normal" style={{width: '45%'}}>Planet</th>
+          <th className="text-center py-2 font-normal" style={{width: '25%'}}>Sign</th>
+          <th className="py-2 font-normal text-center" style={{width: '18%'}}>House</th>
+          <th style={{width: '12%'}}></th>
         </tr>
       </thead>
       <tbody>
@@ -414,25 +447,25 @@ function BirthChartTable({
                 className="border-b border-white/25 last:border-b-0 hover:bg-white/5 cursor-pointer transition-colors text-center"
                 onClick={() => togglePlanetDescription(planetName)}
               >
-                <td className="py-2 flex items-center pl-4 gap-2">
-                  <span className="text-lg text-left">{config.icon}</span>
-                  <span className="capitalize text-center">
+                <td className="py-2 flex items-center pl-2 sm:pl-4 gap-1 sm:gap-2">
+                  <span className="text-base sm:text-lg text-left w-4 flex-shrink-0">{config.icon}</span>
+                  <span className="capitalize text-left text-xs sm:text-sm flex-1 min-w-0">
                     {planetName}
-                    {planetData.retrograde && <span className="ml-1 text-center text-white/70 text-xs">R</span>}
+                    {planetData.retrograde && <span className="ml-1 text-white/70 text-xs">R</span>}
                   </span>
                 </td>
-                <td className="py-2 text-center">{planetData.sign}</td>
-                <td className="py-2 text-center">{planetData.house}</td>
+                <td className="py-2 text-center text-xs sm:text-sm">{planetData.sign}</td>
+                <td className="py-2 text-center text-xs sm:text-sm">{planetData.house}</td>
                 <td className="text-center">
-                  <span className={`inline-block transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}>
+                  <span className={`inline-block transition-transform duration-200 text-sm ${isExpanded ? 'rotate-180' : ''}`}>
                     ⌄
                   </span>
                 </td>
               </tr>
               {isExpanded && (
                 <tr>
-                  <td colSpan={4} className="px-3 py-4 bg-white/5 border-b border-white/25 text-left">
-                    <p className="text-xs text-white/80 leading-relaxed ">
+                  <td colSpan={4} className="px-2 sm:px-3 py-3 sm:py-4 bg-white/5 border-b border-white/25 text-left">
+                    <p className="text-xs sm:text-xs text-white/80 leading-relaxed">
                       {getPlanetDescription(planetName, planetData.sign)}
                     </p>
                   </td>

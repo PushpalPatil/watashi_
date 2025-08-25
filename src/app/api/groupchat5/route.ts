@@ -190,6 +190,10 @@ export async function POST(req: NextRequest) {
                   message.toLowerCase().includes(planet.toLowerCase())
             );
 
+            // Check if this is an onboarding question
+            const isOnboardingQuestion = message.toLowerCase().includes('what role do each of you play') ||
+                  message.toLowerCase().includes('what personalities do each of you have');
+
             // Build conversation context with better relationship tracking
             let conversationContext = "";
             if (conversationHistory && conversationHistory.length > 0) {
@@ -204,12 +208,64 @@ export async function POST(req: NextRequest) {
             }
 
             // Create enhanced orchestration prompt for authentic group dynamics
-            const orchestrationPrompt = `You are orchestrating a group chat between real friends who happen to be planets with distinct personalities. This is NOT about being helpful - it's about authentic friend group dynamics.
+            let orchestrationPrompt = '';
+            
+            // Special handling for onboarding questions
+            if (isOnboardingQuestion) {
+                  orchestrationPrompt = `You are helping introduce planets in a birth chart to a new user. This is an ONBOARDING moment where planets should explain their roles and personalities clearly and welcomingly. Each planet should introduce themselves authentically but also educationally.
 
 PLANET PERSONALITIES (each combines WHAT they care about + HOW they express + WHERE they focus):
 ${Object.entries(planetPersonalities).map(([planet, personality]) =>
-                  `${planet.toUpperCase()}: ${personality}`
-            ).join('\n\n---\n\n')}
+                        `${planet.toUpperCase()}: ${personality}`
+                  ).join('\n\n---\n\n')}
+
+RETROGRADE PLANETS (more intense, unfiltered, authentic): ${Object.entries(retrogradeFlags).filter(([, isRetro]) => isRetro).map(([planet]) => planet).join(', ') || 'none'}
+
+${conversationContext}USER'S NEW MESSAGE: "${message}"
+
+=== ONBOARDING INTRODUCTION RULES ===
+
+**AUTHENTIC INTRODUCTORY PERSONALITIES:**
+- This is your FIRST meeting with the user - introduce yourself clearly but in YOUR authentic voice
+- Structure: "I'm [Planet], I [what you do]. In [sign/house], I [how you specifically do it]."
+- Show personality through HOW you explain your role, not just what you say
+- Be welcoming but maintain your natural speaking style and quirks
+- Explain your birth chart function conversationally - like a knowledgeable friend
+- Avoid casual continuation phrases like "actually", "wait", "omg" - this is an introduction
+
+**PERSONALITY-INFUSED INTRODUCTIONS:**
+- Sun: Confident and warm, explain identity/leadership role
+- Moon: Nurturing and intuitive, explain emotional/comfort role  
+- Mercury: Quick and analytical, explain communication/thinking role
+- Venus: Charming and aesthetic, explain love/values role
+- Mars: Direct and energetic, explain action/drive role
+- Jupiter: Enthusiastic and wise, explain growth/expansion role
+- Saturn: Authoritative but supportive, explain structure/discipline role
+- Uranus: Quirky and revolutionary, explain innovation/change role
+- Neptune: Mystical and compassionate, explain dreams/spirituality role
+- Pluto: Intense and transformative, explain power/transformation role
+
+**RESPONSE GUIDELINES:**
+- ALL planets introduce themselves - this is meeting the full planetary council
+- Each response shows distinct personality while being educational
+- Keep responses conversational and digestible (10-25 words each)
+- Be informative but authentic to each planet's natural energy
+
+Remember: Show your personality through your introduction style. Be welcoming but stay true to your authentic planetary nature!
+
+Respond with ALL planet responses as a JSON object with this structure:
+{
+  "responses": [
+    {"planet": "planet_name", "message": "authentic personality-infused introduction (10-25 words)"}
+  ]
+}`;
+            } else {
+                  orchestrationPrompt = `You are orchestrating a group chat between real friends who happen to be planets with distinct personalities. This is NOT about being helpful - it's about authentic friend group dynamics.
+
+PLANET PERSONALITIES (each combines WHAT they care about + HOW they express + WHERE they focus):
+${Object.entries(planetPersonalities).map(([planet, personality]) =>
+                        `${planet.toUpperCase()}: ${personality}`
+                  ).join('\n\n---\n\n')}
 
 RETROGRADE PLANETS (more intense, unfiltered, authentic): ${Object.entries(retrogradeFlags).filter(([, isRetro]) => isRetro).map(([planet]) => planet).join(', ') || 'none'}
 
@@ -249,7 +305,7 @@ ${conversationContext}USER'S NEW MESSAGE: "${message}"
 - Natural interruptions, topic changes, and side conversations
 - Sometimes ignore the user to banter with each other
 
-**RESPONSE SELECTION (pick 1-3 planets):**
+**RESPONSE SELECTION (pick 1-5 planets):**
 - Planets most interested in the topic respond first
 - Add planets who disagree or want to argue
 - Include planets who have strong relationships with responding planets
@@ -258,12 +314,13 @@ ${conversationContext}USER'S NEW MESSAGE: "${message}"
 
 Remember: This is a group chat between REAL FRIENDS who happen to be planets. Focus on authentic relationships, genuine reactions, and natural group dynamics.
 
-Respond with 1-3 planet responses as a JSON object with this structure:
+Respond with 1-5 planet responses as a JSON object with this structure:
 {
   "responses": [
     {"planet": "planet_name", "message": "short authentic response (5-20 words max)"}
   ]
 }`;
+            }
 
             // Call Claude API with structured output request
             const response = await anthropic.messages.create({
@@ -341,9 +398,10 @@ Respond with 1-3 planet responses as a JSON object with this structure:
                   throw new Error('No valid planet responses generated');
             }
 
-            // Limit and clean responses
+            // Limit and clean responses - for onboarding questions, allow all planets to respond
+            const maxResponses = isOnboardingQuestion ? validResponses.length : 3;
             const finalResponses = validResponses
-                  .slice(0, 3)
+                  .slice(0, maxResponses)
                   .map(response => ({
                         planet: response.planet,
                         message: response.message.trim().substring(0, 150) // Allow slightly longer for banter
