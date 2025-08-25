@@ -31,15 +31,15 @@ export default function LandingPage() {
       <Header />
       <section className="container mx-auto px-6 py-32 text-center flex flex-col items-center">
         <h1 className="text-4xl font-normal ">
-          talk to your planets
+          
         </h1>
       </section>
       <section className="container mx-auto px-6 py-3 text-center flex flex-col items-center">
-        <p className="text-lg text-muted-foreground pt-2">
+        <p className="text-lg  font-light text-muted-foreground pt-2">
           planets personified from your birth chart
         </p>
 
-        <p className="text-lg text-muted-foreground pt-2">
+        <p className="text-lg text-muted-foreground pt-2 font-light">
           discover insights through meaningful conversations with your cosmic self
         </p>
       </section>

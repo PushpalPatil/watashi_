@@ -10,8 +10,8 @@
  * Structure: Planet's WHAT + Sign's HOW + House's WHERE = Complete Authentic Personality
  */
 
-import { NextRequest, NextResponse } from 'next/server';
 import Anthropic from '@anthropic-ai/sdk';
+import { NextRequest, NextResponse } from 'next/server';
 
 export const runtime = 'nodejs';
 
@@ -209,7 +209,7 @@ export async function POST(req: NextRequest) {
 
             // Create enhanced orchestration prompt for authentic group dynamics
             let orchestrationPrompt = '';
-            
+
             // Special handling for onboarding questions
             if (isOnboardingQuestion) {
                   orchestrationPrompt = `You are helping introduce planets in a birth chart to a new user. This is an ONBOARDING moment where planets should explain their roles and personalities clearly and welcomingly. Each planet should introduce themselves authentically but also educationally.
@@ -320,8 +320,8 @@ Respond with 1-5 planet responses as a JSON object with this structure:
     {"planet": "planet_name", "message": "short authentic response (5-20 words max)"}
   ]
 }`;
-            }
-
+            }// add time in ms to this console log
+            console.log('DEBUG: Pre-sending msg to anthropic:', Date.now())
             // Call Claude API with structured output request
             const response = await anthropic.messages.create({
                   model: "claude-3-5-sonnet-20241022", // Use the working model for now
@@ -338,7 +338,7 @@ Respond with 1-5 planet responses as a JSON object with this structure:
             // Parse Claude's response
             const responseText = response.content[0].type === 'text' ? response.content[0].text : '';
             console.log('DEBUG: Raw Claude response:', responseText);
-            
+
             if (!responseText) {
                   throw new Error('No response from Claude');
             }
@@ -370,8 +370,8 @@ Respond with 1-5 planet responses as a JSON object with this structure:
                   // Fallback: create a default response
                   orchestrationResponse.responses = [
                         {
-                        planet: 'sun',
-                        message: 'yo what\'s up'
+                              planet: 'sun',
+                              message: 'yo what\'s up'
                         },
                         { planet: 'mercury', message: 'wait huh?' },
                         { planet: 'moon', message: 'feeling confused rn' }
@@ -381,7 +381,7 @@ Respond with 1-5 planet responses as a JSON object with this structure:
             // Validate that returned planets exist in the birth chart data
             console.log('DEBUG: Checking planets against birth chart data...');
             console.log('DEBUG: Available planets in birth chart:', Object.keys(allPlanetsData));
-            
+
             const validResponses = orchestrationResponse.responses.filter(response => {
                   const planetName = response.planet.toLowerCase(); // Convert to lowercase to match birth chart data
                   const isValid = allPlanetsData[planetName] && response.message.trim();
