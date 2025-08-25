@@ -1,7 +1,8 @@
-import LandingPage from "./landing_page";
+
+import LandingPageDesigned from "./landing_page_designed";
 
 export default async function Home() {
   return (
-    <LandingPage />
+    <LandingPageDesigned/>
   );
 }

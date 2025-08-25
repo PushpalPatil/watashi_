@@ -115,11 +115,14 @@ export default function GroupChat() {
                   // Remove typing indicators
                   setTypingPlanets([]);
 
-                  // Add planet responses with slight delays for natural conversation flow
+                  // Add planet responses immediately for faster UX
+                  // responses.forEach(response => {
+                  //       addMessage(response);
+                  // });
                   for (let i = 0; i < responses.length; i++) {
                         setTimeout(() => {
                               addMessage(responses[i]);
-                        }, i * 1200); // 1.2 second delay between each response
+                        }, i * 1000); // 1 second delay between each response
                   }
 
             } catch (error) {
@@ -238,7 +241,7 @@ export default function GroupChat() {
 
                   {/* Birth Chart Popup */}
                   {showPopup && (
-                        <BirthChartPopup 
+                        <BirthChartPopup
                               onClose={() => setShowPopup(false)}
                               showNext={shouldShowNext()}
                               onNext={handleNext}
