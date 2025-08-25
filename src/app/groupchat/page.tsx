@@ -4,6 +4,7 @@ import { BirthChartPopup } from '@/app/components/birth-chart-popup';
 import ChatInput from '@/app/components/chat-input';
 import ChatMessageComponent, { ChatMessage } from '@/app/components/chat-message';
 import Header from '@/app/components/header';
+import { OnboardingQuestions } from '@/app/components/onboarding-questions';
 import { StarryBackground } from '@/app/components/starry-background';
 import { useGroupChatStorage } from '@/hooks/useGroupChatStorage';
 import { useSwipeGesture } from '@/hooks/useSwipeGesture';
@@ -20,6 +21,7 @@ export default function GroupChat() {
       const [showPopup, setShowPopup] = useState(false);
       const [showDrawer, setShowDrawer] = useState(false);
       const [hasShownPopup, setHasShownPopup] = useState(false);
+      const [showOnboardingQuestions, setShowOnboardingQuestions] = useState(false);
       const messagesEndRef = useRef<HTMLDivElement>(null);
 
       const scrollToBottom = () => {
@@ -27,10 +29,10 @@ export default function GroupChat() {
       };
 
       useEffect(() => {
-            // Hide swipe indicator after 30 seconds
+            // Hide swipe indicator after 2 minutes
             const timer = setTimeout(() => {
                   setShowSwipeIndicator(false);
-            }, 30000);
+            }, 120000);
 
             return () => clearTimeout(timer);
       }, []);
@@ -64,11 +66,30 @@ export default function GroupChat() {
             }
       }, [_hasHydrated, isLoaded, planets, hasShownPopup]);
 
+      // Check if we should show Next button (new users who haven't seen onboarding)
+      const shouldShowNext = () => {
+            const hasSeenOnboarding = localStorage.getItem('hasSeenOnboarding');
+            const hasMessages = messages.length > 1; // More than just the welcome message
+            return !hasSeenOnboarding && !hasMessages;
+      };
+
+      const handleNext = () => {
+            setShowPopup(false);
+            setShowOnboardingQuestions(true);
+      };
+
       // Swipe gesture hook
       useSwipeGesture({
             onSwipeFromRight: () => setShowDrawer(true),
             enabled: !showDrawer && !showPopup
       });
+
+      const handleQuestionSelect = (question: string) => {
+            setShowOnboardingQuestions(false);
+            setShowDrawer(false); // Close drawer when question is selected
+            localStorage.setItem('hasSeenOnboarding', 'true');
+            handleSendMessage(question);
+      };
 
       const handleSendMessage = async (content: string) => {
             if (!content.trim() || isLoading) return;
@@ -131,7 +152,7 @@ export default function GroupChat() {
             try {
                   console.log('DEBUG: Planet data being sent:', Object.keys(planets));
                   console.log('DEBUG: Full planet data:', planets);
-                  
+
                   const response = await fetch('/api/groupchat5', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -217,7 +238,23 @@ export default function GroupChat() {
 
                   {/* Birth Chart Popup */}
                   {showPopup && (
-                        <BirthChartPopup onClose={() => setShowPopup(false)} />
+                        <BirthChartPopup 
+                              onClose={() => setShowPopup(false)}
+                              showNext={shouldShowNext()}
+                              onNext={handleNext}
+                        />
+                  )}
+
+                  {/* Onboarding Questions Popup */}
+                  {showOnboardingQuestions && (
+                        <OnboardingQuestions
+                              mode="overlay"
+                              onQuestionSelect={handleQuestionSelect}
+                              onClose={() => {
+                                    setShowOnboardingQuestions(false);
+                                    localStorage.setItem('hasSeenOnboarding', 'true');
+                              }}
+                        />
                   )}
 
                   {/* Birth Chart Drawer */}
@@ -225,6 +262,7 @@ export default function GroupChat() {
                         mode="drawer"
                         isOpen={showDrawer}
                         onClose={() => setShowDrawer(false)}
+                        onQuestionSelect={handleQuestionSelect}
                   />
 
                   {/* Swipe indicator arrow */}
@@ -235,7 +273,7 @@ export default function GroupChat() {
                                           <img
                                                 src="/top-arrow-svg.svg"
                                                 alt="Swipe left"
-                                                className="w-4 h-4 filter brightness-10 invert opacity-70 transform -rotate-90"
+                                                className="w-4 h-4 filter brightness-90 invert opacity-100 transform -rotate-90"
                                           />
                                     </div>
                               </div>
