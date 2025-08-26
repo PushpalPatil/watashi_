@@ -30,7 +30,7 @@ export default function LandingPageDesigned() {
 
       {/* Main content area that grows to fill available space */}
       <main className="flex-1 flex flex-col justify-center relative z-10">
-        <section className="container mx-auto px-6 py-32 text-center flex flex-col items-center relative">
+        <section className="container mx-auto px-4 md:px-6 py-16 md:py-32 text-center flex flex-col items-center relative">
           {/* Solar System Layout - Ordered from top right clockwise */}
           <div className="fixed inset-0 pointer-events-none z-0">
             {/* Sun - Top right corner (largest) */}
@@ -41,7 +41,7 @@ export default function LandingPageDesigned() {
               muted
               playsInline
               preload="auto"
-              className="md:w-2xl md:h-2xl -top-64 -right-40 absolute "
+              className="w-lg h-lg top-0 md:w-2xl md:h-2xl md:-top-64 md:-right-40 absolute"
               style={{ objectFit: 'cover' }}
             />
 
@@ -53,7 +53,7 @@ export default function LandingPageDesigned() {
               muted
               playsInline
               preload="auto"
-              className="md:w-25 md:h-25 absolute top-100 right-100 "
+              className="md:w-25 md:h-25 absolute md:top-100 md:right-100 "
               style={{ objectFit: 'cover' }}
             />
 
@@ -65,7 +65,7 @@ export default function LandingPageDesigned() {
               muted
               playsInline
               preload="auto"
-              className="md:w-32 md:h-32 absolute top-170 right-50"
+              className="md:w-32 md:h-32 absolute md:top-170 md:right-50"
               style={{ objectFit: 'cover' }}
             />
 
@@ -77,7 +77,7 @@ export default function LandingPageDesigned() {
               muted
               playsInline
               preload="auto"
-              className="w-10 h-12 md:w-12 md:h-10 absolute top-150 right-180 "
+              className=" md:w-12 md:h-10 absolute md:top-150 md:right-180 "
               style={{ objectFit: 'cover' }}
             />
 
@@ -89,7 +89,7 @@ export default function LandingPageDesigned() {
               muted
               playsInline
               preload="auto"
-              className="w-10 h-10 md:w-18 md:h-18 absolute top-50 right-240 brightness-85 "
+              className="md:w-18 md:h-18 absolute md:top-50 md:right-240 brightness-85 "
               style={{ objectFit: 'cover' }}
             />
 
@@ -101,7 +101,7 @@ export default function LandingPageDesigned() {
               muted
               playsInline
               preload="auto"
-              className="md:w-md md:h-md absolute top-120 right-270 opacity-90 brightness-90"
+              className="md:w-md md:h-md absolute md:top-120 md:right-270 opacity-90 brightness-90"
               style={{ objectFit: 'cover' }}
             />
 
@@ -113,7 +113,7 @@ export default function LandingPageDesigned() {
               muted
               playsInline
               preload="auto"
-              className="md:w-md md:h-md top-20 right-350 opacity-95 "
+              className="md:w-md md:h-md md:top-20 md:right-350 opacity-95 "
               style={{ objectFit: 'cover' }}
             />
 
@@ -126,10 +126,10 @@ export default function LandingPageDesigned() {
 
           {/* Center Title - Above solar system */}
           <div className="relative z-10">
-            <h1 className="text-5xl font-expanded font-stretch-200% font-serif animate-fade-in">
+            <h1 className="text-5xl font-expanded text-amber-50/85 font-stretch-200% font-serif animate-fade-in">
               W A T A S H I
             </h1>
-            <p className="text-xs font-expanded font-mono font-thin text-gray-600 mt-2 animate-pulse animate-delayed-fade-in">click to get started</p>
+            <p className="text-xs font-expanded font-mono font-thin text-amber-50/50 mt-2 animate-pulse animate-delayed-fade-in">click to get started</p>
           </div>
 
           {/* Custom fade-in animation */}
@@ -169,12 +169,12 @@ export default function LandingPageDesigned() {
       </main>
 
       {/* Footer that sticks to bottom */}
-      <footer className="py-6 mt-auto">
+      <footer className="py-6 mt-auto justify-center">
         <div className="container mx-auto px-6 text-center">
-          <div className="text-xs font-light mb-1 text-white/60">
+          <div className="text-xs font-light mb-1 justify-center text-amber-50/60">
             connecting you with cosmic wisdom
           </div>
-          <div className="text-xs font-extralight text-white/30">
+          <div className="text-xs font-extralight text-amber-50/40">
             &copy; 2025 Watashi. All rights reserved.
           </div>
         </div>

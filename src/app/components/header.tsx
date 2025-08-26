@@ -2,7 +2,12 @@
 
 //import { ThemeToggle } from "@/components/theme-toggle";
 
-export default function Header() {
+interface HeaderProps {
+    onMenuClick?: () => void;
+    showMenuIcon?: boolean;
+}
+
+export default function Header({ onMenuClick, showMenuIcon = false }: HeaderProps) {
     const handleNewUser = () => {
         // Clear all storage
         localStorage.clear();
@@ -31,7 +36,21 @@ export default function Header() {
                         W A T A S H I
                     </div>
 
-                    <div className="absolute top-4 right-4 pl-4">
+                    <div className="absolute top-4 right-4 pl-4 flex items-center space-x-3">
+                        {/* Hamburger menu icon */}
+                        {showMenuIcon && (
+                            <button
+                                onClick={onMenuClick}
+                                className="p-2 bg-transparent hover:bg-gray-600/50 rounded-lg transition-colors"
+                            >
+                                <img
+                                    src="/top-arrow-svg.svg"
+                                    alt="Menu"
+                                    className="w-5 h-5 filter brightness-90 invert opacity-85 transform -rotate-90"
+                                />
+                            </button>
+                        )}
+                        
                         {/* <section className="size-10">
                             <ThemeToggle />
                         </section> */}
