@@ -27,8 +27,8 @@ export default function Header() {
             <header className="py-4">
                 <div className="flex flex-row justify-between items-center">
 
-                    <div className="text-4xl font-normal tracking-tight pl-4 text-white">
-                        WATASHI
+                    <div className="text-4xl font-expanded font-stretch-200% font-serif pl-4 text-white">
+                        W A T A S H I
                     </div>
 
                     <div className="absolute top-4 right-4 pl-4">
