@@ -239,15 +239,24 @@ export default function LetsYap() {
                                           placeholder="Enter your name"
                                           value={form.name}
                                           onChange={(e) => setForm({ ...form, name: e.target.value })}
-                                          className="w-full rounded-md border border-border bg-transparent px-3 py-2"
+                                          className="w-full rounded-md font-thin text-amber-50/85 border border-border bg-transparent px-3 py-2"
                                           required
                                     />
+
+                                    {/* birth date */}
+                                    <div className="w-full max-w-sm items-center text-amber-50/85">
+                                          <CalendarComponent
+                                                value={form.birthDate}
+                                                onChange={(d: any) => setForm({ ...form, birthDate: d })}
+                                                
+                                          />
+                                    </div>
 
                                     {/* birth time */}
                                     <Input
                                           type="time"
                                           id="time"
-                                          className="w-full rounded-md border border-border bg-transparent px-3 py-2"
+                                          className="w-full rounded-md border font-thin text-amber-50/85 border-border bg-transparent px-3 py-2"
                                           min="00:00"
                                           max="23:59"
                                           required
@@ -265,13 +274,13 @@ export default function LetsYap() {
                                                 setInput(e.target.value);
                                                 setShowSuggestions(e.target.value.length > 0);
                                           }}
-                                          className="w-full rounded-md border border-border bg-transparent px-3 py-2"
+                                          className="w-full rounded-md border font-thin text-amber-50/85 border-border bg-transparent px-3 py-2"
                                           required
                                     />
 
                                     {/* Location suggestions dropdown */}
                                     {showSuggestions && (
-                                          <div className="w-full max-w-sm text-xs border border-border bg-background rounded-md">
+                                          <div className="w-full max-w-sm text-xs font-thin text-amber-50/85 border border-border bg-background rounded-md">
                                                 {/*
                                           map through predictions and display them
                                           key is the place_id, which is a unique identifier for the place -- for list rendering
@@ -283,7 +292,7 @@ export default function LetsYap() {
                                                       <div
 
                                                             key={prediction.place_id}
-                                                            className="px-3 py-2 hover:bg-muted cursor-pointer border-b border-border last:border-b-0"
+                                                            className="px-3 py-2 hover:bg-muted cursor-pointer border-b border-border font-thin text-amber-50/85 last:border-b-0"
                                                             onClick={async () => {
                                                                   setInput(prediction.description);
                                                                   const details = await getPlaceDetails(prediction.place_id);
@@ -306,13 +315,7 @@ export default function LetsYap() {
                                           </div>
                                     )}
 
-                                    {/* birth date */}
-                                    <div className="w-full max-w-sm items-center">
-                                          <CalendarComponent
-                                                value={form.birthDate}
-                                                onChange={(d: any) => setForm({ ...form, birthDate: d })}
-                                          />
-                                    </div>
+                                    
 
                                     {/* submit button with loading state */}
                                     <Button
@@ -381,12 +384,13 @@ export default function LetsYap() {
                         input {
                               background-color: transparent !important;
                               background-image: none !important;
+                              color: #fffbeb !important;
                         }
 
                         /* Fix time input styling */
                         input[type="time"] {
                               color-scheme: dark;
-                              color: #9ca3af !important;
+                              color: #fffbeb !important;
                         }
 
                         input[type="time"]::-webkit-calendar-picker-indicator {
@@ -401,7 +405,7 @@ export default function LetsYap() {
                         .calendar-icon,
                         [data-testid="calendar-icon"],
                         svg[data-testid="calendar-icon"] {
-                              color: #9ca3af !important;
+                              color: text-amber-50/95 !important;
                               opacity: 0.7 !important;
                         }
 

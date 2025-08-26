@@ -52,7 +52,7 @@ export function CalendarComponent({ value, onChange }: DatePickedProps) {
                     id="date"
                     value={inputValue}
                     placeholder="MM / DD / YYYY"
-                    className="w-full rounded-md border border-border bg-transparent px-3 py-2 pr-10"
+                    className="w-full rounded-md border border-border text-amber-50/85 font-thin bg-transparent px-3 py-2 pr-10"
                     onChange={(e) => {
                         // Allow free text input without immediate validation
                         setInputValue(e.target.value)
