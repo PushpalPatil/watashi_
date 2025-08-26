@@ -23,11 +23,11 @@ export default function Header() {
     };
 
     return (
-        <div className="sticky top-0 z-50 bg-transparent backdrop-blur-xs">
+        <div className="sticky top-0 z-50 bg-transparent">
             <header className="py-4">
                 <div className="flex flex-row justify-between items-center">
 
-                    <div className="text-4xl font-expanded font-stretch-200% font-serif pl-4 text-white">
+                    <div className="text-4xl font-expanded font-stretch-200% font-serif pl-4 text-amber-50/95">
                         W A T A S H I
                     </div>
 
@@ -37,7 +37,7 @@ export default function Header() {
                         </section> */}
                         <button
                             onClick={handleNewUser}
-                            className="px-4 py-2 bg-transparent hover:bg-gray-600 border border-white/25 text-white text-sm rounded-lg transition-colors"
+                            className="px-4 py-2 bg-transparent hover:bg-gray-600 border border-white/25 text-amber-50/85 text-sm rounded-lg transition-colors"
                         >
                             New User
                         </button>
