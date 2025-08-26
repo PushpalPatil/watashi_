@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="2048px" height="2048px" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 2048 2048"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil1 {fill:none}
+    .fil0 {fill:#424242}
+   ]]>
+  </style>
+ </defs>
+ <g id="Layer_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <g id="_274939536">
+   <g>
+    <polygon id="_274914296" class="fil0" points="355.83,267.707 255.999,438.473 518.712,438.473 550.556,319.628 "/>
+    <rect id="_274914272" class="fil0" x="368.956" y="399.053" width="155.654" height="933.067"/>
+    <polygon id="_274346960" class="fil0" points="524.607,1318.57 583.64,1401.98 446.783,1513.64 309.926,1401.98 368.959,1318.57 "/>
+   </g>
+   <polygon id="_274347080" class="fil0" points="485.21,456.593 665.161,275.322 908.183,333.121 881.473,486.134 "/>
+   <rect id="_274347008" class="fil0" x="725.82" y="399.053" width="155.654" height="933.067"/>
+   <polygon id="_274346648" class="fil0" points="881.47,1318.57 940.503,1401.98 803.646,1513.64 666.789,1401.98 725.822,1318.57 "/>
+   <polygon id="_274346216" class="fil0" points="862.915,456.593 1042.87,275.322 1285.89,333.121 1285.89,488.119 "/>
+   <rect id="_274346792" class="fil0" x="1103.52" y="399.053" width="155.654" height="933.067"/>
+   <polygon id="_274346672" class="fil0" points="1259.18,1318.57 1318.21,1401.98 1173.47,1454.53 947.29,1530.72 1103.53,1318.57 "/>
+   <polygon id="_274938624" class="fil0" points="1164.16,1412.17 1164.16,1786.55 1312.54,1700.89 1288.96,1385.9 "/>
+   <polygon id="_274938504" class="fil0" points="1397.92,261.45 1217.96,532.057 1244.23,639.772 1428.14,374.418 "/>
+   <path id="_274939560" class="fil0" d="M1259.18 1318.57l341.91 35.8051 18.3886 -969.438 -212.142 -12.4913 -9.41339 -110.992 352.037 0c0,0 -42.0307,757.942 42.0414,1062.7l-131.356 176.028 -387.317 -81.9071 -14.1496 -99.7017z"/>
+  </g>
+ </g>
+ <rect class="fil1" width="2048" height="2048"/>
+</svg>

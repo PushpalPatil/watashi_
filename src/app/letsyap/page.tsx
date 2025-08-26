@@ -16,6 +16,7 @@ import { CalendarComponent } from "../components/calendar";
 // Import the birth chart calculator
 import { BirthChartResult, BirthData, calculateBirthChart } from "@/app/components/birthchartcalculator";
 import { toast } from "sonner"; // Make sure you have sonner installed
+import StarryBackgroundLanding from "../components/starrybackgroundlanding";
 
 export interface MapLocation {
       place_id: string
@@ -163,148 +164,175 @@ export default function LetsYap() {
       return (
             <div className="bg-black animate-page-fade-in">
                   <Header />
-
-                  {/* welcome blurb  */}
-                  <section className="container mx-auto py-20 text-center flex flex-col items-center">
-                        {/* <h1 className="text-3xl font-normal ">
+                  <StarryBackgroundLanding />
+                  <div className="justify-center mt-30">
+                        {/* welcome blurb  */}
+                        <section className="container mx-auto   py-20 text-center flex flex-col items-center">
+                              {/* <h1 className="text-3xl font-normal ">
                               ~ welcome ~
                         </h1> */}
-                        <p className="text-lg text-muted-foreground pt-2 font-light font-serif"> please fill out your birth details</p>
-                  </section>
+                              <p className="text-lg text-amber-50/85 pt-2 font-light font-serif"> please fill out your birth details</p>
+                        </section>
 
-                  {/* Floating zodiac symbols */}
-                  <div className="fixed inset-0 pointer-events-none z-0">
-                        {/* Aries */}
-                        <div className="absolute top-20 left-10 text-2xl text-white/70 bg-transparent animate-float-1 glow-symbol">♈︎</div>
-                        {/* Taurus */}
-                        <div className="absolute top-32 right-16 text-xl text-white/70 animate-float-2 glow-symbol">♉</div>
-                        {/* Gemini */}
-                        <div className="absolute top-60 left-8 text-2xl text-white/70 animate-float-3 glow-symbol">♊</div>
-                        {/* Cancer */}
-                        <div className="absolute top-80 right-12 text-xl text-white/70 animate-float-4 glow-symbol">♋</div>
-                        {/* Leo */}
-                        <div className="absolute bottom-80 left-12 text-2xl text-white/70 animate-float-5 glow-symbol">♌</div>
-                        {/* Virgo */}
-                        <div className="absolute bottom-60 right-8 text-xl text-white/70 animate-float-6 glow-symbol">♍</div>
-                        {/* Libra */}
-                        <div className="absolute bottom-40 left-16 text-2xl text-white/70 animate-float-1 glow-symbol">♎</div>
-                        {/* Scorpio */}
-                        <div className="absolute bottom-20 right-10 text-xl text-white/70 animate-float-2 glow-symbol">♏</div>
-                        {/* Sagittarius */}
-                        <div className="absolute top-40 left-20 text-2xl text-white/70 animate-float-3 glow-symbol">♐</div>
-                        {/* Capricorn */}
-                        <div className="absolute top-70 right-20 text-xl text-white/70 animate-float-4 glow-symbol">♑</div>
-                        {/* Aquarius */}
-                        <div className="absolute bottom-50 left-6 text-2xl text-white/70 animate-float-5 glow-symbol">♒</div>
-                        {/* Pisces */}
-                        <div className="absolute bottom-30 right-6 text-xl text-white/70 animate-float-6 glow-symbol">♓</div>
-                  </div>
+                        {/* Floating zodiac symbols - arranged in circle around form */}
+                        <div className="fixed inset-0 pointer-events-none z-0 flex items-center justify-center">
+                              <div className="relative w-[600px] h-[600px] md:w-[700px] md:h-[700px] animate-orbit-slow">
+                                    {/* Aries - 0° (top) */}
+                                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-float-1 glow-svg" style={{ top: '0px' }}>
+                                          <img src="/symbols/aries-sign.svg" alt="Aries" className="w-7 h-7 md:w-9 md:h-9 filter invert opacity-90" />
+                                    </div>
+                                    {/* Taurus - 30° */}
+                                    <div className="absolute animate-float-2 glow-svg" style={{ top: '13.4%', right: '6.7%', transform: 'translate(50%, -50%)' }}>
+                                          <img src="/symbols/taurus-sign.svg" alt="Taurus" className="w-6 h-6 md:w-8 md:h-8 filter invert opacity-90" />
+                                    </div>
+                                    {/* Gemini - 60° */}
+                                    <div className="absolute animate-float-3 glow-svg" style={{ top: '25%', right: '0%', transform: 'translate(50%, -50%)' }}>
+                                          <img src="/symbols/gemini-sign.svg" alt="Gemini" className="w-7 h-7 md:w-9 md:h-9 filter invert opacity-90" />
+                                    </div>
+                                    {/* Cancer - 90° (right) */}
+                                    <div className="absolute top-1/2 right-0 transform translate-x-1/2 -translate-y-1/2 animate-float-4 glow-svg">
+                                          <img src="/symbols/cancer-sign.svg" alt="Cancer" className="w-6 h-6 md:w-8 md:h-8 filter invert opacity-90" />
+                                    </div>
+                                    {/* Leo - 120° */}
+                                    <div className="absolute animate-float-5 glow-svg" style={{ bottom: '25%', right: '0%', transform: 'translate(50%, 50%)' }}>
+                                          <img src="/symbols/leo-sign.svg" alt="Leo" className="w-7 h-7 md:w-9 md:h-9 filter invert opacity-90" />
+                                    </div>
+                                    {/* Virgo - 150° */}
+                                    <div className="absolute animate-float-6 glow-svg" style={{ bottom: '13.4%', right: '6.7%', transform: 'translate(50%, 50%)' }}>
+                                          <img src="/symbols/virgo-sign.svg" alt="Virgo" className="w-6 h-6 md:w-8 md:h-8 filter invert opacity-90" />
+                                    </div>
+                                    {/* Libra - 180° (bottom) */}
+                                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 animate-float-1 glow-svg">
+                                          <img src="/symbols/libra-sign.svg" alt="Libra" className="w-7 h-7 md:w-9 md:h-9 filter invert opacity-90" />
+                                    </div>
+                                    {/* Scorpio - 210° */}
+                                    <div className="absolute animate-float-2 glow-svg" style={{ bottom: '13.4%', left: '6.7%', transform: 'translate(-50%, 50%)' }}>
+                                          <img src="/symbols/scorpio-sign.svg" alt="Scorpio" className="w-6 h-6 md:w-8 md:h-8 filter invert opacity-90" />
+                                    </div>
+                                    {/* Sagittarius - 240° */}
+                                    <div className="absolute animate-float-3 glow-svg" style={{ bottom: '25%', left: '0%', transform: 'translate(-50%, 50%)' }}>
+                                          <img src="/symbols/sagittarius-sign.svg" alt="Sagittarius" className="w-7 h-7 md:w-9 md:h-9 filter invert opacity-90" />
+                                    </div>
+                                    {/* Capricorn - 270° (left) */}
+                                    <div className="absolute top-1/2 left-0 transform -translate-x-1/2 -translate-y-1/2 animate-float-4 glow-svg">
+                                          <img src="/symbols/capricorn-sign.svg" alt="Capricorn" className="w-6 h-6 md:w-8 md:h-8 filter invert opacity-90" />
+                                    </div>
+                                    {/* Aquarius - 300° */}
+                                    <div className="absolute animate-float-5 glow-svg" style={{ top: '25%', left: '0%', transform: 'translate(-50%, -50%)' }}>
+                                          <img src="/symbols/aquarius-sign.svg" alt="Aquarius" className="w-7 h-7 md:w-9 md:h-9 filter invert opacity-90" />
+                                    </div>
+                                    {/* Pisces - 330° */}
+                                    <div className="absolute animate-float-6 glow-svg" style={{ top: '13.4%', left: '6.7%', transform: 'translate(-50%, -50%)' }}>
+                                          <img src="/symbols/pisces-sign.svg" alt="Pisces" className="w-6 h-6 md:w-8 md:h-8 filter invert opacity-90" />
+                                    </div>
+                              </div>
+                        </div>
 
-                  {/* form section */}
-                  <section className="min-h-screen px-4 max-w-sm container flex space-y-6 flex-col items-center mx-auto font-normal relative z-10">
-                        <form className="w-full max-w-sm items-center justify-center flex flex-col space-y-6" onSubmit={handleSubmit}>
+                        {/* form section */}
+                        <section className="min-h-screen px-4 max-w-sm container flex space-y-6 flex-col items-center mx-auto font-normal relative z-10">
+                              <form className="w-full max-w-sm items-center justify-center flex flex-col space-y-6" onSubmit={handleSubmit}>
 
-                              {/* name */}
-                              <Input
-                                    type="text"
-                                    id="name"
-                                    placeholder="Enter your name"
-                                    value={form.name}
-                                    onChange={(e) => setForm({ ...form, name: e.target.value })}
-                                    className="w-full rounded-md border border-border bg-transparent px-3 py-2"
-                                    required
-                              />
+                                    {/* name */}
+                                    <Input
+                                          type="text"
+                                          id="name"
+                                          placeholder="Enter your name"
+                                          value={form.name}
+                                          onChange={(e) => setForm({ ...form, name: e.target.value })}
+                                          className="w-full rounded-md border border-border bg-transparent px-3 py-2"
+                                          required
+                                    />
 
-                              {/* birth time */}
-                              <Input
-                                    type="time"
-                                    id="time"
-                                    className="w-full rounded-md border border-border bg-transparent px-3 py-2"
-                                    min="00:00"
-                                    max="23:59"
-                                    required
-                                    value={form.birthTime}
-                                    onChange={(e) => setForm({ ...form, birthTime: e.target.value })}
-                              />
+                                    {/* birth time */}
+                                    <Input
+                                          type="time"
+                                          id="time"
+                                          className="w-full rounded-md border border-border bg-transparent px-3 py-2"
+                                          min="00:00"
+                                          max="23:59"
+                                          required
+                                          value={form.birthTime}
+                                          onChange={(e) => setForm({ ...form, birthTime: e.target.value })}
+                                    />
 
-                              {/* birth location */}
-                              <Input
-                                    type="text"
-                                    placeholder="Birth location..."
-                                    value={form.birthLocation}
-                                    onChange={(e) => {
-                                          setForm(prev => ({ ...prev, birthLocation: e.target.value }));
-                                          setInput(e.target.value);
-                                          setShowSuggestions(e.target.value.length > 0);
-                                    }}
-                                    className="w-full rounded-md border border-border bg-transparent px-3 py-2"
-                                    required
-                              />
+                                    {/* birth location */}
+                                    <Input
+                                          type="text"
+                                          placeholder="Birth location..."
+                                          value={form.birthLocation}
+                                          onChange={(e) => {
+                                                setForm(prev => ({ ...prev, birthLocation: e.target.value }));
+                                                setInput(e.target.value);
+                                                setShowSuggestions(e.target.value.length > 0);
+                                          }}
+                                          className="w-full rounded-md border border-border bg-transparent px-3 py-2"
+                                          required
+                                    />
 
-                              {/* Location suggestions dropdown */}
-                              {showSuggestions && (
-                                    <div className="w-full max-w-sm text-xs border border-border bg-background rounded-md">
-                                          {/*
+                                    {/* Location suggestions dropdown */}
+                                    {showSuggestions && (
+                                          <div className="w-full max-w-sm text-xs border border-border bg-background rounded-md">
+                                                {/*
                                           map through predictions and display them
                                           key is the place_id, which is a unique identifier for the place -- for list rendering
                                           prediction.description = the readable location name for users is set in input box
                                           set form fetches coordinates from the prediction var (location & all it's descriptive tings)
                                           
                                           */}
-                                          {predictions.map((prediction) => (
-                                                <div
-                                                      
-                                                      key={prediction.place_id}
-                                                      className="px-3 py-2 hover:bg-muted cursor-pointer border-b border-border last:border-b-0"
-                                                      onClick={async () => {
-                                                            setInput(prediction.description);
-                                                            const details = await getPlaceDetails(prediction.place_id);
-                                                            setForm(prev => ({
-                                                                  ...prev,
-                                                                  birthLocation: prediction.description,
-                                                                  lat: details.result.geometry?.location.lat ?? prev.lat,
-                                                                  lon: details.result.geometry?.location.lng ?? prev.lon
-                                                            }));
-                                                            console.log("place details", details);
-                                                            // hide suggestions after a selection is made
-                                                            setShowSuggestions(false);
-                                                            setPredictions([]);
-                                                            setOpen(false);
-                                                      }}
-                                                >
-                                                      {prediction.description}
-                                                </div>
-                                          ))}
-                                    </div>
-                              )}
+                                                {predictions.map((prediction) => (
+                                                      <div
 
-                              {/* birth date */}
-                              <div className="w-full max-w-sm items-center">
-                                    <CalendarComponent
-                                          value={form.birthDate}
-                                          onChange={(d: any) => setForm({ ...form, birthDate: d })}
-                                    />
-                              </div>
-
-                              {/* submit button with loading state */}
-                              <Button
-                                    type="submit"
-                                    disabled={isCalculatingChart}
-                                    className="rounded-full mt-5 items-center justify-center text-white/70 font-thin font-serif font-stretch-100% hover:bg-[#383838] dark:hover:bg-[#ccc] bg-transparent border-1 border-white/60 font-sm text-md md:text-base sm:h-13 sm:w-auto md:w-[125px]"
-                              >
-                                    {isCalculatingChart ? (
-                                          <div className="flex items-center space-x-2">
-                                                <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-background"></div>
-                                                <span className="text-sm">calculating...</span>
+                                                            key={prediction.place_id}
+                                                            className="px-3 py-2 hover:bg-muted cursor-pointer border-b border-border last:border-b-0"
+                                                            onClick={async () => {
+                                                                  setInput(prediction.description);
+                                                                  const details = await getPlaceDetails(prediction.place_id);
+                                                                  setForm(prev => ({
+                                                                        ...prev,
+                                                                        birthLocation: prediction.description,
+                                                                        lat: details.result.geometry?.location.lat ?? prev.lat,
+                                                                        lon: details.result.geometry?.location.lng ?? prev.lon
+                                                                  }));
+                                                                  console.log("place details", details);
+                                                                  // hide suggestions after a selection is made
+                                                                  setShowSuggestions(false);
+                                                                  setPredictions([]);
+                                                                  setOpen(false);
+                                                            }}
+                                                      >
+                                                            {prediction.description}
+                                                      </div>
+                                                ))}
                                           </div>
-                                    ) : (
-                                          'submit'
                                     )}
-                              </Button>
-                        </form>
 
-                        {/* chart data preview */}
-                        {/* {chartData && (
+                                    {/* birth date */}
+                                    <div className="w-full max-w-sm items-center">
+                                          <CalendarComponent
+                                                value={form.birthDate}
+                                                onChange={(d: any) => setForm({ ...form, birthDate: d })}
+                                          />
+                                    </div>
+
+                                    {/* submit button with loading state */}
+                                    <Button
+                                          type="submit"
+                                          disabled={isCalculatingChart}
+                                          className="rounded-full mt-5 items-center justify-center hover:bg-accent text-amber-50/85 font-thin font-serif font-stretch-100% bg-transparent border-1 border-white/60 font-sm text-md md:text-base sm:h-13 sm:w-auto md:w-[125px]"
+                                    >
+                                          {isCalculatingChart ? (
+                                                <div className="flex items-center space-x-2">
+                                                      <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-background"></div>
+                                                      <span className="text-xs text-amber-50/65">calculating...</span>
+                                                </div>
+                                          ) : (
+                                                'submit'
+                                          )}
+                                    </Button>
+                              </form>
+
+                              {/* chart data preview */}
+                              {/* {chartData && (
                               <div className="w-full max-w-sm mt-6 p-4 border rounded-md bg-transparent">
                                     <h3 className="text-sm font-medium mb-2">Chart Preview (check console for full data):</h3>
                                     <div className="text-xs space-y-1">
@@ -314,8 +342,8 @@ export default function LetsYap() {
                                     </div>
                               </div>
                         )} */}
-                  </section>
-
+                        </section>
+                  </div>
                   {/* Page fade-in animation and autofill styling */}
                   <style jsx global>{`
                         @keyframes page-fade-in {
@@ -385,9 +413,16 @@ export default function LetsYap() {
 
                         /* Zodiac symbols glow and float animations */
                         .glow-symbol {
-                              text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
+                              text-shadow: 0 0 10px rgba(255, 255, 255, 0.9),
                                          0 0 20px rgba(255, 255, 255, 0.6),
                                          0 0 30px rgba(255, 255, 255, 0.4);
+                        }
+
+                        /* SVG glow effect */
+                        .glow-svg img {
+                              filter: invert(1) drop-shadow(0 0 8px rgba(255, 255, 255, 0.8)) 
+                                      drop-shadow(0 0 16px rgba(255, 255, 255, 0.6)) 
+                                      drop-shadow(0 0 24px rgba(255, 255, 255, 0.4));
                         }
 
                         @keyframes float-1 {
@@ -436,6 +471,16 @@ export default function LetsYap() {
                         .animate-float-4 { animation: float-4 9s ease-in-out infinite; }
                         .animate-float-5 { animation: float-5 11s ease-in-out infinite; }
                         .animate-float-6 { animation: float-6 7s ease-in-out infinite; }
+
+                        /* Orbital rotation animation */
+                        @keyframes orbit {
+                              0% { transform: rotate(0deg); }
+                              100% { transform: rotate(360deg); }
+                        }
+
+                        .animate-orbit-slow {
+                              animation: orbit 180s linear infinite;
+                        }
                   `}</style>
             </div>
       )
