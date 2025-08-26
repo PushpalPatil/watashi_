@@ -1,8 +1,8 @@
 
 "use client";
 
-import StarryBackgroundLanding from "./components/starrybackgroundlanding";
 import { useRouter } from 'next/navigation';
+import StarryBackgroundLanding from "./components/starrybackgroundlanding";
 // src/app/layout.tsx or app/page.tsx
 import './globals.css';
 
@@ -14,15 +14,15 @@ export default function LandingPageDesigned() {
     // Add fade out effect before navigation
     document.body.style.transition = 'opacity 0.5s ease-out';
     document.body.style.opacity = '0';
-    
+
     setTimeout(() => {
       router.push('/letsyap');
     }, 500);
   };
 
   return (
-    <div 
-      className="min-h-screen bg-black text-foreground flex flex-col relative cursor-pointer" 
+    <div
+      className="min-h-screen bg-black text-foreground flex flex-col relative cursor-pointer"
       onClick={handlePageClick}
     >
       {/* Starry background */}
@@ -35,13 +35,13 @@ export default function LandingPageDesigned() {
           <div className="fixed inset-0 pointer-events-none z-0">
             {/* Sun - Top right corner (largest) */}
             <video
-              src="/FLORA_SUN_VID.mp4"
+              src="/FLORA_SUN.mp4"
               autoPlay
               loop
               muted
               playsInline
               preload="auto"
-              className="w-lg h-lg top-0 md:w-2xl md:h-2xl md:-top-64 md:-right-40 absolute"
+              className="w-lg h-lg top-0 md:w-2xl md:h-2xl md:-top-64 md:-right-40 absolute sun-video"
               style={{ objectFit: 'cover' }}
             />
 
@@ -107,21 +107,21 @@ export default function LandingPageDesigned() {
 
             {/* Saturn - Bottom left */}
             <video
-              src="/FLORA_SATURN_VID.mp4"
+              src="/SORA_SATURN.mp4"
               autoPlay
               loop
               muted
               playsInline
               preload="auto"
-              className="md:w-md md:h-md md:top-20 md:right-350 opacity-95 "
+              className="md:w-md sun-video md:h-md md:top-20 md:right-350 opacity-95 "
               style={{ objectFit: 'cover' }}
             />
 
-           
 
-            
 
-           
+
+
+
           </div>
 
           {/* Center Title - Above solar system */}
@@ -163,6 +163,14 @@ export default function LandingPageDesigned() {
             .animate-delayed-fade-in {
               opacity: 0;
               animation: delayed-fade-in 1.5s ease-out 2s forwards;
+            }
+
+            .sun-video {
+              mix-blend-mode: screen;
+              background: transparent;
+              border: none;
+              outline: none;
+              clip-path: circle(55% at center);
             }
           `}</style>
         </section>

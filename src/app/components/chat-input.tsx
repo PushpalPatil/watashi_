@@ -77,12 +77,12 @@ export default function ChatInput({
             rows={1}
             className="
               w-full px-3 py-2 
-              bg-white/5 border border-white/20 rounded-lg
-              text-amber-50/85 placeholder-gray-400
+              bg-white/5 border border-white/20 rounded-lg 
+              text-amber-50/85 placeholder-amber-50/60 
               resize-none overflow-hidden
               focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent
               disabled:opacity-50 disabled:cursor-not-allowed
-              max-h-32
+              max-h-32 
             "
             style={{ minHeight: '40px' }}
           />
@@ -94,7 +94,7 @@ export default function ChatInput({
             px-4 py-2 
             bg-white/10 hover:bg-white/20 
             border border-white/20 rounded-lg
-            text-amber-50/85 font-medium
+            text-amber-50/85 font-light
             disabled:opacity-50 disabled:cursor-not-allowed
             disabled:hover:bg-white/10
             transition-colors duration-200
