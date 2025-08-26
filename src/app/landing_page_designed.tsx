@@ -1,55 +1,180 @@
 
+"use client";
+
 import StarryBackgroundLanding from "./components/starrybackgroundlanding";
+import { useRouter } from 'next/navigation';
 // src/app/layout.tsx or app/page.tsx
 import './globals.css';
 
 
 export default function LandingPageDesigned() {
+  const router = useRouter();
+
+  const handlePageClick = () => {
+    // Add fade out effect before navigation
+    document.body.style.transition = 'opacity 0.5s ease-out';
+    document.body.style.opacity = '0';
+    
+    setTimeout(() => {
+      router.push('/letsyap');
+    }, 500);
+  };
+
   return (
-    <div className="min-h-screen bg-black text-foreground flex flex-col relative">
+    <div 
+      className="min-h-screen bg-black text-foreground flex flex-col relative cursor-pointer" 
+      onClick={handlePageClick}
+    >
       {/* Starry background */}
       <StarryBackgroundLanding />
 
       {/* Main content area that grows to fill available space */}
       <main className="flex-1 flex flex-col justify-center relative z-10">
-        <section className="container mx-auto px-6 py-32 text-center flex flex-col items-center">
-          <div className="relative flex items-center justify-center">
-            {/* Left GIF - Mercury */}
-            <img
-              src="/FLORA-GIF-MERCURY.gif"
-              alt="Mercury Flora"
-              className="w-16 h-16 md:w-20 md:h-20 absolute -left-20 md:-left-24 top-1/2 transform -translate-y-1/2 opacity-80"
+        <section className="container mx-auto px-6 py-32 text-center flex flex-col items-center relative">
+          {/* Solar System Layout - Ordered from top right clockwise */}
+          <div className="fixed inset-0 pointer-events-none z-0">
+            {/* Sun - Top right corner (largest) */}
+            <video
+              src="/FLORA_SUN_VID.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="auto"
+              className="md:w-2xl md:h-2xl -top-64 -right-40 absolute "
+              style={{ objectFit: 'cover' }}
             />
 
-            {/* Center Title */}
-            <h1 className="text-4xl font-expanded font-stretch-200% font-mono px-8">
-              W A T A S H I
-            </h1>
-
-            {/* Right GIF - Sun */}
-            <img
-              src="/FLORA-GIF-SUN.gif"
-              alt="Sun Flora"
-              className="w-16 h-16 md:w-20 md:h-20 absolute -right-20 md:-right-24 top-1/2 transform -translate-y-1/2 opacity-80"
+            {/* Mercury - Second from right, top area */}
+            <video
+              src="/FLORA_MERCURY_VID.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="auto"
+              className="md:w-25 md:h-25 absolute top-100 right-100 "
+              style={{ objectFit: 'cover' }}
             />
+
+            {/* Venus - Top center-right */}
+            <video
+              src="/FLORA_VENUS_VID.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="auto"
+              className="md:w-32 md:h-32 absolute top-170 right-50"
+              style={{ objectFit: 'cover' }}
+            />
+
+            {/* Moon - Top left area */}
+            <video
+              src="/FLORA_MOON_VID.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="auto"
+              className="w-10 h-12 md:w-12 md:h-10 absolute top-150 right-180 "
+              style={{ objectFit: 'cover' }}
+            />
+
+            {/* Mars - Left side, middle height (placeholder) */}
+            <video
+              src="/FLORA_MARS_VID.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="auto"
+              className="w-10 h-10 md:w-18 md:h-18 absolute top-50 right-240 brightness-85 "
+              style={{ objectFit: 'cover' }}
+            />
+
+            {/* Jupiter - Left side, lower (largest planet) */}
+            <video
+              src="/FLORA_JUPITER_VID.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="auto"
+              className="md:w-md md:h-md absolute top-120 right-270 opacity-90 brightness-90"
+              style={{ objectFit: 'cover' }}
+            />
+
+            {/* Saturn - Bottom left */}
+            <video
+              src="/FLORA_SATURN_VID.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="auto"
+              className="md:w-md md:h-md top-20 right-350 opacity-95 "
+              style={{ objectFit: 'cover' }}
+            />
+
+           
+
+            
+
+           
           </div>
 
-          {/* Bottom GIF - Moon */}
-          <img
-            src="/FLORA-GIF-MOON.gif"
-            alt="Moon Flora"
-            className="w-12 h-12 md:w-16 md:h-16 mt-6 opacity-70"
-          />
+          {/* Center Title - Above solar system */}
+          <div className="relative z-10">
+            <h1 className="text-5xl font-expanded font-stretch-200% font-serif animate-fade-in">
+              W A T A S H I
+            </h1>
+            <p className="text-xs font-expanded font-mono font-thin text-gray-600 mt-2 animate-pulse animate-delayed-fade-in">click to get started</p>
+          </div>
+
+          {/* Custom fade-in animation */}
+          <style jsx>{`
+            @keyframes fade-in {
+              0% {
+                opacity: 0;
+                transform: translateY(5px);
+              }
+              100% {
+                opacity: 1;
+                transform: translateY(0);
+              }
+            }
+            
+            @keyframes delayed-fade-in {
+              0% {
+                opacity: 0;
+                transform: translateY(10px);
+              }
+              100% {
+                opacity: 1;
+                transform: translateY(0);
+              }
+            }
+            
+            .animate-fade-in {
+              animation: fade-in 3s ease-out;
+            }
+            
+            .animate-delayed-fade-in {
+              opacity: 0;
+              animation: delayed-fade-in 1.5s ease-out 2s forwards;
+            }
+          `}</style>
         </section>
       </main>
 
       {/* Footer that sticks to bottom */}
       <footer className="py-6 mt-auto">
         <div className="container mx-auto px-6 text-center">
-          <div className="text-xs font-light mb-1">
+          <div className="text-xs font-light mb-1 text-white/60">
             connecting you with cosmic wisdom
           </div>
-          <div className="text-xs font-extralight text-muted-foreground">
+          <div className="text-xs font-extralight text-white/30">
             &copy; 2025 Watashi. All rights reserved.
           </div>
         </div>
