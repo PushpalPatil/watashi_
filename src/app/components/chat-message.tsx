@@ -83,10 +83,10 @@ export default function ChatMessageComponent({ message, planetInfo }: ChatMessag
             {!isUser && planetInfo?.icon && (
               <span className="text-lg">{planetInfo.icon}</span>
             )}
-            <span className="text-xs text-gray-300 font-medium">
+            <span className="text-xs text-amber-50/85 font-light">
               {getPlanetDisplayName(message.sender)}
               {!isUser && planetInfo?.sign && (
-                <span className="text-gray-400"> • {planetInfo.sign}</span>
+                <span className="text-amber-50/60"> • {planetInfo.sign}</span>
               )}
             </span>
           </div>
@@ -97,7 +97,7 @@ export default function ChatMessageComponent({ message, planetInfo }: ChatMessag
           className={`
             px-4 py-2 rounded-lg border border-white/20 bg-gray-500
             ${isUser 
-            ? 'bg-white/10 text-white' 
+            ? 'bg-white/10 text-amber-50/85 font-thin' 
               : `${getPlanetColors(message.sender)} shadow-sm`
             }
             ${isTyping ? 'animate-pulse' : ''}
@@ -116,7 +116,7 @@ export default function ChatMessageComponent({ message, planetInfo }: ChatMessag
         
         {/* Timestamp */}
         {!isTyping && (
-          <div className={`text-xs text-gray-400 mt-1 ${isUser ? 'text-right' : 'text-left'}`}>
+          <div className={`text-xs text-white/50 mt-1 ${isUser ? 'text-right' : 'text-left'}`}>
             {new Date(message.timestamp).toLocaleTimeString([], { 
               hour: '2-digit', 
               minute: '2-digit' 

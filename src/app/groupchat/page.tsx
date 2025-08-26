@@ -17,25 +17,17 @@ export default function GroupChat() {
       const { messages, isLoaded, addMessage, addMessages, setMessages, clearMessages } = useGroupChatStorage();
       const [typingPlanets, setTypingPlanets] = useState<string[]>([]);
       const [isLoading, setIsLoading] = useState(false);
-      const [showSwipeIndicator, setShowSwipeIndicator] = useState(true);
       const [showPopup, setShowPopup] = useState(false);
       const [showDrawer, setShowDrawer] = useState(false);
       const [hasShownPopup, setHasShownPopup] = useState(false);
       const [showOnboardingQuestions, setShowOnboardingQuestions] = useState(false);
+      const [showMenuOptions, setShowMenuOptions] = useState(false);
       const messagesEndRef = useRef<HTMLDivElement>(null);
 
       const scrollToBottom = () => {
             messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
       };
 
-      useEffect(() => {
-            // Hide swipe indicator after 2 minutes
-            const timer = setTimeout(() => {
-                  setShowSwipeIndicator(false);
-            }, 120000);
-
-            return () => clearTimeout(timer);
-      }, []);
 
       useEffect(() => {
             scrollToBottom();
@@ -76,6 +68,10 @@ export default function GroupChat() {
       const handleNext = () => {
             setShowPopup(false);
             setShowOnboardingQuestions(true);
+      };
+
+      const handleMenuClick = () => {
+            setShowDrawer(true);
       };
 
       // Swipe gesture hook
@@ -237,7 +233,10 @@ export default function GroupChat() {
                   {/* Starry background */}
                   <StarryBackground />
 
-                  <Header />
+                  <Header 
+                        showMenuIcon={true}
+                        onMenuClick={handleMenuClick}
+                  />
 
                   {/* Birth Chart Popup */}
                   {showPopup && (
@@ -268,20 +267,6 @@ export default function GroupChat() {
                         onQuestionSelect={handleQuestionSelect}
                   />
 
-                  {/* Swipe indicator arrow */}
-                  {showSwipeIndicator && (
-                        <div className="fixed right-4 top-1/2 transform -translate-y-1/2 z-30 pointer-events-none">
-                              <div className="flex flex-col items-center space-y-2">
-                                    <div className="animate-pulse">
-                                          <img
-                                                src="/top-arrow-svg.svg"
-                                                alt="Swipe left"
-                                                className="w-4 h-4 filter brightness-90 invert opacity-100 transform -rotate-90"
-                                          />
-                                    </div>
-                              </div>
-                        </div>
-                  )}
 
                   {/* Planet participants */}
                   {/* <PlanetParticipants 
@@ -292,7 +277,7 @@ export default function GroupChat() {
       
        */}
                   {/* Chat messages */}
-                  <div className="flex-1 overflow-y-auto pt-14 px-4 space-y-4 relative">
+                  <div className="flex-1 overflow-y-auto pt-14 px-4 space-y-4 relative text-amber-50/85">
                         {/* Fade overlay for header area */}
                         <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-black via-black/80 to-transparent pointer-events-none z-10" />
                         {messages.map((message) => (

@@ -78,7 +78,7 @@ export default function ChatInput({
             className="
               w-full px-3 py-2 
               bg-white/5 border border-white/20 rounded-lg
-              text-white placeholder-gray-400
+              text-amber-50/85 placeholder-gray-400
               resize-none overflow-hidden
               focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent
               disabled:opacity-50 disabled:cursor-not-allowed
@@ -94,7 +94,7 @@ export default function ChatInput({
             px-4 py-2 
             bg-white/10 hover:bg-white/20 
             border border-white/20 rounded-lg
-            text-white font-medium
+            text-amber-50/85 font-medium
             disabled:opacity-50 disabled:cursor-not-allowed
             disabled:hover:bg-white/10
             transition-colors duration-200
@@ -117,7 +117,7 @@ export default function ChatInput({
           </svg>
         </button>
       </div>
-      <div className="text-xs text-gray-500 mt-2">
+      <div className="text-xs text-amber-50/50 font-thin mt-2">
         Press Enter to send, Shift+Enter for new line
       </div>
     </form>

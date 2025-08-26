@@ -304,10 +304,10 @@ export function BirthChartPopup({ onClose, className = "", mode = 'popup', isOpe
           >
             {/* Header with X button */}
             <div className="px-3 sm:px-4 py-3 border-b border-white/25 flex justify-between items-center flex-shrink-0">
-              <h3 className="text-white text-sm sm:text-sm font-normal">Your Birth Chart</h3>
+              <h3 className="text-amber-50 text-sm sm:text-sm font-normal">Your Birth Chart</h3>
               <button
                 onClick={handleClose}
-                className="text-white/50 hover:text-white transition-colors text-lg leading-none"
+                className="text-amber-50/50 hover:text-amber-50 transition-colors text-lg leading-none"
               >
                 ✕
               </button>
@@ -331,7 +331,7 @@ export function BirthChartPopup({ onClose, className = "", mode = 'popup', isOpe
               <div className="px-3 sm:px-4 py-3 border-t border-white/25 flex-shrink-0">
                 <button
                   onClick={onNext}
-                  className="w-full bg-white/10 hover:bg-white/20 active:bg-white/25 border border-white/20 hover:border-white/30 active:border-white/40 px-4 py-3 rounded-lg text-white transition-all duration-200 text-sm font-medium touch-manipulation"
+                  className="w-full bg-white/10 hover:bg-accent active:bg-white/25 border border-white/20 hover:border-white/30 active:border-white/40 px-4 py-3 rounded-lg text-amber-50/85 transition-all duration-200 text-sm font-medium touch-manipulation"
                 >
                   Next
                 </button>
@@ -424,9 +424,9 @@ function BirthChartTable({
   getPlanetDescription: (planetName: string, sign: string) => string;
 }) {
   return (
-    <table className="sm:w-full text-white text-sm table-fixed ">
+    <table className="sm:w-full text-amber-50 text-sm table-fixed ">
       <thead>
-        <tr className="border-b border-white/25">
+        <tr className="border-b border-amber-50/25">
           <th className="text-left pl-2 sm:pl-6 py-2 font-normal" style={{width: '45%'}}>Planet</th>
           <th className="text-center py-2 font-normal" style={{width: '25%'}}>Sign</th>
           <th className="py-2 font-normal text-center" style={{width: '18%'}}>House</th>
@@ -444,7 +444,7 @@ function BirthChartTable({
           return (
             <React.Fragment key={planetName}>
               <tr
-                className="border-b border-white/25 last:border-b-0 hover:bg-white/5 cursor-pointer transition-colors text-center"
+                className="border-b border-white/25 font-thin last:border-b-0 hover:bg-white/5 cursor-pointer transition-colors text-center"
                 onClick={() => togglePlanetDescription(planetName)}
               >
                 <td className="py-2 flex items-center pl-2 sm:pl-4 gap-1 sm:gap-2">
@@ -465,7 +465,7 @@ function BirthChartTable({
               {isExpanded && (
                 <tr>
                   <td colSpan={4} className="px-2 sm:px-3 py-3 sm:py-4 bg-white/5 border-b border-white/25 text-left">
-                    <p className="text-xs sm:text-xs text-white/80 leading-relaxed">
+                    <p className="text-xs sm:text-xs font-thin  leading-relaxed">
                       {getPlanetDescription(planetName, planetData.sign)}
                     </p>
                   </td>
