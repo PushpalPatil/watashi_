@@ -62,7 +62,8 @@ const config: Config = {
       spacing: {
         '18': '4.5rem', // 72px
         '50': '12.5rem', // 200px
-      },
+      }
+      
       },
     },
   plugins: [require('@tailwindcss-animate')],
