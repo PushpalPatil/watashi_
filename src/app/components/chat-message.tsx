@@ -106,8 +106,28 @@ export default function ChatMessageComponent({ message, planetInfo }: ChatMessag
   };
 
 
-  // System messages are centered - but exclude "Get yappin!" since it's shown in fixed header
-  if (isSystem && message.content !== "Get yappin!") {
+  // System messages are centered 
+  if (isSystem) {
+    // Special styling for "Get yappin!" message
+    if (message.content === "Get yappin!") {
+      return (
+        <div className="flex justify-center mb-4">
+          <div className="max-w-md text-center">
+            <div className="px-3 py-2 bg-white/5 border border-amber-50/10 rounded-lg">
+              <p className="text-sm font-thin text-amber-50/80 italic">{message.content}</p>
+            </div>
+            <div className="text-xs text-amber-50/80 font-thin opacity-80 mt-1.5">
+              {new Date(message.timestamp).toLocaleTimeString([], { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+              })}
+            </div>
+          </div>
+        </div>
+      );
+    }
+    
+    // Default system message styling
     return (
       <div className="flex justify-center mb-4">
         <div className="max-w-md text-center">
@@ -123,11 +143,6 @@ export default function ChatMessageComponent({ message, planetInfo }: ChatMessag
         </div>
       </div>
     );
-  }
-  
-  // If it's "Get yappin!" system message, don't render anything (handled by fixed header)
-  if (isSystem && message.content === "Get yappin!") {
-    return null;
   }
 
   return (

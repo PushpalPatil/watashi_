@@ -24,7 +24,18 @@ export default function GroupChat() {
       const [showMenuOptions, setShowMenuOptions] = useState(false);
       // Removed auto-scroll behavior - let users control their scroll position
 
-      // "Get yappin!" now displayed as fixed element below header instead of chat message
+      useEffect(() => {
+            // Add "Get yappin!" message when component loads and planets are available
+            if (_hasHydrated && isLoaded && Object.keys(planets).length > 0 && messages.length === 0) {
+                  const welcomeMessage: ChatMessage = {
+                        id: `welcome-${Date.now()}`,
+                        sender: 'system',
+                        content: "Get yappin!",
+                        timestamp: Date.now()
+                  };
+                  addMessage(welcomeMessage);
+            }
+      }, [_hasHydrated, isLoaded, planets, messages.length, addMessage]);
 
       // Show birth chart popup only on first visit after calculating chart
       useEffect(() => {
@@ -217,23 +228,7 @@ export default function GroupChat() {
                         showMenuIcon={true}
                         onMenuClick={handleMenuClick}
                   />
-
-                  {/* Fixed "Get yappin!" section - styled like system message */}
-                  <div className="fixed top-16 left-0 right-0 z-20 py-4">
-                        <div className="flex justify-center">
-                              <div className="max-w-md text-center">
-                                    <div className="px-3 py-2 bg-white/5 border border-amber-50/10 rounded-lg">
-                                          <p className="text-sm font-thin text-amber-50/80 italic">Get yappin!</p>
-                                    </div>
-                                    <div className="text-xs text-amber-50/80 font-thin opacity-80 mt-1.5">
-                                          {new Date().toLocaleTimeString([], { 
-                                                hour: '2-digit', 
-                                                minute: '2-digit' 
-                                          })}
-                                    </div>
-                              </div>
-                        </div>
-                  </div>
+                  
 
                   {/* Birth Chart Popup */}
                   {showPopup && (
@@ -256,6 +251,7 @@ export default function GroupChat() {
                         />
                   )}
 
+                  
                   {/* Birth Chart Drawer */}
                   <BirthChartPopup
                         mode="drawer"
@@ -275,9 +271,10 @@ export default function GroupChat() {
        */}
                   
                   {/* Chat messages */}
-                  <div className="flex-1 overflow-y-auto pt-32 px-4 space-y-4 relative text-amber-50/85 flex flex-col-reverse pb-1">
+                  <div className="flex-1 overflow-y-auto pt-16 px-4 space-y-4 relative text-amber-50/85 flex flex-col-reverse pb-1">
                         {/* Fade overlay for header area
                         <div className="absolute top-0 left-0 right-0 h-16 bg-transparent pointer-events-none" /> */}
+                        
                         {/* Typing indicators - show at bottom (top of reversed container) */}
                         {typingPlanets.map((planet) => (
                               <ChatMessageComponent
@@ -292,6 +289,8 @@ export default function GroupChat() {
                                     planetInfo={getPlanetInfo(planet)}
                               />
                         ))}
+
+                        
 
                         {[...messages].reverse().map((message) => (
                               <ChatMessageComponent
