@@ -25,7 +25,7 @@ export default function GroupChat() {
       // Removed auto-scroll behavior - let users control their scroll position
 
       useEffect(() => {
-            // Add welcome message when component loads and planets are available
+            // Add "Get yappin!" message when component loads and planets are available
             if (_hasHydrated && isLoaded && Object.keys(planets).length > 0 && messages.length === 0) {
                   const welcomeMessage: ChatMessage = {
                         id: `welcome-${Date.now()}`,
@@ -223,11 +223,55 @@ export default function GroupChat() {
             <div className="h-screen bg-black flex flex-col relative overflow-hidden">
                   {/* Starry background */}
                   <StarryBackground />
+                  
+                  {/* Floating astrology symbols background */}
+                  <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+                        {/* Floating zodiac symbols evenly dispersed across screen */}
+                        <div className="absolute left-[10%] animate-float-up-continuous opacity-50 glow-svg-bright" style={{animationDelay: '0s'}}>
+                              <img src="/symbols/aries-sign.svg" alt="" className="w-5 h-5 filter invert" />
+                        </div>
+                        <div className="absolute left-[85%] animate-float-up-continuous opacity-50 glow-svg-bright" style={{animationDelay: '4s'}}>
+                              <img src="/symbols/taurus-sign.svg" alt="" className="w-5 h-5 filter invert" />
+                        </div>
+                        <div className="absolute left-[25%] animate-float-up-continuous opacity-50 glow-svg-bright" style={{animationDelay: '8s'}}>
+                              <img src="/symbols/gemini-sign.svg" alt="" className="w-5 h-5 filter invert" />
+                        </div>
+                        <div className="absolute left-[65%] animate-float-up-continuous opacity-50 glow-svg-bright" style={{animationDelay: '12s'}}>
+                              <img src="/symbols/cancer-sign.svg" alt="" className="w-5 h-5 filter invert" />
+                        </div>
+                        <div className="absolute left-[40%] animate-float-up-continuous opacity-50 glow-svg-bright" style={{animationDelay: '16s'}}>
+                              <img src="/symbols/leo-sign.svg" alt="" className="w-5 h-5 filter invert" />
+                        </div>
+                        <div className="absolute left-[75%] animate-float-up-continuous opacity-50 glow-svg-bright" style={{animationDelay: '20s'}}>
+                              <img src="/symbols/virgo-sign.svg" alt="" className="w-5 h-5 filter invert" />
+                        </div>
+                        <div className="absolute left-[15%] animate-float-up-continuous opacity-50 glow-svg-bright" style={{animationDelay: '24s'}}>
+                              <img src="/symbols/libra-sign.svg" alt="" className="w-5 h-5 filter invert" />
+                        </div>
+                        <div className="absolute left-[90%] animate-float-up-continuous opacity-50 glow-svg-bright" style={{animationDelay: '28s'}}>
+                              <img src="/symbols/scorpio-sign.svg" alt="" className="w-5 h-5 filter invert" />
+                        </div>
+                        <div className="absolute left-[50%] animate-float-up-continuous opacity-50 glow-svg-bright" style={{animationDelay: '32s'}}>
+                              <img src="/symbols/sagittarius-sign.svg" alt="" className="w-5 h-5 filter invert" />
+                        </div>
+                        <div className="absolute left-[30%] animate-float-up-continuous opacity-50 glow-svg-bright" style={{animationDelay: '36s'}}>
+                              <img src="/symbols/capricorn-sign.svg" alt="" className="w-5 h-5 filter invert" />
+                        </div>
+                        <div className="absolute left-[5%] animate-float-up-continuous opacity-50 glow-svg-bright" style={{animationDelay: '40s'}}>
+                              <img src="/symbols/aquarius-sign.svg" alt="" className="w-5 h-5 filter invert" />
+                        </div>
+                        <div className="absolute left-[70%] animate-float-up-continuous opacity-50 glow-svg-bright" style={{animationDelay: '44s'}}>
+                              <img src="/symbols/pisces-sign.svg" alt="" className="w-5 h-5 filter invert" />
+                        </div>
+                        
+                        
+                  </div>
 
                   <Header 
                         showMenuIcon={true}
                         onMenuClick={handleMenuClick}
                   />
+                  
 
                   {/* Birth Chart Popup */}
                   {showPopup && (
@@ -250,6 +294,7 @@ export default function GroupChat() {
                         />
                   )}
 
+                  
                   {/* Birth Chart Drawer */}
                   <BirthChartPopup
                         mode="drawer"
@@ -267,10 +312,12 @@ export default function GroupChat() {
 
       
        */}
+                  
                   {/* Chat messages */}
-                  <div className="flex-1 overflow-y-auto pt-14 px-4 space-y-4 relative text-amber-50/85 flex flex-col-reverse pb-1">
-                        {/* Fade overlay for header area */}
-                        <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-black via-black/80 to-transparent pointer-events-none z-10" />
+                  <div className="flex-1 overflow-y-auto pt-16 px-4 space-y-4 relative text-amber-50/85 flex flex-col-reverse pb-1">
+                        {/* Fade overlay for header area
+                        <div className="absolute top-0 left-0 right-0 h-16 bg-transparent pointer-events-none" /> */}
+                        
                         {/* Typing indicators - show at bottom (top of reversed container) */}
                         {typingPlanets.map((planet) => (
                               <ChatMessageComponent
@@ -285,6 +332,8 @@ export default function GroupChat() {
                                     planetInfo={getPlanetInfo(planet)}
                               />
                         ))}
+
+                        
 
                         {[...messages].reverse().map((message) => (
                               <ChatMessageComponent
@@ -318,6 +367,38 @@ export default function GroupChat() {
                         onSuggestedPrompt={handleSendMessage}
                         disabled={isLoading}
                   /> */}
+                  
+                  {/* CSS Animations for floating symbols */}
+                  <style jsx>{`
+                        /* Bright glow effect for symbols */
+                        .glow-svg-bright {
+                              filter: invert(1) drop-shadow(0 0 6px rgba(255, 255, 255, 0.8)) 
+                                      drop-shadow(0 0 12px rgba(255, 255, 255, 0.6)) 
+                                      drop-shadow(0 0 18px rgba(255, 255, 255, 0.4))
+                                      drop-shadow(0 0 24px rgba(255, 255, 255, 0.2));
+                        }
+                        
+                        @keyframes float-up-continuous {
+                              0% { 
+                                    transform: translateY(110vh) translateX(0px) rotate(0deg);
+                                    opacity: 0;
+                              }
+                              10% {
+                                    opacity: 0.5;
+                              }
+                              90% {
+                                    opacity: 0.5;
+                              }
+                              100% { 
+                                    transform: translateY(-20vh) translateX(0px) rotate(360deg);
+                                    opacity: 0;
+                              }
+                        }
+                        
+                        .animate-float-up-continuous { 
+                              animation: float-up-continuous 48s linear infinite; 
+                        }
+                  `}</style>
             </div>
       );
 }
