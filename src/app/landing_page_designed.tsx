@@ -42,7 +42,7 @@ export default function LandingPageDesigned() {
               playsInline
               preload="auto"
               className="w-lg h-lg fixed top-0 md:w-2xl md:h-2xl md:-top-64 md:-right-40 sun-video"
-              style={{ objectFit: 'none' }}
+              style={{ objectFit: 'cover' }}
             />
 
             {/* Mercury - Second from right, top area */}
@@ -89,7 +89,7 @@ export default function LandingPageDesigned() {
               muted
               playsInline
               preload="auto"
-              className="w-sm h-sm md:w-18 md:h-18 fixed md:top-50 md:right-240 brightness-85 "
+              className="w-sm h-sm md:w-18 md:h-18 fixed md:top-50 md:right-210 brightness-85 "
               style={{ objectFit: 'cover' }}
             />
 
@@ -101,7 +101,7 @@ export default function LandingPageDesigned() {
               muted
               playsInline
               preload="auto"
-              className="w-md h-md md:w-md md:h-md fixed md:top-120 md:right-270 opacity-90 brightness-90"
+              className="w-md h-md md:w-md md:h-md fixed md:top-120 md:right-230 opacity-90 brightness-90"
               style={{ objectFit: 'cover' }}
             />
 
@@ -113,7 +113,7 @@ export default function LandingPageDesigned() {
               muted
               playsInline
               preload="auto"
-              className="w-md h-md md:w-md sun-video fixed md:h-md md:top-20 md:right-350 opacity-95 "
+              className="w-md h-md md:w-md sun-video fixed md:h-md md:top-15 md:right-300 opacity-95 "
               style={{ objectFit: 'cover' }}
             />
 
@@ -166,11 +166,11 @@ export default function LandingPageDesigned() {
             }
 
             .sun-video {
-              mix-blend-mode: screen;
+              mix-blend-mode: lighten;
               background: transparent;
               border: none;
               outline: none;
-              clip-path: circle(55% at center);
+              clip-path: circle(50% at center);
             }
           `}</style>
         </section>
