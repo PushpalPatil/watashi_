@@ -55,8 +55,8 @@ export default function ChatMessageComponent({ message, planetInfo }: ChatMessag
     return planetColors[sender] || 'bg-gray-200 text-gray-900';
   };
 
-  // System messages are centered
-  if (isSystem) {
+  // System messages are centered - but exclude "Get yappin!" since it's shown in fixed header
+  if (isSystem && message.content !== "Get yappin!") {
     return (
       <div className="flex justify-center mb-4">
         <div className="max-w-md text-center">
@@ -72,6 +72,11 @@ export default function ChatMessageComponent({ message, planetInfo }: ChatMessag
         </div>
       </div>
     );
+  }
+  
+  // If it's "Get yappin!" system message, don't render anything (handled by fixed header)
+  if (isSystem && message.content === "Get yappin!") {
+    return null;
   }
 
   return (
