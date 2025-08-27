@@ -41,8 +41,8 @@ export default function LandingPageDesigned() {
               muted
               playsInline
               preload="auto"
-              className="w-lg h-lg fixed top-0 md:w-2xl md:h-2xl md:-top-64 md:-right-40 sun-video"
-              style={{ objectFit: 'cover' }}
+              className="w-lg h-lg flex fixed top-0 md:w-2xl md:h-2xl md:-top-64 md:-right-40 sun-video"
+              style={{ objectFit: 'scale-down' }}
             />
 
             {/* Mercury - Second from right, top area */}
@@ -54,7 +54,7 @@ export default function LandingPageDesigned() {
               playsInline
               preload="auto"
               className="w-md h-md fixed md:w-25 md:h-25  md:top-100 md:right-100 "
-              style={{ objectFit: 'cover' }}
+              style={{ objectFit: 'scale-down' }}
             />
 
             {/* Venus - Top center-right */}
@@ -66,7 +66,7 @@ export default function LandingPageDesigned() {
               playsInline
               preload="auto"
               className="w-md h-md fixed md:w-32 md:h-32  md:top-170 md:right-50"
-              style={{ objectFit: 'cover' }}
+              style={{ objectFit: 'scale-down' }}
             />
 
             {/* Moon - Top left area */}
@@ -78,7 +78,7 @@ export default function LandingPageDesigned() {
               playsInline
               preload="auto"
               className="w-sm h-sm fixed md:w-12 md:h-10 md:top-150 md:right-180 "
-              style={{ objectFit: 'cover' }}
+              style={{ objectFit: 'scale-down' }}
             />
 
             {/* Mars - Left side, middle height (placeholder) */}
@@ -89,8 +89,8 @@ export default function LandingPageDesigned() {
               muted
               playsInline
               preload="auto"
-              className="w-sm h-sm md:w-18 md:h-18 fixed md:top-50 md:right-240 brightness-85 "
-              style={{ objectFit: 'cover' }}
+              className="w-sm h-sm md:w-18 md:h-18 fixed md:top-50 md:right-220 brightness-85 "
+              style={{ objectFit: 'scale-down' }}
             />
 
             {/* Jupiter - Left side, lower (largest planet) */}
@@ -101,8 +101,8 @@ export default function LandingPageDesigned() {
               muted
               playsInline
               preload="auto"
-              className="w-md h-md md:w-md md:h-md fixed md:top-120 md:right-270 opacity-90 brightness-90"
-              style={{ objectFit: 'cover' }}
+              className="w-md h-md  md:w-md md:h-md fixed md:top-120 md:right-270 opacity-90 brightness-90"
+              style={{ objectFit: 'scale-down' }}
             />
 
             {/* Saturn - Bottom left */}
@@ -113,8 +113,8 @@ export default function LandingPageDesigned() {
               muted
               playsInline
               preload="auto"
-              className="w-md h-md md:w-md sun-video fixed md:h-md md:top-20 md:right-350 opacity-95 "
-              style={{ objectFit: 'cover' }}
+              className="w-md h-md md:w-md sun-video fixed md:h-md md:top-20 md:right-300 opacity-95 "
+              style={{ objectFit: 'scale-down' }}
             />
 
 
@@ -125,11 +125,11 @@ export default function LandingPageDesigned() {
           </div>
 
           {/* Center Title - Above solar system */}
-          <div className="relative z-10">
-            <h1 className="text-5xl font-expanded text-amber-50/85 font-stretch-200% font-serif animate-fade-in">
+          <div className="relative z-10 ">
+            <h1 className="text-5xl  font-expanded text-amber-50/85 font-stretch-200% font-serif animate-fade-in">
               W A T A S H I
             </h1>
-            <p className="text-xs font-expanded font-mono font-thin text-amber-50/50 mt-2 animate-pulse animate-delayed-fade-in">click to get started</p>
+            <p className="text-xs  font-expanded font-mono font-thin text-amber-50/50 mt-2 animate-pulse animate-delayed-fade-in">click to get started</p>
           </div>
 
           {/* Custom fade-in animation */}
