@@ -225,43 +225,43 @@ export default function GroupChat() {
                   <StarryBackground />
                   
                   {/* Floating astrology symbols background */}
-                  <div className="fixed inset-0 pointer-events-none z-10 overflow-hidden">
+                  <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
                         {/* Floating zodiac symbols evenly dispersed across screen */}
                         <div className="absolute left-[10%] animate-float-up-continuous opacity-50 glow-svg-bright" style={{animationDelay: '0s'}}>
-                              <img src="/symbols/aries-sign.svg" alt="" className="w-4 h-4 filter invert" />
+                              <img src="/symbols/aries-sign.svg" alt="" className="w-5 h-5 filter invert" />
                         </div>
-                        <div className="absolute left-[85%] animate-float-up-continuous opacity-45 glow-svg-bright" style={{animationDelay: '4s'}}>
+                        <div className="absolute left-[85%] animate-float-up-continuous opacity-50 glow-svg-bright" style={{animationDelay: '4s'}}>
                               <img src="/symbols/taurus-sign.svg" alt="" className="w-5 h-5 filter invert" />
                         </div>
-                        <div className="absolute left-[25%] animate-float-up-continuous opacity-55 glow-svg-bright" style={{animationDelay: '8s'}}>
-                              <img src="/symbols/gemini-sign.svg" alt="" className="w-4 h-4 filter invert" />
+                        <div className="absolute left-[25%] animate-float-up-continuous opacity-50 glow-svg-bright" style={{animationDelay: '8s'}}>
+                              <img src="/symbols/gemini-sign.svg" alt="" className="w-5 h-5 filter invert" />
                         </div>
-                        <div className="absolute left-[65%] animate-float-up-continuous opacity-40 glow-svg-bright" style={{animationDelay: '12s'}}>
-                              <img src="/symbols/cancer-sign.svg" alt="" className="w-6 h-6 filter invert" />
+                        <div className="absolute left-[65%] animate-float-up-continuous opacity-50 glow-svg-bright" style={{animationDelay: '12s'}}>
+                              <img src="/symbols/cancer-sign.svg" alt="" className="w-5 h-5 filter invert" />
                         </div>
-                        <div className="absolute left-[40%] animate-float-up-continuous opacity-48 glow-svg-bright" style={{animationDelay: '16s'}}>
-                              <img src="/symbols/leo-sign.svg" alt="" className="w-4 h-4 filter invert" />
+                        <div className="absolute left-[40%] animate-float-up-continuous opacity-50 glow-svg-bright" style={{animationDelay: '16s'}}>
+                              <img src="/symbols/leo-sign.svg" alt="" className="w-5 h-5 filter invert" />
                         </div>
-                        <div className="absolute left-[75%] animate-float-up-continuous opacity-42 glow-svg-bright" style={{animationDelay: '20s'}}>
+                        <div className="absolute left-[75%] animate-float-up-continuous opacity-50 glow-svg-bright" style={{animationDelay: '20s'}}>
                               <img src="/symbols/virgo-sign.svg" alt="" className="w-5 h-5 filter invert" />
                         </div>
-                        <div className="absolute left-[15%] animate-float-up-continuous opacity-38 glow-svg-bright" style={{animationDelay: '24s'}}>
-                              <img src="/symbols/libra-sign.svg" alt="" className="w-4 h-4 filter invert" />
+                        <div className="absolute left-[15%] animate-float-up-continuous opacity-50 glow-svg-bright" style={{animationDelay: '24s'}}>
+                              <img src="/symbols/libra-sign.svg" alt="" className="w-5 h-5 filter invert" />
                         </div>
-                        <div className="absolute left-[90%] animate-float-up-continuous opacity-52 glow-svg-bright" style={{animationDelay: '28s'}}>
+                        <div className="absolute left-[90%] animate-float-up-continuous opacity-50 glow-svg-bright" style={{animationDelay: '28s'}}>
                               <img src="/symbols/scorpio-sign.svg" alt="" className="w-5 h-5 filter invert" />
                         </div>
-                        <div className="absolute left-[50%] animate-float-up-continuous opacity-44 glow-svg-bright" style={{animationDelay: '32s'}}>
-                              <img src="/symbols/sagittarius-sign.svg" alt="" className="w-6 h-6 filter invert" />
+                        <div className="absolute left-[50%] animate-float-up-continuous opacity-50 glow-svg-bright" style={{animationDelay: '32s'}}>
+                              <img src="/symbols/sagittarius-sign.svg" alt="" className="w-5 h-5 filter invert" />
                         </div>
-                        <div className="absolute left-[30%] animate-float-up-continuous opacity-46 glow-svg-bright" style={{animationDelay: '36s'}}>
+                        <div className="absolute left-[30%] animate-float-up-continuous opacity-50 glow-svg-bright" style={{animationDelay: '36s'}}>
                               <img src="/symbols/capricorn-sign.svg" alt="" className="w-5 h-5 filter invert" />
                         </div>
-                        <div className="absolute left-[5%] animate-float-up-continuous opacity-41 glow-svg-bright" style={{animationDelay: '40s'}}>
-                              <img src="/symbols/aquarius-sign.svg" alt="" className="w-4 h-4 filter invert" />
+                        <div className="absolute left-[5%] animate-float-up-continuous opacity-50 glow-svg-bright" style={{animationDelay: '40s'}}>
+                              <img src="/symbols/aquarius-sign.svg" alt="" className="w-5 h-5 filter invert" />
                         </div>
-                        <div className="absolute left-[70%] animate-float-up-continuous opacity-49 glow-svg-bright" style={{animationDelay: '44s'}}>
-                              <img src="/symbols/pisces-sign.svg" alt="" className="w-4 h-4 filter invert" />
+                        <div className="absolute left-[70%] animate-float-up-continuous opacity-50 glow-svg-bright" style={{animationDelay: '44s'}}>
+                              <img src="/symbols/pisces-sign.svg" alt="" className="w-5 h-5 filter invert" />
                         </div>
                         
                         
