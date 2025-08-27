@@ -223,6 +223,49 @@ export default function GroupChat() {
             <div className="h-screen bg-black flex flex-col relative overflow-hidden">
                   {/* Starry background */}
                   <StarryBackground />
+                  
+                  {/* Floating astrology symbols background */}
+                  <div className="fixed inset-0 pointer-events-none z-10 overflow-hidden">
+                        {/* Floating zodiac symbols evenly dispersed across screen */}
+                        <div className="absolute left-[10%] animate-float-up-continuous opacity-50 glow-svg-bright" style={{animationDelay: '0s'}}>
+                              <img src="/symbols/aries-sign.svg" alt="" className="w-4 h-4 filter invert" />
+                        </div>
+                        <div className="absolute left-[85%] animate-float-up-continuous opacity-45 glow-svg-bright" style={{animationDelay: '4s'}}>
+                              <img src="/symbols/taurus-sign.svg" alt="" className="w-5 h-5 filter invert" />
+                        </div>
+                        <div className="absolute left-[25%] animate-float-up-continuous opacity-55 glow-svg-bright" style={{animationDelay: '8s'}}>
+                              <img src="/symbols/gemini-sign.svg" alt="" className="w-4 h-4 filter invert" />
+                        </div>
+                        <div className="absolute left-[65%] animate-float-up-continuous opacity-40 glow-svg-bright" style={{animationDelay: '12s'}}>
+                              <img src="/symbols/cancer-sign.svg" alt="" className="w-6 h-6 filter invert" />
+                        </div>
+                        <div className="absolute left-[40%] animate-float-up-continuous opacity-48 glow-svg-bright" style={{animationDelay: '16s'}}>
+                              <img src="/symbols/leo-sign.svg" alt="" className="w-4 h-4 filter invert" />
+                        </div>
+                        <div className="absolute left-[75%] animate-float-up-continuous opacity-42 glow-svg-bright" style={{animationDelay: '20s'}}>
+                              <img src="/symbols/virgo-sign.svg" alt="" className="w-5 h-5 filter invert" />
+                        </div>
+                        <div className="absolute left-[15%] animate-float-up-continuous opacity-38 glow-svg-bright" style={{animationDelay: '24s'}}>
+                              <img src="/symbols/libra-sign.svg" alt="" className="w-4 h-4 filter invert" />
+                        </div>
+                        <div className="absolute left-[90%] animate-float-up-continuous opacity-52 glow-svg-bright" style={{animationDelay: '28s'}}>
+                              <img src="/symbols/scorpio-sign.svg" alt="" className="w-5 h-5 filter invert" />
+                        </div>
+                        <div className="absolute left-[50%] animate-float-up-continuous opacity-44 glow-svg-bright" style={{animationDelay: '32s'}}>
+                              <img src="/symbols/sagittarius-sign.svg" alt="" className="w-6 h-6 filter invert" />
+                        </div>
+                        <div className="absolute left-[30%] animate-float-up-continuous opacity-46 glow-svg-bright" style={{animationDelay: '36s'}}>
+                              <img src="/symbols/capricorn-sign.svg" alt="" className="w-5 h-5 filter invert" />
+                        </div>
+                        <div className="absolute left-[5%] animate-float-up-continuous opacity-41 glow-svg-bright" style={{animationDelay: '40s'}}>
+                              <img src="/symbols/aquarius-sign.svg" alt="" className="w-4 h-4 filter invert" />
+                        </div>
+                        <div className="absolute left-[70%] animate-float-up-continuous opacity-49 glow-svg-bright" style={{animationDelay: '44s'}}>
+                              <img src="/symbols/pisces-sign.svg" alt="" className="w-4 h-4 filter invert" />
+                        </div>
+                        
+                        
+                  </div>
 
                   <Header 
                         showMenuIcon={true}
@@ -324,6 +367,38 @@ export default function GroupChat() {
                         onSuggestedPrompt={handleSendMessage}
                         disabled={isLoading}
                   /> */}
+                  
+                  {/* CSS Animations for floating symbols */}
+                  <style jsx>{`
+                        /* Bright glow effect for symbols */
+                        .glow-svg-bright {
+                              filter: invert(1) drop-shadow(0 0 6px rgba(255, 255, 255, 0.8)) 
+                                      drop-shadow(0 0 12px rgba(255, 255, 255, 0.6)) 
+                                      drop-shadow(0 0 18px rgba(255, 255, 255, 0.4))
+                                      drop-shadow(0 0 24px rgba(255, 255, 255, 0.2));
+                        }
+                        
+                        @keyframes float-up-continuous {
+                              0% { 
+                                    transform: translateY(110vh) translateX(0px) rotate(0deg);
+                                    opacity: 0;
+                              }
+                              10% {
+                                    opacity: 0.5;
+                              }
+                              90% {
+                                    opacity: 0.5;
+                              }
+                              100% { 
+                                    transform: translateY(-20vh) translateX(0px) rotate(360deg);
+                                    opacity: 0;
+                              }
+                        }
+                        
+                        .animate-float-up-continuous { 
+                              animation: float-up-continuous 48s linear infinite; 
+                        }
+                  `}</style>
             </div>
       );
 }
