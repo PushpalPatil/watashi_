@@ -275,9 +275,9 @@ export default function GroupChat() {
        */}
                   
                   {/* Chat messages */}
-                  <div className="flex-1 overflow-y-auto pt-28 px-4 space-y-4 relative text-amber-50/85 flex flex-col-reverse pb-1">
-                        {/* Fade overlay for header area */}
-                        <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-black via-black/80 to-transparent pointer-events-none z-10" />
+                  <div className="flex-1 overflow-y-auto pt-32 px-4 space-y-4 relative text-amber-50/85 flex flex-col-reverse pb-1">
+                        {/* Fade overlay for header area
+                        <div className="absolute top-0 left-0 right-0 h-16 bg-transparent pointer-events-none" /> */}
                         {/* Typing indicators - show at bottom (top of reversed container) */}
                         {typingPlanets.map((planet) => (
                               <ChatMessageComponent

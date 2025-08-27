@@ -34,26 +34,77 @@ export default function ChatMessageComponent({ message, planetInfo }: ChatMessag
   };
 
   const getPlanetColors = (sender: string) => {
-    if (planetInfo) {
-      return `bg-${planetInfo.colors.primary} text-gray-900`;
-    }
-    
-    // Fallback colors for planets
+    // Use our defined planet colors instead of planetInfo.colors
     const planetColors: Record<string, string> = {
-      sun: 'bg-yellow-200 text-gray-900',
-      moon: 'bg-blue-200 text-gray-900',
-      mercury: 'bg-cyan-200 text-gray-900',
-      venus: 'bg-pink-200 text-gray-900',
-      mars: 'bg-red-200 text-gray-900',
-      jupiter: 'bg-amber-200 text-gray-900',
-      saturn: 'bg-gray-200 text-gray-900',
-      uranus: 'bg-teal-200 text-gray-900',
-      neptune: 'bg-blue-300 text-gray-900',
-      pluto: 'bg-purple-200 text-gray-900',
+      sun: 'bg-black/30 text-amber-50/85 font-thin border border-amber-50/30',
+      moon: 'bg-black/30 text-amber-50/85 font-thin border border-amber-50/30',
+      mercury: 'bg-black/30 text-amber-50/85 font-thin border border-amber-50/30',
+      venus: 'bg-black/30 text-amber-50/85 font-thin border border-amber-50/30',
+      mars: 'bg-black/30 text-amber-50/85 font-thin border border-amber-50/30',
+      jupiter: 'bg-black/30 text-amber-50/85 font-thin border border-amber-50/30',
+      saturn: 'bg-black/30 text-amber-50/85 font-thin border border-amber-50/30',
+      uranus: 'bg-black/30 text-amber-50/85 font-thin border border-amber-50/30',
+      neptune: 'bg-black/30 text-amber-50/85 font-thin border border-amber-50/30',
+      pluto: 'bg-black/30 text-amber-50/85 font-thin border border-amber-50/30',
     };
     
-    return planetColors[sender] || 'bg-gray-200 text-gray-900';
+    return planetColors[sender] || 'bg-gray-500/90 text-gray-100 border border-gray-600/70 shadow-md';
   };
+
+  const getPlanetNameColor = (sender: string) => {
+    // Extract border colors for planet names
+    const planetNameColors: Record<string, string> = {
+      sun: 'text-orange-200/90',
+      moon: 'text-blue-100/90 ',
+      mercury: 'text-cyan-200/90',
+      venus: 'text-pink-200/80',
+      mars: 'text-red-200/90',
+      jupiter: 'text-green-100/90',
+      saturn: 'text-slate-300/90',
+      uranus: 'text-teal-200/70',
+      neptune: 'text-indigo-200/80',
+      pluto: 'text-amber-50/90', // Using amber since brown-900 doesn't work for text
+    };
+    
+    return planetNameColors[sender] || 'text-amber-50/85';
+  };
+
+  const getPlanetIconColor = (sender: string) => {
+    // Extract border colors for planet names
+    const planetIconColors: Record<string, string> = {
+      sun: 'text-orange-200/90 text-shadow',
+      moon: 'text-blue-200/90',
+      mercury: 'text-cyan-200/80',
+      venus: 'text-pink-200/80',
+      mars: 'text-red-200/90',
+      jupiter: 'text-green-200/80',
+      saturn: 'text-slate-300/90',
+      uranus: 'text-teal-200/80',
+      neptune: 'text-indigo-200/80',
+      pluto: 'text-amber-100/90', // Using amber since brown-900 doesn't work for text
+    };
+
+    return planetIconColors[sender] || 'text-amber-50/85';
+  };
+
+  const getPlanetSignColor = (sender: string) => {
+    // Extract border colors for planet names
+    const planetSignColors: Record<string, string> = {
+      sun: 'text-orange-100 font-thin',
+      moon: 'text-blue-100 font-thin',
+      mercury: 'text-cyan-100 font-thin',
+      venus: 'text-pink-100 font-thin',
+      mars: 'text-red-100 font-thin',
+      jupiter: 'text-green-100 font-thin',
+      saturn: 'text-slate-100 font-thin',
+      uranus: 'text-teal-100 font-thin',
+      neptune: 'text-indigo-100 font-thin',
+      pluto: 'text-amber-50/90 font-thin', // Using amber since brown-900 doesn't work for text
+    };
+
+    return planetSignColors[sender] || 'text-amber-50/85';
+  };
+
 
   // System messages are centered - but exclude "Get yappin!" since it's shown in fixed header
   if (isSystem && message.content !== "Get yappin!") {
@@ -84,14 +135,16 @@ export default function ChatMessageComponent({ message, planetInfo }: ChatMessag
       <div className={`max-w-xs lg:max-w-md ${isUser ? 'order-2' : 'order-1'}`}>
         {/* Planet/User indicator */}
         <div className={`flex items-center mb-1 ${isUser ? 'justify-end' : 'justify-start'}`}>
-          <div className={`flex items-center space-x-1 ${isUser ? 'flex-row-reverse space-x-reverse' : ''}`}>
+          <div className={`flex items-center space-x-2 ${isUser ? 'flex-row-reverse space-x-reverse' : ''}`}>
+            
             {!isUser && planetInfo?.icon && (
-              <span className="text-lg">{planetInfo.icon}</span>
+              <span className={`text-lg  ${getPlanetIconColor(message.sender)}`}>{planetInfo.icon}</span>
             )}
-            <span className="text-xs text-amber-50/85 font-light">
+
+            <span className={`text-xs font-stretch-100% font-extralight ${isUser ? 'text-amber-50/85' : getPlanetNameColor(message.sender)} `}>
               {getPlanetDisplayName(message.sender)}
               {!isUser && planetInfo?.sign && (
-                <span className="text-amber-50/60"> • {planetInfo.sign}</span>
+                <span className={`${getPlanetSignColor(message.sender)} font-thin opacity-85`}> • {planetInfo.sign}</span>
               )}
             </span>
           </div>
@@ -100,10 +153,10 @@ export default function ChatMessageComponent({ message, planetInfo }: ChatMessag
         {/* Message bubble */}
         <div
           className={`
-            px-4 py-2 rounded-lg border border-white/20 bg-gray-500
+            px-4 py-2 rounded-lg
             ${isUser 
-            ? 'bg-white/10 text-amber-50/85 font-thin' 
-              : `${getPlanetColors(message.sender)} shadow-sm`
+            ? 'bg-white/10 text-amber-50/85 font-thin border border-white/20' 
+              : `${getPlanetColors(message.sender)}`
             }
             ${isTyping ? 'animate-pulse' : ''}
           `}
@@ -121,7 +174,7 @@ export default function ChatMessageComponent({ message, planetInfo }: ChatMessag
         
         {/* Timestamp */}
         {!isTyping && (
-          <div className={`text-xs text-white/50 mt-1 ${isUser ? 'text-right' : 'text-left'}`}>
+          <div className={`text-xs text-amber-50/70 font-thin mt-1 ${isUser ? 'text-right mr-1.5' : 'text-left ml-1.5'}`}>
             {new Date(message.timestamp).toLocaleTimeString([], { 
               hour: '2-digit', 
               minute: '2-digit' 
