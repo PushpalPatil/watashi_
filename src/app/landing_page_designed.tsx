@@ -41,8 +41,8 @@ export default function LandingPageDesigned() {
               muted
               playsInline
               preload="auto"
-              className="w-lg h-lg flex fixed top-0 md:w-2xl md:h-2xl md:-top-64 md:-right-40 sun-video"
-              style={{ objectFit: 'scale-down' }}
+              className="w-lg h-lg fixed top-0 md:w-2xl md:h-2xl md:-top-64 md:-right-40 sun-video"
+              style={{ objectFit: 'none' }}
             />
 
             {/* Mercury - Second from right, top area */}
@@ -54,7 +54,7 @@ export default function LandingPageDesigned() {
               playsInline
               preload="auto"
               className="w-md h-md fixed md:w-25 md:h-25  md:top-100 md:right-100 "
-              style={{ objectFit: 'scale-down' }}
+              style={{ objectFit: 'cover' }}
             />
 
             {/* Venus - Top center-right */}
@@ -66,7 +66,7 @@ export default function LandingPageDesigned() {
               playsInline
               preload="auto"
               className="w-md h-md fixed md:w-32 md:h-32  md:top-170 md:right-50"
-              style={{ objectFit: 'scale-down' }}
+              style={{ objectFit: 'cover' }}
             />
 
             {/* Moon - Top left area */}
@@ -78,7 +78,7 @@ export default function LandingPageDesigned() {
               playsInline
               preload="auto"
               className="w-sm h-sm fixed md:w-12 md:h-10 md:top-150 md:right-180 "
-              style={{ objectFit: 'scale-down' }}
+              style={{ objectFit: 'cover' }}
             />
 
             {/* Mars - Left side, middle height (placeholder) */}
@@ -89,8 +89,8 @@ export default function LandingPageDesigned() {
               muted
               playsInline
               preload="auto"
-              className="w-sm h-sm md:w-18 md:h-18 fixed md:top-50 md:right-220 brightness-85 "
-              style={{ objectFit: 'scale-down' }}
+              className="w-sm h-sm md:w-18 md:h-18 fixed md:top-50 md:right-240 brightness-85 "
+              style={{ objectFit: 'cover' }}
             />
 
             {/* Jupiter - Left side, lower (largest planet) */}
@@ -101,8 +101,8 @@ export default function LandingPageDesigned() {
               muted
               playsInline
               preload="auto"
-              className="w-md h-md  md:w-md md:h-md fixed md:top-120 md:right-270 opacity-90 brightness-90"
-              style={{ objectFit: 'scale-down' }}
+              className="w-md h-md md:w-md md:h-md fixed md:top-120 md:right-270 opacity-90 brightness-90"
+              style={{ objectFit: 'cover' }}
             />
 
             {/* Saturn - Bottom left */}
@@ -113,8 +113,8 @@ export default function LandingPageDesigned() {
               muted
               playsInline
               preload="auto"
-              className="w-md h-md md:w-md sun-video fixed md:h-md md:top-20 md:right-300 opacity-95 "
-              style={{ objectFit: 'scale-down' }}
+              className="w-md h-md md:w-md sun-video fixed md:h-md md:top-20 md:right-350 opacity-95 "
+              style={{ objectFit: 'cover' }}
             />
 
 
