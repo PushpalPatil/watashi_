@@ -64,8 +64,8 @@ export default function ChatInput({
   }, [disabled]);
 
   return (
-    <form onSubmit={handleSubmit} className="border-t border-white/20 p-4">
-      <div className="flex space-x-3">
+    <form onSubmit={handleSubmit} className="border-t border-white/20 p-3">
+      <div className="flex space-x-2">
         <div className="flex-1">
           <textarea
             ref={textareaRef}
@@ -77,12 +77,12 @@ export default function ChatInput({
             rows={1}
             className="
               w-full px-3 py-2 
-              bg-white/5 border border-white/20 rounded-lg 
-              text-amber-50/85 placeholder-amber-50/60 
+              bg-white/10 border border-white/20 rounded-lg 
+              text-amber-50/80  text-sm font-light leading-6 tracking-wide placeholder:text-amber-50/70 placeholder:font-thin placeholder:text-sm placeholder:opacity-70
               resize-none overflow-hidden
               focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent
               disabled:opacity-50 disabled:cursor-not-allowed
-              max-h-32 
+              max-h-30 
             "
             style={{ minHeight: '40px' }}
           />
@@ -99,7 +99,7 @@ export default function ChatInput({
             disabled:hover:bg-white/10
             transition-colors duration-200
             flex items-center justify-center
-            min-w-[60px]
+            min-w-[60px] h-10
           "
         >
           <svg
@@ -117,7 +117,7 @@ export default function ChatInput({
           </svg>
         </button>
       </div>
-      <div className="text-xs text-amber-50/50 font-thin mt-2">
+      <div className="text-xs opacity-70 text-amber-50/50 font-thin mt-1 ml-0.5">
         Press Enter to send, Shift+Enter for new line
       </div>
     </form>

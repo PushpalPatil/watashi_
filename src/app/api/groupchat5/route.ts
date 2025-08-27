@@ -168,6 +168,29 @@ export async function POST(req: NextRequest) {
                   conversationHistory: ChatMessage[];
             };
 
+            // Generate weighted random target response count (favoring realistic conversation patterns)
+            const randomValue = Math.random();
+            let targetResponseCount;
+            let conversationContext;
+            
+            if (randomValue < 0.3) {
+                  targetResponseCount = 1;
+                  conversationContext = "This seems like a topic that would only interest one planet deeply, or only one planet would have a strong opinion about.";
+            } else if (randomValue < 0.5) {
+                  targetResponseCount = 2; 
+                  conversationContext = "This feels like something that would spark a focused conversation between just a couple of planets.";
+            } else if (randomValue < 0.8) {
+                  targetResponseCount = 3;
+                  conversationContext = "This topic would likely get a moderate response from a few planets with different perspectives.";
+            } else if (randomValue < 0.95) {
+                  targetResponseCount = 4;
+                  conversationContext = "This seems like the kind of topic that would get most of the group interested and wanting to chime in.";
+            } else {
+                  targetResponseCount = 5;
+                  conversationContext = "This is exactly the kind of topic that would get EVERYONE talking - a real group chat moment.";
+            }
+            console.log(`DEBUG: Generated weighted target: ${targetResponseCount} with context: ${conversationContext}`);
+
             // Validate required fields
             if (!message || !allPlanetsData) {
                   return NextResponse.json(
@@ -195,16 +218,16 @@ export async function POST(req: NextRequest) {
                   message.toLowerCase().includes('what personalities do each of you have');
 
             // Build conversation context with better relationship tracking
-            let conversationContext = "";
+            let conversationHistoryContext = "";
             if (conversationHistory && conversationHistory.length > 0) {
-                  conversationContext = "RECENT CONVERSATION HISTORY (remember these interactions and relationships):\n";
+                  conversationHistoryContext = "RECENT CONVERSATION HISTORY (remember these interactions and relationships):\n";
                   conversationHistory.slice(-20).forEach(msg => {
                         const sender = msg.sender === 'user' ? 'User' :
                               msg.sender === 'system' ? 'System' :
                                     `${msg.sender.charAt(0).toUpperCase() + msg.sender.slice(1)}`;
-                        conversationContext += `${sender}: ${msg.content}\n`;
+                        conversationHistoryContext += `${sender}: ${msg.content}\n`;
                   });
-                  conversationContext += "\n";
+                  conversationHistoryContext += "\n";
             }
 
             // Create enhanced orchestration prompt for authentic group dynamics
@@ -221,7 +244,9 @@ ${Object.entries(planetPersonalities).map(([planet, personality]) =>
 
 RETROGRADE PLANETS (more intense, unfiltered, authentic): ${Object.entries(retrogradeFlags).filter(([, isRetro]) => isRetro).map(([planet]) => planet).join(', ') || 'none'}
 
-${conversationContext}USER'S NEW MESSAGE: "${message}"
+${conversationHistoryContext}USER'S NEW MESSAGE: "${message}"
+
+CONVERSATION EXPECTATION: ${conversationContext}
 
 === ONBOARDING INTRODUCTION RULES ===
 
@@ -271,7 +296,9 @@ RETROGRADE PLANETS (more intense, unfiltered, authentic): ${Object.entries(retro
 
 ${mentionedPlanets.length > 0 ? `MENTIONED PLANETS (should probably respond): ${mentionedPlanets.join(', ')}` : ''}
 
-${conversationContext}USER'S NEW MESSAGE: "${message}"
+${conversationHistoryContext}USER'S NEW MESSAGE: "${message}"
+
+CONVERSATION EXPECTATION: ${conversationContext}
 
 === AUTHENTIC FRIEND GROUP RULES ===
 
@@ -305,21 +332,24 @@ ${conversationContext}USER'S NEW MESSAGE: "${message}"
 - Natural interruptions, topic changes, and side conversations
 - Sometimes ignore the user to banter with each other
 
-**RESPONSE SELECTION (pick 1-5 planets):**
-- Planets most interested in the topic respond first
-- Add planets who disagree or want to argue
-- Include planets who have strong relationships with responding planets
-- VARY who responds - don't always pick the same planets
-- Let different planets lead different conversations
+**RESPONSE SELECTION (EXACTLY ${targetResponseCount} planets must respond):**
+- YOU MUST RESPOND WITH EXACTLY ${targetResponseCount} PLANETS - NO MORE, NO LESS
+- Select the ${targetResponseCount} most relevant/interested planets for this topic
+- If ${targetResponseCount} is 1: Choose the ONE planet who would care most about this
+- If ${targetResponseCount} is 2: Choose the TWO planets who would have the strongest reactions
+- If ${targetResponseCount} is 3+: Include variety of perspectives but stick to the exact number
+- VARY who responds across conversations - don't always pick the same planets
 
 Remember: This is a group chat between REAL FRIENDS who happen to be planets. Focus on authentic relationships, genuine reactions, and natural group dynamics.
 
-Respond with 1-5 planet responses as a JSON object with this structure:
+Respond with EXACTLY ${targetResponseCount} planet responses as a JSON object with this structure:
 {
   "responses": [
     {"planet": "planet_name", "message": "short authentic response (5-20 words max)"}
   ]
-}`;
+}
+
+CRITICAL: The responses array must contain exactly ${targetResponseCount} items - not more, not less.`;
             }// add time in ms to this console log
             console.log('DEBUG: Pre-sending msg to anthropic:', Date.now())
             // Call Claude API with structured output request
@@ -393,13 +423,15 @@ Respond with 1-5 planet responses as a JSON object with this structure:
             }));
 
             console.log('DEBUG: Valid responses after filtering:', validResponses);
+            console.log(`DEBUG: Target was ${targetResponseCount}, got ${validResponses.length} responses`);
 
             if (validResponses.length === 0) {
                   throw new Error('No valid planet responses generated');
             }
 
             // Limit and clean responses - for onboarding questions, allow all planets to respond
-            const maxResponses = isOnboardingQuestion ? validResponses.length : 3;
+            // For regular chat, use Claude's judgment with our weighted randomization guidance
+            const maxResponses = isOnboardingQuestion ? validResponses.length : Math.min(validResponses.length, 5);
             const finalResponses = validResponses
                   .slice(0, maxResponses)
                   .map(response => ({

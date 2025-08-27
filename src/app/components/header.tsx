@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from 'next/navigation';
 //import { ThemeToggle } from "@/components/theme-toggle";
 
 interface HeaderProps {
@@ -8,6 +9,7 @@ interface HeaderProps {
 }
 
 export default function Header({ onMenuClick, showMenuIcon = false }: HeaderProps) {
+    const router = useRouter();
     const handleNewUser = () => {
         // Clear all storage
         localStorage.clear();
@@ -23,8 +25,8 @@ export default function Header({ onMenuClick, showMenuIcon = false }: HeaderProp
             document.cookie = name + "=;expires=Thu, 01 Jan 2025 00:00:00 GMT;path=/";
         });
 
-        // Reload the page to start fresh
-        window.location.reload();
+        // Navigate to letsyap page
+        router.push('/letsyap');
     };
 
     return (
@@ -50,7 +52,7 @@ export default function Header({ onMenuClick, showMenuIcon = false }: HeaderProp
                                 />
                             </button>
                         )}
-                        
+
                         {/* <section className="size-10">
                             <ThemeToggle />
                         </section> */}

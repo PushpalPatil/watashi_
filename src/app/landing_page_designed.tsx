@@ -2,6 +2,7 @@
 "use client";
 
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import StarryBackgroundLanding from "./components/starrybackgroundlanding";
 // src/app/layout.tsx or app/page.tsx
 import './globals.css';
@@ -9,6 +10,34 @@ import './globals.css';
 
 export default function LandingPageDesigned() {
   const router = useRouter();
+
+  // Force video autoplay on mobile
+  useEffect(() => {
+    const forceAutoplay = () => {
+      const videos = document.querySelectorAll('video');
+      videos.forEach(video => {
+        video.play().catch(err => console.log('Video autoplay prevented:', err));
+      });
+    };
+
+    // Try to autoplay immediately
+    forceAutoplay();
+
+    // Also try after any user interaction
+    const handleUserInteraction = () => {
+      forceAutoplay();
+      document.removeEventListener('touchstart', handleUserInteraction);
+      document.removeEventListener('click', handleUserInteraction);
+    };
+
+    document.addEventListener('touchstart', handleUserInteraction, { once: true });
+    document.addEventListener('click', handleUserInteraction, { once: true });
+
+    return () => {
+      document.removeEventListener('touchstart', handleUserInteraction);
+      document.removeEventListener('click', handleUserInteraction);
+    };
+  }, []);
 
   const handlePageClick = () => {
     // Add fade out effect before navigation
@@ -41,8 +70,10 @@ export default function LandingPageDesigned() {
               muted
               playsInline
               preload="auto"
+              controls={false}
+              webkit-playsinline="true"
               className="w-lg h-lg fixed top-0 md:w-2xl md:h-2xl md:-top-64 md:-right-40 sun-video"
-              style={{ objectFit: 'cover' }}
+              style={{ objectFit: 'cover', pointerEvents: 'none' }}
             />
 
             {/* Mercury - Second from right, top area */}
@@ -53,8 +84,10 @@ export default function LandingPageDesigned() {
               muted
               playsInline
               preload="auto"
+              controls={false}
+              webkit-playsinline="true"
               className="w-md h-md fixed md:w-25 md:h-25  md:top-100 md:right-100 "
-              style={{ objectFit: 'cover' }}
+              style={{ objectFit: 'cover', pointerEvents: 'none' }}
             />
 
             {/* Venus - Top center-right */}
@@ -65,8 +98,10 @@ export default function LandingPageDesigned() {
               muted
               playsInline
               preload="auto"
+              controls={false}
+              webkit-playsinline="true"
               className="w-md h-md fixed md:w-32 md:h-32  md:top-170 md:right-50"
-              style={{ objectFit: 'cover' }}
+              style={{ objectFit: 'cover', pointerEvents: 'none' }}
             />
 
             {/* Moon - Top left area */}
@@ -77,8 +112,10 @@ export default function LandingPageDesigned() {
               muted
               playsInline
               preload="auto"
+              controls={false}
+              webkit-playsinline="true"
               className="w-sm h-sm fixed md:w-12 md:h-10 md:top-150 md:right-180 "
-              style={{ objectFit: 'cover' }}
+              style={{ objectFit: 'cover', pointerEvents: 'none' }}
             />
 
             {/* Mars - Left side, middle height (placeholder) */}
@@ -89,8 +126,10 @@ export default function LandingPageDesigned() {
               muted
               playsInline
               preload="auto"
+              controls={false}
+              webkit-playsinline="true"
               className="w-sm h-sm md:w-18 md:h-18 fixed md:top-50 md:right-210 brightness-85 "
-              style={{ objectFit: 'cover' }}
+              style={{ objectFit: 'cover', pointerEvents: 'none' }}
             />
 
             {/* Jupiter - Left side, lower (largest planet) */}
@@ -101,8 +140,10 @@ export default function LandingPageDesigned() {
               muted
               playsInline
               preload="auto"
-              className="w-md h-md md:w-md md:h-md fixed md:top-120 md:right-230 opacity-90 brightness-90"
-              style={{ objectFit: 'cover' }}
+              controls={false}
+              webkit-playsinline="true"
+              className="w-md h-md md:w-md md:h-md fixed md:top-120 md:right-240 opacity-90 brightness-90"
+              style={{ objectFit: 'cover', pointerEvents: 'none' }}
             />
 
             {/* Saturn - Bottom left */}
@@ -113,8 +154,10 @@ export default function LandingPageDesigned() {
               muted
               playsInline
               preload="auto"
-              className="w-md h-md md:w-md sun-video fixed md:h-md md:top-15 md:right-300 opacity-95 "
-              style={{ objectFit: 'cover' }}
+              controls={false}
+              webkit-playsinline="true"
+              className="w-md h-md md:w-md sun-video fixed md:h-md md:top-15 md:right-320 opacity-95 "
+              style={{ objectFit: 'cover', pointerEvents: 'none' }}
             />
 
 
@@ -170,7 +213,7 @@ export default function LandingPageDesigned() {
               background: transparent;
               border: none;
               outline: none;
-              clip-path: circle(50% at center);
+              clip-path: circle(52% at center);
             }
           `}</style>
         </section>
