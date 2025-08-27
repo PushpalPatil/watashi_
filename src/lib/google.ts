@@ -15,6 +15,8 @@ export const autocomplete = async (input: string) => {
             throw new Error("Missing Google Maps API key. Set _MAPS_API_KEY or GOOGLE_MAPS_API_KEY in your environment.");
         }
 
+        console.log('DEBUG: Using API key ending with:', apiKey.slice(-6));
+
         const response = await clientInfo.placeAutocomplete({
             params: {
                 input,
