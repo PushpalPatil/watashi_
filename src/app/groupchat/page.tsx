@@ -22,16 +22,7 @@ export default function GroupChat() {
       const [hasShownPopup, setHasShownPopup] = useState(false);
       const [showOnboardingQuestions, setShowOnboardingQuestions] = useState(false);
       const [showMenuOptions, setShowMenuOptions] = useState(false);
-      const messagesEndRef = useRef<HTMLDivElement>(null);
-
-      const scrollToBottom = () => {
-            messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-      };
-
-
-      useEffect(() => {
-            scrollToBottom();
-      }, [messages]);
+      // Removed auto-scroll behavior - let users control their scroll position
 
       useEffect(() => {
             // Add welcome message when component loads and planets are available
@@ -229,7 +220,7 @@ export default function GroupChat() {
       }
 
       return (
-            <div className="min-h-screen bg-black flex flex-col relative">
+            <div className="h-screen bg-black flex flex-col relative overflow-hidden">
                   {/* Starry background */}
                   <StarryBackground />
 
@@ -277,18 +268,10 @@ export default function GroupChat() {
       
        */}
                   {/* Chat messages */}
-                  <div className="flex-1 overflow-y-auto pt-14 px-4 space-y-4 relative text-amber-50/85">
+                  <div className="flex-1 overflow-y-auto pt-14 px-4 space-y-4 relative text-amber-50/85 flex flex-col-reverse pb-1">
                         {/* Fade overlay for header area */}
                         <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-black via-black/80 to-transparent pointer-events-none z-10" />
-                        {messages.map((message) => (
-                              <ChatMessageComponent
-                                    key={message.id}
-                                    message={message}
-                                    planetInfo={message.sender !== 'user' && message.sender !== 'system' ? getPlanetInfo(message.sender) : undefined}
-                              />
-                        ))}
-
-                        {/* Typing indicators */}
+                        {/* Typing indicators - show at bottom (top of reversed container) */}
                         {typingPlanets.map((planet) => (
                               <ChatMessageComponent
                                     key={`typing-${planet}`}
@@ -303,7 +286,14 @@ export default function GroupChat() {
                               />
                         ))}
 
-                        <div ref={messagesEndRef} />
+                        {[...messages].reverse().map((message) => (
+                              <ChatMessageComponent
+                                    key={message.id}
+                                    message={message}
+                                    planetInfo={message.sender !== 'user' && message.sender !== 'system' ? getPlanetInfo(message.sender) : undefined}
+                              />
+                        ))}
+
                   </div>
 
                   {/* Chat input */}
