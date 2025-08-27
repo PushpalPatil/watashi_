@@ -36,6 +36,8 @@ export default function LandingPageMobile() {
               loop
               muted
               playsInline
+              controls={false}
+              disablePictureInPicture
               preload="auto"
               className="w-2xl h-2xl fixed -top-10 left-1/2 transform -translate-x-1/2 -translate-y-1/4 z-10"
               style={{ objectFit: 'cover' }}
