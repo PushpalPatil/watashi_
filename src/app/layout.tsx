@@ -7,6 +7,11 @@ export const metadata: Metadata = {
   title: "Watashi",
   description: "Meet your planetary companions",
   viewport: "width=device-width, initial-scale=1, viewport-fit=cover",
+  icons: {
+    icon: "/Watashi_Favicon.svg",
+    shortcut: "/Watashi_Favicon.svg",
+    apple: "/Watashi_Favicon.svg",
+  },
 };
 
 export default function RootLayout({

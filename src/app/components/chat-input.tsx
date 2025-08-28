@@ -7,6 +7,9 @@ interface ChatInputProps {
   disabled?: boolean;
   placeholder?: string;
 }
+// takes these props : onSend, disabled, placeholder
+// uses useState to manage the input text value
+// uses useRef to reference the textarea element
 
 export default function ChatInput({
   onSendMessage,
@@ -16,6 +19,9 @@ export default function ChatInput({
   const [input, setInput] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+  // prevent default form submission behavior
+  // check if input has content, and component isn't disabled
+  // 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (input.trim() && !disabled) {
