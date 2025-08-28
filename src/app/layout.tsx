@@ -8,9 +8,9 @@ export const metadata: Metadata = {
   description: "Meet your planetary companions",
   viewport: "width=device-width, initial-scale=1, viewport-fit=cover",
   icons: {
-    icon: "/Watashi_Favicon.svg",
-    shortcut: "/Watashi_Favicon.svg",
-    apple: "/Watashi_Favicon.svg",
+    icon: "/SUN_ICON2.png",
+    shortcut: "/SUN_ICON2.png",
+    apple: "/SUN_ICON2.png",
   },
 };
 
