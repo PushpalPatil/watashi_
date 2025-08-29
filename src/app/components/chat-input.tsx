@@ -84,7 +84,7 @@ export default function ChatInput({
             className="
               w-full px-3 py-2 
               bg-white/10 border border-white/20 rounded-lg 
-              text-amber-50/80  text-sm font-light leading-6 tracking-wide placeholder:text-amber-50/70 placeholder:font-thin placeholder:text-sm placeholder:opacity-70
+              text-amber-50/80  text-base md:text-sm font-light leading-6 tracking-wide placeholder:text-amber-50/70 placeholder:font-thin placeholder:text-sm placeholder:opacity-70
               resize-none overflow-hidden
               focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent
               disabled:opacity-50 disabled:cursor-not-allowed
