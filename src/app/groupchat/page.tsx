@@ -348,7 +348,7 @@ export default function GroupChat() {
        */}
 
                   {/* Chat messages */}
-                  <div className="flex-1 overflow-y-auto pt-16 px-4 space-y-4 relative text-amber-50/85 flex flex-col-reverse pb-10 md:pb-1 overscroll-contain">
+                  <div className="flex-1 overflow-y-auto pt-16 px-4 space-y-4 relative text-amber-50/85 flex flex-col-reverse pb-1 overscroll-contain">
                         {/* Fade overlay for header area
                         <div className="absolute top-0 left-0 right-0 h-16 bg-transparent pointer-events-none" /> */}
 
@@ -379,11 +379,13 @@ export default function GroupChat() {
 
                   </div>
 
-                  {/* Chat input */}
-                  <ChatInput
-                        onSendMessage={handleSendMessage}
-                        disabled={isLoading}
-                  />
+                  <div className="sticky bottom-0 z-10 bg-black w-full">
+                        {/* Chat input */}
+                        <ChatInput
+                              onSendMessage={handleSendMessage}
+                              disabled={isLoading}
+                        />
+                  </div>
                   {/* Chat controls */}
                   {/* <ChatControls
                         onClearChat={() => {

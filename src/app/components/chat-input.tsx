@@ -84,8 +84,9 @@ export default function ChatInput({
             value={input}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
-            onFocus={() => {
-              // Just focus, don't manipulate scroll
+            onFocus={(e) => {
+              // Prevent automatic scrolling on mobile
+              e.preventDefault();
             }}
             placeholder={placeholder}
             disabled={disabled}
