@@ -70,7 +70,14 @@ export default function ChatInput({
   }, [disabled]);
 
   return (
-    <form onSubmit={handleSubmit} className="w-full border-t border-white/20 p-3 pb-safe" style={{ paddingBottom: 'max(12px, env(safe-area-inset-bottom))' }}>
+    <form
+      onSubmit={handleSubmit}
+      className="w-full border-t border-white/20 p-3 pb-safe"
+      style={{
+        paddingBottom: 'max(12px, env(safe-area-inset-bottom))',
+        border: '2px solid limegreen', // debug only
+      }}
+    >
       <div className="flex space-x-2">
         <div className="flex-1">
           <textarea
