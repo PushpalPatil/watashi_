@@ -1,12 +1,16 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   title: "Watashi",
   description: "Meet your planetary companions",
-  viewport: "width=device-width, initial-scale=1, viewport-fit=cover",
   icons: {
     icon: "/SUN_ICON2.png",
     shortcut: "/SUN_ICON2.png",
