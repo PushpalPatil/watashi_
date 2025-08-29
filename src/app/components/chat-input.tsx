@@ -70,7 +70,7 @@ export default function ChatInput({
   }, [disabled]);
 
   return (
-    <form onSubmit={handleSubmit} className="border-t border-white/20 p-3 pb-safe" style={{ paddingBottom: 'max(12px, env(safe-area-inset-bottom))' }}>
+    <form onSubmit={handleSubmit} className="w-full border-t border-white/20 p-3 pb-safe" style={{ paddingBottom: 'max(12px, env(safe-area-inset-bottom))' }}>
       <div className="flex space-x-2">
         <div className="flex-1">
           <textarea
@@ -85,12 +85,12 @@ export default function ChatInput({
               w-full px-3 py-2 
               bg-white/10 border border-white/20 rounded-lg 
               text-amber-50/80  text-sm font-light leading-6 tracking-wide placeholder:text-amber-50/70 placeholder:font-thin placeholder:text-sm placeholder:opacity-70
-              resize-none overflow-hidden
+              resize-none overflow-auto
               focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent
               disabled:opacity-50 disabled:cursor-not-allowed
               max-h-30 
             "
-            style={{ minHeight: '40px' }}
+            style={{ minHeight: '40px', maxHeight:'120px' }}
           />
         </div>
         <button
