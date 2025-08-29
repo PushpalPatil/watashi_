@@ -30,27 +30,45 @@ export default function GroupChat() {
                   document.documentElement.style.setProperty('--vh', `${vh}px`);
             }
 
-            setViewportHeight();
+            setViewportHeight(); // Set on load
 
-            // Update on resize and orientation
             window.addEventListener('resize', setViewportHeight);
             window.addEventListener('orientationchange', setViewportHeight);
-
-            // iOS keyboard-aware fix
-            if (window.visualViewport) {
-                  window.visualViewport.addEventListener('resize', setViewportHeight);
-                  window.visualViewport.addEventListener('scroll', setViewportHeight);
-            }
 
             return () => {
                   window.removeEventListener('resize', setViewportHeight);
                   window.removeEventListener('orientationchange', setViewportHeight);
-                  if (window.visualViewport) {
-                        window.visualViewport.removeEventListener('resize', setViewportHeight);
-                        window.visualViewport.removeEventListener('scroll', setViewportHeight);
-                  }
             };
       }, []);
+
+
+      // useEffect(() => {
+      //       function setViewportHeight() {
+      //             const vh = window.innerHeight * 0.01;
+      //             document.documentElement.style.setProperty('--vh', `${vh}px`);
+      //       }
+
+      //       setViewportHeight();
+
+      //       // Update on resize and orientation
+      //       window.addEventListener('resize', setViewportHeight);
+      //       window.addEventListener('orientationchange', setViewportHeight);
+
+      //       // iOS keyboard-aware fix
+      //       if (window.visualViewport) {
+      //             window.visualViewport.addEventListener('resize', setViewportHeight);
+      //             window.visualViewport.addEventListener('scroll', setViewportHeight);
+      //       }
+
+      //       return () => {
+      //             window.removeEventListener('resize', setViewportHeight);
+      //             window.removeEventListener('orientationchange', setViewportHeight);
+      //             if (window.visualViewport) {
+      //                   window.visualViewport.removeEventListener('resize', setViewportHeight);
+      //                   window.visualViewport.removeEventListener('scroll', setViewportHeight);
+      //             }
+      //       };
+      // }, []);
 
 
       useEffect(() => {
@@ -379,13 +397,13 @@ export default function GroupChat() {
 
                   </div>
 
-                  <div className="sticky bottom-0 z-10 bg-black w-full">
+         
                         {/* Chat input */}
                         <ChatInput
                               onSendMessage={handleSendMessage}
                               disabled={isLoading}
                         />
-                  </div>
+                  
                   {/* Chat controls */}
                   {/* <ChatControls
                         onClearChat={() => {
