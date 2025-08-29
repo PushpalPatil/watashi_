@@ -24,6 +24,23 @@ export default function GroupChat() {
       const [showMenuOptions, setShowMenuOptions] = useState(false);
       // Removed auto-scroll behavior - let users control their scroll position
 
+      // useEffect(() => {
+      //       function setViewportHeight() {
+      //             const vh = window.innerHeight * 0.01;
+      //             document.documentElement.style.setProperty('--vh', `${vh}px`);
+      //       }
+
+      //       setViewportHeight(); // Set on load
+
+      //       window.addEventListener('resize', setViewportHeight);
+      //       window.addEventListener('orientationchange', setViewportHeight);
+
+      //       return () => {
+      //             window.removeEventListener('resize', setViewportHeight);
+      //             window.removeEventListener('orientationchange', setViewportHeight);
+      //       };
+      // }, []);
+
       useEffect(() => {
             // Add "Get yappin!" message when component loads and planets are available
             if (_hasHydrated && isLoaded && Object.keys(planets).length > 0 && messages.length === 0) {
@@ -220,6 +237,11 @@ export default function GroupChat() {
       }
 
       return (
+            // h- setting height, calc - computing dynamic value, 
+            // var(--vh, 1vh)- using custom variable --vh fallback to 1vh if undefined,
+            // vh = window.innerHeight * 0.01;
+            // 100 to simulate full screen height
+            // h-[calc(var(--vh,1vh)*100)] md:
             <div className="h-screen bg-black flex flex-col relative overflow-hidden">
                   {/* Starry background */}
                   <StarryBackground />
