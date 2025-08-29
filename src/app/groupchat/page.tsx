@@ -272,7 +272,7 @@ export default function GroupChat() {
             // vh = window.innerHeight * 0.01;
             // 100 to simulate full screen height
             // h-[calc(var(--vh,1vh)*100)] md:
-            <div className="md:h-screen bg-black flex flex-col relative overflow-hidden">
+            <div className="h-[calc(var(--vh,1vh)*100)] md:h-screen bg-black flex flex-col relative overflow-hidden">
                   {/* Starry background */}
                   <StarryBackground />
 
