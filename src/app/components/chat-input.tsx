@@ -72,7 +72,7 @@ export default function ChatInput({
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-full border-t border-white/20 p-3 pb-safe"
+      className="w-full border-t border-white/20 p-3 pb-safe overscroll-contain"
       style={{
         paddingBottom: 'max(12px, env(safe-area-inset-bottom))'
       }}
@@ -84,19 +84,25 @@ export default function ChatInput({
             value={input}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
+            onFocus={(e) => {
+              // Prevent automatic scrolling on mobile
+              e.preventDefault();
+              // Force scroll to top to prevent unwanted movement
+              window.scrollTo(0, 0);
+            }}
             placeholder={placeholder}
             disabled={disabled}
             rows={1}
             className="
               w-full px-3 py-2 
               bg-white/10 border border-white/20 rounded-lg 
-              text-amber-50/80  text-sm font-light leading-6 tracking-wide placeholder:text-amber-50/70 placeholder:font-thin placeholder:text-sm placeholder:opacity-70
+              text-amber-50/80  text-sm font-light leading-6 tracking-normal placeholder:text-amber-50/70 placeholder:font-thin placeholder:text-sm placeholder:opacity-70
               resize-none overflow-auto
               focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent
               disabled:opacity-50 disabled:cursor-not-allowed
               max-h-30 
             "
-            style={{ minHeight: '40px', maxHeight:'120px' }}
+            style={{ minHeight: '40px', maxHeight: '120px' }}
           />
         </div>
         <button
