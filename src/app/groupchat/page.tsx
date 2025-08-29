@@ -24,22 +24,22 @@ export default function GroupChat() {
       const [showMenuOptions, setShowMenuOptions] = useState(false);
       // Removed auto-scroll behavior - let users control their scroll position
 
-      // useEffect(() => {
-      //       function setViewportHeight() {
-      //             const vh = window.innerHeight * 0.01;
-      //             document.documentElement.style.setProperty('--vh', `${vh}px`);
-      //       }
+      useEffect(() => {
+            function setViewportHeight() {
+                  const vh = window.innerHeight * 0.01;
+                  document.documentElement.style.setProperty('--vh', `${vh}px`);
+            }
 
-      //       setViewportHeight(); // Set on load
+            setViewportHeight(); // Set on load
 
-      //       window.addEventListener('resize', setViewportHeight);
-      //       window.addEventListener('orientationchange', setViewportHeight);
+            window.addEventListener('resize', setViewportHeight);
+            window.addEventListener('orientationchange', setViewportHeight);
 
-      //       return () => {
-      //             window.removeEventListener('resize', setViewportHeight);
-      //             window.removeEventListener('orientationchange', setViewportHeight);
-      //       };
-      // }, []);
+            return () => {
+                  window.removeEventListener('resize', setViewportHeight);
+                  window.removeEventListener('orientationchange', setViewportHeight);
+            };
+      }, []);
 
       useEffect(() => {
             // Add "Get yappin!" message when component loads and planets are available
@@ -242,7 +242,7 @@ export default function GroupChat() {
             // vh = window.innerHeight * 0.01;
             // 100 to simulate full screen height
             // h-[calc(var(--vh,1vh)*100)] md:
-            <div className="h-screen bg-black flex flex-col relative overflow-hidden">
+            <div className=" h-[calc(var(--vh,1vh)*100)] md:h-screen bg-black flex flex-col relative overflow-hidden">
                   {/* Starry background */}
                   <StarryBackground />
                   
