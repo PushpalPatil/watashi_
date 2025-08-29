@@ -74,8 +74,7 @@ export default function ChatInput({
       onSubmit={handleSubmit}
       className="w-full border-t border-white/20 p-3 pb-safe"
       style={{
-        paddingBottom: 'max(12px, env(safe-area-inset-bottom))',
-        border: '2px solid limegreen', // debug only
+        paddingBottom: 'max(12px, env(safe-area-inset-bottom))'
       }}
     >
       <div className="flex space-x-2">
