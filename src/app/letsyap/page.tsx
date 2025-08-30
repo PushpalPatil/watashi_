@@ -61,7 +61,7 @@ function BirthTimeField({
                   {needsOverlay && empty && (
                         <span
                               aria-hidden="true"
-                              className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-amber-50/85"
+                              className="pointer-events-none absolute font-thin left-3 top-1/2 -translate-y-1/2 text-sm text-amber-50/85"
                         >
                               HH:MM
                         </span>
