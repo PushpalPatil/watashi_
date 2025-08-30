@@ -448,6 +448,18 @@ export default function LetsYap() {
                         input[type="time"] {
                               color-scheme: dark;
                               color: #fffbeb !important;
+                              box-sizing: border-box !important;
+                              width: 100% !important;
+                        }
+
+                        /* Safari mobile specific fixes */
+                        @supports (-webkit-touch-callout: none) {
+                              input[type="time"] {
+                                    -webkit-appearance: none;
+                                    width: 100% !important;
+                                    max-width: 100% !important;
+                                    box-sizing: border-box !important;
+                              }
                         }
 
                         input[type="time"]::-webkit-calendar-picker-indicator {
