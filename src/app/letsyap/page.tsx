@@ -44,7 +44,7 @@ function BirthTimeField({
       const empty = !form.birthTime;
 
       return (
-            <div className="relative">
+            <div className="relative w-full">
                   <Input
                         id="time"
                         type="time"
