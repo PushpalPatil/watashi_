@@ -6,6 +6,70 @@ import { useStore } from "@/store/storeInfo";
 import { useEffect, useState } from "react";
 import Header from "../components/header";
 
+function isMobileNeedsOverlay(): boolean {
+      if (typeof navigator === "undefined") return false;
+
+      const ua = navigator.userAgent || "";
+      const isCoarse =
+            typeof window !== "undefined" &&
+            window.matchMedia &&
+            window.matchMedia("(pointer: coarse)").matches;
+
+      // iOS Safari (Mobile Safari)
+      const isIOS =
+            /iP(hone|od|ad)/.test(ua) ||
+            (ua.includes("Safari") && ua.includes("Mobile") && !ua.includes("CriOS"));
+
+      // Android Chrome (mobile)
+      const isAndroidChrome = /Android/.test(ua) && /Chrome\//.test(ua);
+
+      // Many mobile browsers ignore placeholder for type=time
+      return isCoarse && (isIOS || isAndroidChrome);
+}
+
+function BirthTimeField({
+      form,
+      setForm,
+}: {
+      form: { birthTime: string };
+      setForm: (v: any) => void;
+}) {
+      const [needsOverlay, setNeedsOverlay] = useState(false);
+
+      // compute on client to avoid SSR hydration mismatches
+      useEffect(() => {
+            setNeedsOverlay(isMobileNeedsOverlay());
+      }, []);
+
+      const empty = !form.birthTime;
+
+      return (
+            <div className="relative">
+                  <Input
+                        id="time"
+                        type="time"
+                        placeholder="HH:MM" // desktop browsers will show this
+                        className="peer w-full rounded-md border font-thin text-amber-50/85 border-border bg-transparent px-3 py-2"
+                        min="00:00"
+                        max="23:59"
+                        required
+                        value={form.birthTime}
+                        onChange={(e) => setForm({ ...form, birthTime: e.target.value })}
+                  />
+
+                  {/* Faux placeholder shown ONLY on mobile Safari/Chrome, and only when empty */}
+                  {needsOverlay && empty && (
+                        <span
+                              aria-hidden="true"
+                              className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-amber-50/50"
+                        >
+                              HH:MM
+                        </span>
+                  )}
+            </div>
+      );
+}
+
 
 import { Input } from "@/components/ui/input";
 import { autocomplete, getPlaceDetails } from "@/lib/google";
@@ -248,21 +312,14 @@ export default function LetsYap() {
                                           <CalendarComponent
                                                 value={form.birthDate}
                                                 onChange={(d: any) => setForm({ ...form, birthDate: d })}
-                                                
+
                                           />
                                     </div>
 
                                     {/* birth time */}
-                                    <Input
-                                          type="time"
-                                          id="time"
-                                          className="w-full rounded-md border font-thin text-amber-50/85 border-border bg-transparent px-3 py-2"
-                                          min="00:00"
-                                          max="23:59"
-                                          required
-                                          value={form.birthTime}
-                                          onChange={(e) => setForm({ ...form, birthTime: e.target.value })}
-                                    />
+                                    <div className="relative w-full">
+                                          <BirthTimeField form={form} setForm={setForm} />
+                                    </div>
 
                                     {/* birth location */}
                                     <Input
@@ -315,7 +372,7 @@ export default function LetsYap() {
                                           </div>
                                     )}
 
-                                    
+
 
                                     {/* submit button with loading state */}
                                     <Button
