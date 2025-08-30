@@ -317,7 +317,7 @@ export default function LetsYap() {
                                     </div>
 
                                     {/* birth time */}
-                                    <div className="relative w-full text-amber-50/85">
+                                    <div className="relative w-full font-thin text-amber-50/85">
                                           <BirthTimeField form={form} setForm={setForm} />
                                     </div>
 
