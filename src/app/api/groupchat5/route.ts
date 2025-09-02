@@ -155,6 +155,52 @@ function isPlanetRetrograde(planetData: PlanetData): boolean {
       return planetData.retrograde;
 }
 
+// Smart truncation function that completes thoughts naturally
+function smartTruncate(text: string, context: 'onboarding' | 'regular' = 'regular'): string {
+      const limits = {
+            onboarding: 250,
+            regular: 120
+      };
+      
+      const maxLength = limits[context];
+      
+      if (text.length <= maxLength) return text;
+      
+      // First try: Find last complete sentence
+      let truncated = text.substring(0, maxLength);
+      let lastSentence = truncated.lastIndexOf('.');
+      
+      if (lastSentence > maxLength * 0.6) {
+            return text.substring(0, lastSentence + 1);
+      }
+      
+      // Second try: Find natural clause break points
+      const naturalBreaks = [', but ', ', and ', ', so ', ', or ', '. ', '! '];
+      for (let breakPoint of naturalBreaks) {
+            let lastBreak = truncated.lastIndexOf(breakPoint);
+            if (lastBreak > maxLength * 0.7) {
+                  // Include the punctuation but not the space
+                  return text.substring(0, lastBreak + breakPoint.length - 1);
+            }
+      }
+      
+      // Third try: Allow some overflow to complete the current thought
+      const extendedLimit = maxLength + 50; // Allow up to 50 extra chars to complete thought
+      if (text.length <= extendedLimit) {
+            return text; // Just return the full text if it's close
+      }
+      
+      // Last resort: Find last complete word within extended limit
+      let extended = text.substring(0, extendedLimit);
+      let lastSpace = extended.lastIndexOf(' ');
+      if (lastSpace > 0) {
+            return text.substring(0, lastSpace);
+      }
+      
+      // Absolute fallback
+      return text.substring(0, maxLength);
+}
+
 /*
  * MAIN API ENDPOINT - POST /api/groupchat5
  * Orchestrates multiple planet responses using Claude API with enhanced personalities
@@ -436,7 +482,7 @@ CRITICAL: The responses array must contain exactly ${targetResponseCount} items 
                   .slice(0, maxResponses)
                   .map(response => ({
                         planet: response.planet,
-                        message: response.message.trim().substring(0, 150) // Allow slightly longer for banter
+                        message: smartTruncate(response.message.trim(), isOnboardingQuestion ? 'onboarding' : 'regular')
                   }));
 
             return NextResponse.json({ responses: finalResponses });
