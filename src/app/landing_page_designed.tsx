@@ -142,7 +142,7 @@ export default function LandingPageDesigned() {
               preload="auto"
               controls={false}
               webkit-playsinline="true"
-              className="w-md h-md md:w-md md:h-md fixed md:top-120 md:right-240 opacity-90 brightness-90"
+              className="w-md h-md md:w-md md:h-md fixed md:top-120 md:right-250 opacity-90 brightness-90"
               style={{ objectFit: 'cover', pointerEvents: 'none' }}
             />
 
