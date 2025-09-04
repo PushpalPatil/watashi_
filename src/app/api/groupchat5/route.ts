@@ -12,10 +12,19 @@
 
 import Anthropic from '@anthropic-ai/sdk';
 import { NextRequest, NextResponse } from 'next/server';
+import { ServerAnalytics } from '@/lib/server-analytics';
 
 export const runtime = 'nodejs';
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+
+// Cost calculation for Claude 3.5 Sonnet (as of 2024 pricing)
+function calculateClaudeCost(inputTokens: number, outputTokens: number): number {
+      // Claude 3.5 Sonnet pricing: $3/1M input tokens, $15/1M output tokens
+      const inputCost = (inputTokens / 1_000_000) * 3.0;
+      const outputCost = (outputTokens / 1_000_000) * 15.0;
+      return inputCost + outputCost;
+}
 
 // TypeScript interfaces for data structures
 interface PlanetData {
@@ -206,6 +215,9 @@ function smartTruncate(text: string, context: 'onboarding' | 'regular' = 'regula
  * Orchestrates multiple planet responses using Claude API with enhanced personalities
  */
 export async function POST(req: NextRequest) {
+      const startTime = Date.now();
+      let claudeResponseTime = 0;
+      
       try {
             // Parse incoming request data
             const { message, allPlanetsData, conversationHistory } = await req.json() as {
@@ -213,6 +225,16 @@ export async function POST(req: NextRequest) {
                   allPlanetsData: Record<string, PlanetData>;
                   conversationHistory: ChatMessage[];
             };
+
+            // Track group chat request started
+            ServerAnalytics.trackUserAction(req, 'group_chat_request_started', {
+                  model_provider: 'anthropic',
+                  model_name: 'claude-3-5-sonnet-20241022',
+                  chat_type: 'group',
+                  available_planets: Object.keys(allPlanetsData).length,
+                  conversation_length: conversationHistory.length,
+                  message_length: message.length
+            });
 
             // Generate weighted random target response count (favoring realistic conversation patterns)
             const randomValue = Math.random();
@@ -398,6 +420,15 @@ Respond with EXACTLY ${targetResponseCount} planet responses as a JSON object wi
 CRITICAL: The responses array must contain exactly ${targetResponseCount} items - not more, not less.`;
             }// add time in ms to this console log
             console.log('DEBUG: Pre-sending msg to anthropic:', Date.now())
+            
+            // Track LLM request start
+            const claudeStartTime = Date.now();
+            ServerAnalytics.trackUserAction(req, 'claude_request_started', {
+                  target_responses: targetResponseCount,
+                  prompt_length: orchestrationPrompt.length,
+                  available_planets: Object.keys(allPlanetsData).length
+            });
+
             // Call Claude API with structured output request
             const response = await anthropic.messages.create({
                   model: "claude-3-5-sonnet-20241022", // Use the working model for now
@@ -410,6 +441,8 @@ CRITICAL: The responses array must contain exactly ${targetResponseCount} items 
                         }
                   ]
             });
+
+            claudeResponseTime = Date.now() - claudeStartTime;
 
             // Parse Claude's response
             const responseText = response.content[0].type === 'text' ? response.content[0].text : '';
@@ -485,6 +518,29 @@ CRITICAL: The responses array must contain exactly ${targetResponseCount} items 
                         message: smartTruncate(response.message.trim(), isOnboardingQuestion ? 'onboarding' : 'regular')
                   }));
 
+            // Track successful group chat completion
+            const totalResponseTime = Date.now() - startTime;
+            ServerAnalytics.trackLLMAPICall(req, {
+                  modelProvider: 'anthropic',
+                  model: 'claude-3-5-sonnet-20241022',
+                  chatType: 'group',
+                  inputTokens: response.usage?.input_tokens,
+                  outputTokens: response.usage?.output_tokens,
+                  responseTime: claudeResponseTime,
+                  cost: calculateClaudeCost(response.usage?.input_tokens || 0, response.usage?.output_tokens || 0),
+                  success: true
+            });
+
+            // Track group chat session metrics
+            ServerAnalytics.trackUserAction(req, 'group_chat_completed', {
+                  total_response_time_ms: totalResponseTime,
+                  claude_response_time_ms: claudeResponseTime,
+                  responses_generated: finalResponses.length,
+                  target_responses: targetResponseCount,
+                  planets_responded: finalResponses.map(r => r.planet),
+                  success: true
+            });
+
             return NextResponse.json({ responses: finalResponses });
 
       } catch (error) {
@@ -492,6 +548,25 @@ CRITICAL: The responses array must contain exactly ${targetResponseCount} items 
             console.error('Error details:', {
                   message: error instanceof Error ? error.message : 'Unknown error',
                   stack: error instanceof Error ? error.stack : 'No stack trace'
+            });
+
+            // Track error analytics
+            const totalResponseTime = Date.now() - startTime;
+            ServerAnalytics.trackLLMAPICall(req, {
+                  modelProvider: 'anthropic',
+                  model: 'claude-3-5-sonnet-20241022',
+                  chatType: 'group',
+                  responseTime: claudeResponseTime || totalResponseTime,
+                  success: false,
+                  errorType: 'group_chat_error',
+                  errorMessage: error instanceof Error ? error.message : 'Unknown error'
+            });
+
+            ServerAnalytics.trackUserAction(req, 'group_chat_failed', {
+                  total_response_time_ms: totalResponseTime,
+                  claude_response_time_ms: claudeResponseTime,
+                  error_message: error instanceof Error ? error.message : 'Unknown error',
+                  error_type: error instanceof Error ? error.constructor.name : 'UnknownError'
             });
 
             // Provide specific error messages

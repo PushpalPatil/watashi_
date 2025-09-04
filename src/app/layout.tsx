@@ -1,5 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { ThemeProvider } from "next-themes";
+import { CSPostHogProvider } from "@/components/posthog-provider";
+import PostHogPageView from "@/components/posthog-pageview";
+import { Suspense } from "react";
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -115,9 +118,14 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
-          {children}
-        </ThemeProvider>
+        <CSPostHogProvider>
+          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
+            <Suspense>
+              <PostHogPageView />
+            </Suspense>
+            {children}
+          </ThemeProvider>
+        </CSPostHogProvider>
       </body>
     </html>
   );
