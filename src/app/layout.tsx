@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://watashi.app'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.watashi.world'),
   alternates: {
     canonical: '/',
   },
@@ -85,7 +85,7 @@ const structuredData = {
   "@type": "WebApplication",
   "name": "Watashi",
   "description": "Connecting you with cosmic wisdom through personalized astrological insights and planetary companions. Explore your birth chart, chat with celestial entities, and discover your cosmic connections.",
-  "url": process.env.NEXT_PUBLIC_SITE_URL || "https://watashi.app",
+  "url": process.env.NEXT_PUBLIC_SITE_URL || "https://www.watashi.world",
   "applicationCategory": "LifestyleApplication",
   "operatingSystem": "All",
   "offers": {
