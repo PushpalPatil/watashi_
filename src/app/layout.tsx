@@ -44,17 +44,10 @@ export const metadata: Metadata = {
     siteName: 'Watashi',
     images: [
       {
-        url: '/Preview.png',
+        url: '/Preview-twitter.png',
         width: 1200,
         height: 630,
         alt: 'Watashi - Cosmic wisdom and planetary companions in a beautiful space-themed interface',
-        type: 'image/png',
-      },
-      {
-        url: '/Preview.png',
-        width: 800,
-        height: 600,
-        alt: 'Watashi App Preview',
         type: 'image/png',
       },
     ],
@@ -65,7 +58,7 @@ export const metadata: Metadata = {
     creator: '@watashi_app',
     title: 'Watashi - Meet Your Planetary Companions',
     description: 'Connecting you with cosmic wisdom through personalized astrological insights and planetary companions.',
-    images: ['/Preview.png'],
+    images: ['/Preview-twitter.png'],
   },
   icons: {
     icon: [
@@ -98,8 +91,8 @@ const structuredData = {
     "name": "Watashi Team"
   },
   "keywords": "astrology, planets, birth chart, cosmic wisdom, zodiac, celestial, horoscope, planetary companions",
-  "image": "/Preview.png",
-  "screenshot": "/Preview.png",
+  "image": "/Preview-twitter.png",
+  "screenshot": "/Preview-twitter.png",
   "softwareVersion": "1.0.0",
   "aggregateRating": {
     "@type": "AggregateRating",
