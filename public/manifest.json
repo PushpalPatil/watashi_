@@ -1,0 +1,49 @@
+{
+  "name": "Watashi - Meet Your Planetary Companions",
+  "short_name": "Watashi",
+  "description": "Connecting you with cosmic wisdom through personalized astrological insights and planetary companions",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["lifestyle", "entertainment", "education"],
+  "icons": [
+    {
+      "src": "/SUN_ICON2.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/SUN_ICON2.png",
+      "sizes": "512x512", 
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/W_fav.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/Preview.png",
+      "sizes": "1366x768",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Watashi main interface showing planetary companions"
+    },
+    {
+      "src": "/Preview.png", 
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Watashi mobile interface"
+    }
+  ],
+  "prefer_related_applications": false
+}
