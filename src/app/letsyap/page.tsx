@@ -484,6 +484,17 @@ export default function LetsYap() {
                               stroke: #9ca3af !important;
                         }
 
+                        /* Fix Windows dropdown text visibility issue */
+                        .rdp-dropdown select {
+                              color: black !important;
+                              background-color: white !important;
+                        }
+                        
+                        .rdp-dropdown select option {
+                              color: black !important;
+                              background-color: white !important;
+                        }
+
                         /* Zodiac symbols glow and float animations */
                         .glow-symbol {
                               text-shadow: 0 0 10px rgba(255, 255, 255, 0.9),
