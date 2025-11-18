@@ -229,7 +229,7 @@ export async function POST(req: NextRequest) {
             // Track group chat request started
             ServerAnalytics.trackUserAction(req, 'group_chat_request_started', {
                   model_provider: 'anthropic',
-                  model_name: 'claude-3-5-sonnet-20241022',
+                  model_name: 'claude-sonnet-4-5-20250929',
                   chat_type: 'group',
                   available_planets: Object.keys(allPlanetsData).length,
                   conversation_length: conversationHistory.length,
@@ -431,7 +431,7 @@ CRITICAL: The responses array must contain exactly ${targetResponseCount} items 
 
             // Call Claude API with structured output request
             const response = await anthropic.messages.create({
-                  model: "claude-3-5-sonnet-20241022", // Use the working model for now
+                  model: "claude-sonnet-4-5-20250929", // Use the working model for now
                   max_tokens: 1000,
                   temperature: 0.9,
                   messages: [
@@ -522,7 +522,7 @@ CRITICAL: The responses array must contain exactly ${targetResponseCount} items 
             const totalResponseTime = Date.now() - startTime;
             ServerAnalytics.trackLLMAPICall(req, {
                   modelProvider: 'anthropic',
-                  model: 'claude-3-5-sonnet-20241022',
+                  model: 'claude-sonnet-4-5-20250929',
                   chatType: 'group',
                   inputTokens: response.usage?.input_tokens,
                   outputTokens: response.usage?.output_tokens,
@@ -554,7 +554,7 @@ CRITICAL: The responses array must contain exactly ${targetResponseCount} items 
             const totalResponseTime = Date.now() - startTime;
             ServerAnalytics.trackLLMAPICall(req, {
                   modelProvider: 'anthropic',
-                  model: 'claude-3-5-sonnet-20241022',
+                  model: 'claude-sonnet-4-5-20250929',
                   chatType: 'group',
                   responseTime: claudeResponseTime || totalResponseTime,
                   success: false,
