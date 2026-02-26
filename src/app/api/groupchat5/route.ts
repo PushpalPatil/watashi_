@@ -166,9 +166,11 @@ function isPlanetRetrograde(planetData: PlanetData): boolean {
 
 // Smart truncation function that completes thoughts naturally
 function smartTruncate(text: string, context: 'onboarding' | 'regular' = 'regular'): string {
+      // Safety net limits — prompt-level character budgets should prevent most truncation.
+      // These only fire if Claude still exceeds the budget.
       const limits = {
             onboarding: 250,
-            regular: 120
+            regular: 180
       };
       
       const maxLength = limits[context];
@@ -341,15 +343,20 @@ CONVERSATION EXPECTATION: ${conversationContext}
 **RESPONSE GUIDELINES:**
 - ALL planets introduce themselves - this is meeting the full planetary council
 - Each response shows distinct personality while being educational
-- Keep responses conversational and digestible (10-25 words each)
 - Be informative but authentic to each planet's natural energy
+
+**CHARACTER BUDGET PER MESSAGE (strict):**
+- Under 180 characters: Perfect. Say what you need to say.
+- At ~180 characters: START wrapping up. Finish your current thought concisely.
+- At 220 characters: HARD STOP. Your message MUST be complete by now. End with a natural sentence.
+- NEVER exceed 220 characters. Plan your message to land naturally within budget.
 
 Remember: Show your personality through your introduction style. Be welcoming but stay true to your authentic planetary nature!
 
 Respond with ALL planet responses as a JSON object with this structure:
 {
   "responses": [
-    {"planet": "planet_name", "message": "authentic personality-infused introduction (10-25 words)"}
+    {"planet": "planet_name", "message": "authentic personality-infused introduction (under 220 characters)"}
   ]
 }`;
             } else {
@@ -408,12 +415,19 @@ CONVERSATION EXPECTATION: ${conversationContext}
 - If ${targetResponseCount} is 3+: Include variety of perspectives but stick to the exact number
 - VARY who responds across conversations - don't always pick the same planets
 
+**CHARACTER BUDGET PER MESSAGE (strict):**
+- Under 100 characters: Perfect. Snappy, natural, friend-chat energy.
+- At ~100 characters: START wrapping up. Finish your current thought concisely.
+- At 150 characters: HARD STOP. Your message MUST be complete by now. End with a natural sentence.
+- NEVER exceed 150 characters. Plan your message to land naturally within budget.
+- Think of it like a text message — if you're running long, cut the fluff, not the thought.
+
 Remember: This is a group chat between REAL FRIENDS who happen to be planets. Focus on authentic relationships, genuine reactions, and natural group dynamics.
 
 Respond with EXACTLY ${targetResponseCount} planet responses as a JSON object with this structure:
 {
   "responses": [
-    {"planet": "planet_name", "message": "short authentic response (5-20 words max)"}
+    {"planet": "planet_name", "message": "authentic response (under 150 characters)"}
   ]
 }
 
@@ -431,7 +445,7 @@ CRITICAL: The responses array must contain exactly ${targetResponseCount} items 
 
             // Call Claude API with structured output request
             const response = await anthropic.messages.create({
-                  model: "claude-sonnet-4-5-20250929", // Use the working model for now
+                  model: "claude-sonnet-4-6",
                   max_tokens: 1000,
                   temperature: 0.9,
                   messages: [
@@ -493,8 +507,9 @@ CRITICAL: The responses array must contain exactly ${targetResponseCount} items 
 
             const validResponses = orchestrationResponse.responses.filter(response => {
                   const planetName = response.planet.toLowerCase(); // Convert to lowercase to match birth chart data
-                  const isValid = allPlanetsData[planetName] && response.message.trim();
-                  console.log(`DEBUG: Planet ${response.planet} -> ${planetName} - exists: ${!!allPlanetsData[planetName]}, has message: ${!!response.message.trim()}, valid: ${isValid}`);
+                  const message = response.message?.trim();
+                  const isValid = allPlanetsData[planetName] && message;
+                  console.log(`DEBUG: Planet ${response.planet} -> ${planetName} - exists: ${!!allPlanetsData[planetName]}, has message: ${!!message}, valid: ${isValid}`);
                   return isValid;
             }).map(response => ({
                   ...response,
@@ -515,14 +530,14 @@ CRITICAL: The responses array must contain exactly ${targetResponseCount} items 
                   .slice(0, maxResponses)
                   .map(response => ({
                         planet: response.planet,
-                        message: smartTruncate(response.message.trim(), isOnboardingQuestion ? 'onboarding' : 'regular')
+                        message: smartTruncate((response.message || '').trim(), isOnboardingQuestion ? 'onboarding' : 'regular')
                   }));
 
             // Track successful group chat completion
             const totalResponseTime = Date.now() - startTime;
             ServerAnalytics.trackLLMAPICall(req, {
                   modelProvider: 'anthropic',
-                  model: 'claude-sonnet-4-5-20250929',
+                  model: 'claude-sonnet-4-6',
                   chatType: 'group',
                   inputTokens: response.usage?.input_tokens,
                   outputTokens: response.usage?.output_tokens,
@@ -554,7 +569,7 @@ CRITICAL: The responses array must contain exactly ${targetResponseCount} items 
             const totalResponseTime = Date.now() - startTime;
             ServerAnalytics.trackLLMAPICall(req, {
                   modelProvider: 'anthropic',
-                  model: 'claude-sonnet-4-5-20250929',
+                  model: 'claude-sonnet-4-6',
                   chatType: 'group',
                   responseTime: claudeResponseTime || totalResponseTime,
                   success: false,
