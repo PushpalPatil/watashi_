@@ -443,11 +443,45 @@ CRITICAL: The responses array must contain exactly ${targetResponseCount} items 
                   available_planets: Object.keys(allPlanetsData).length
             });
 
-            // Call Claude API with structured output request
+            // Tool that forces Claude to return the exact response shape we need.
+            // Using tool-use (instead of asking for freeform JSON text) guarantees a
+            // schema-valid object, eliminating the intermittent "Invalid JSON" parse failures.
+            const respondTool = {
+                  name: 'submit_planet_responses',
+                  description: 'Submit the planet responses for this group chat round.',
+                  input_schema: {
+                        type: 'object' as const,
+                        properties: {
+                              responses: {
+                                    type: 'array',
+                                    description: 'One entry per responding planet.',
+                                    items: {
+                                          type: 'object',
+                                          properties: {
+                                                planet: {
+                                                      type: 'string',
+                                                      description: 'Lowercase planet name (e.g. "sun", "moon", "mercury").'
+                                                },
+                                                message: {
+                                                      type: 'string',
+                                                      description: "The planet's in-character message."
+                                                }
+                                          },
+                                          required: ['planet', 'message']
+                                    }
+                              }
+                        },
+                        required: ['responses']
+                  }
+            };
+
+            // Call Claude API with enforced structured output via tool use
             const response = await anthropic.messages.create({
                   model: "claude-sonnet-4-6",
                   max_tokens: 1000,
                   temperature: 0.9,
+                  tools: [respondTool],
+                  tool_choice: { type: 'tool', name: 'submit_planet_responses' },
                   messages: [
                         {
                               role: "user",
@@ -458,30 +492,15 @@ CRITICAL: The responses array must contain exactly ${targetResponseCount} items 
 
             claudeResponseTime = Date.now() - claudeStartTime;
 
-            // Parse Claude's response
-            const responseText = response.content[0].type === 'text' ? response.content[0].text : '';
-            console.log('DEBUG: Raw Claude response:', responseText);
+            // Read the structured tool-use output (already parsed by the API — no regex/JSON.parse)
+            const toolUseBlock = response.content.find(block => block.type === 'tool_use');
+            console.log('DEBUG: Tool use block present:', !!toolUseBlock);
 
-            if (!responseText) {
-                  throw new Error('No response from Claude');
+            if (!toolUseBlock || toolUseBlock.type !== 'tool_use') {
+                  throw new Error('No structured response from Claude');
             }
 
-            // Extract JSON from response (Claude might wrap it in markdown)
-            let jsonMatch = responseText.match(/\{[\s\S]*\}/);
-            if (!jsonMatch) {
-                  throw new Error('No JSON found in Claude response');
-            }
-
-            console.log('DEBUG: Extracted JSON:', jsonMatch[0]);
-
-            let orchestrationResponse: OrchestrationResponse;
-            try {
-                  orchestrationResponse = JSON.parse(jsonMatch[0]);
-            } catch {
-                  console.error('Failed to parse Claude response:', responseText);
-                  throw new Error('Invalid JSON response from Claude');
-            }
-
+            const orchestrationResponse = toolUseBlock.input as OrchestrationResponse;
             console.log('DEBUG: Parsed orchestration response:', orchestrationResponse);
 
             // Validate response structure

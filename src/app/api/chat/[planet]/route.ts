@@ -23,9 +23,6 @@ export async function POST(
             const { planet } = await context.params;
             const { messages, sign, house, retrograde } = await req.json();
 
-            console.log('API Route - Planet:', planet);
-            console.log('API Route - Data:', { sign, house, retrograde });
-
             // Get planet configuration
             const planetConfig = getPlanetConfig(planet);
 
@@ -59,8 +56,6 @@ export async function POST(
                   - Be supportive and insightful about the user's astrological nature
                   
                   Remember: You ARE this planetary energy - embody it, don't just describe it.`;
-
-            console.log('Generated personality prompt:', personalityPrompt);
 
             // Use Vercel AI SDK for streaming
             const result = await streamText({
