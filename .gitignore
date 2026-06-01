@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# extra readmes
+README_PROJECT_PLAN.md
+README copy.md
+README_INSTRUCTIONS.md
+
+# editor config
+.cursor/

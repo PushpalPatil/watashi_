@@ -1,11 +1,24 @@
 "use client";
 
 import { useRouter } from 'next/navigation';
+import { useEffect, useRef } from 'react';
 import StarryBackgroundLanding from "./components/starrybackgroundlanding";
 import './globals.css';
 
 export default function LandingPageMobile() {
   const router = useRouter();
+  const sunVideoRef = useRef<HTMLVideoElement>(null);
+
+  // iOS only autoplays videos that are *truly* muted. React doesn't reliably
+  // set the muted property from the JSX attribute, so we force it here and
+  // kick off playback manually (ignoring the promise rejection if the browser
+  // still blocks it, e.g. Low Power Mode).
+  useEffect(() => {
+    const video = sunVideoRef.current;
+    if (!video) return;
+    video.muted = true;
+    video.play().catch(() => { });
+  }, []);
 
   const handlePageClick = () => {
     // Add fade out effect before navigation
@@ -31,6 +44,7 @@ export default function LandingPageMobile() {
           {/* Sun - Centered above title on mobile */}
           <div className="fixed inset-0 pointer-events-none z-0">
             <video
+              ref={sunVideoRef}
               src="/FLORA_SUN.mp4"
               autoPlay
               loop
